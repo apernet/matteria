@@ -1,0 +1,734 @@
+<style>
+  v-accordion {
+    display: block;
+  }
+
+  v-pane {
+    display: block;
+  }
+
+    v-pane.is-expanded > v-pane-content > div {
+      display: visible;
+    }
+
+    v-pane[disabled] > v-pane-header {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+  v-pane-header {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+  }
+
+    v-pane-header:focus {
+      outline: none;
+    }
+
+    v-pane-header > div {
+      display: block;
+    }
+
+  v-pane-content {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    max-height: 0px;
+  }
+
+    v-pane-content > div {
+      visibility: none;
+    }
+
+  /* Theme: default
+    ***************************************/
+  .vAccordion--default v-accordion {
+    margin-top: 20px;
+    padding-left: 20px;
+  }
+
+  .vAccordion--default v-pane-content > div {
+    padding-bottom: 20px;
+    opacity: 0;
+    -webkit-transform: translate3d(0, 30px, 0);
+    transform: translate3d(0, 30px, 0);
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+  }
+
+  .vAccordion--default v-pane {
+    overflow: hidden;
+  }
+
+    .vAccordion--default v-pane.is-expanded > v-pane-header {
+      border-bottom-color: #fff;
+    }
+
+      .vAccordion--default v-pane.is-expanded > v-pane-header::after {
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+        opacity: 0;
+      }
+
+      .vAccordion--default v-pane.is-expanded > v-pane-header::before {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+    .vAccordion--default v-pane.is-expanded > v-pane-content > div {
+      opacity: 1;
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+    }
+
+    .vAccordion--default v-pane[disabled] v-pane-header::after, .vAccordion--default v-pane[disabled] v-pane-header::before {
+      display: none;
+    }
+
+  .vAccordion--default v-pane-header {
+    padding: 5px 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    -webkit-transition: all 0.25s;
+    transition: all 0.25s;
+  }
+
+    .vAccordion--default v-pane-header::after, .vAccordion--default v-pane-header::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 45%;
+      right: 2%;
+      width: 10px;
+      height: 1px;
+      background-color: #000;
+      -webkit-transform-origin: 50% 50%;
+      transform-origin: 50% 50%;
+      will-change: transform;
+      -webkit-transition: all 0.25s;
+      transition: all 0.25s;
+    }
+
+    .vAccordion--default v-pane-header::before {
+      -webkit-transform: rotate(-90deg);
+      transform: rotate(-90deg);
+    }
+
+
+    .vAccordion--default v-pane-header:hover, .vAccordion--default v-pane-header:focus {
+      color: #000;
+    }
+
+  .vcontainer {
+    min-height: 10em;
+    display: table-cell;
+    vertical-align: middle;
+  }
+</style>
+<br />
+<div id="vacantes" class="margin-bottom">
+  <div class="container margin-bottom">
+    <div class="row" style="padding:0;">
+      <section layout="row" flex>
+
+        <md-sidenav class="md-sidenav-left" md-component-id="left"
+                    md-disable-backdrop md-whiteframe="4">
+
+          <div class="col-xs-12">
+            <md-content layout-padding style="background-color:transparent;">
+              <div>
+                <form name="filtrosForm">
+                  <div layout-gt-xs="row">
+                    <md-input-container class="md-block" flex-gt-sm style="margin-bottom:0">
+                      <label ng-if="idiomaLocal == 'es_MX'">Palabra clave</label>
+                      <label ng-if="idiomaLocal == 'en_EN'">Keywords</label>
+                      <label ng-if="idiomaLocal == 'pt_BR'">Palavras-chave</label>
+                      <input name="Nombre" ng-model="busqueda.filterNombre">
+                    </md-input-container>
+                  </div>
+
+                  <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                      <label ng-if="idiomaLocal == 'es_MX'">País</label>
+                      <label ng-if="idiomaLocal == 'en_EN'">Country</label>
+                      <label ng-if="idiomaLocal == 'pt_BR'">País</label>
+                      <md-select ng-model="busqueda.filterPais" aria-label="country" name="country" ng-change="selectEstado();">
+                        <md-option ng-repeat="pais in paises" ng-value="pais.id">
+                          {{pais.name}}
+                        </md-option>
+                      </md-select>
+                    </md-input-container>
+                  </div>
+
+                  <div layout-gt-sm="row">
+                    <md-input-container class="md-block" ng-if="IsCiudad" flex-gt-sm style="margin-bottom:0">
+                      <label ng-if="idiomaLocal == 'es_MX'">Cuidad</label>
+                      <label ng-if="idiomaLocal == 'en_EN'">City</label>
+                      <label ng-if="idiomaLocal == 'pt_BR'">Cidade</label>
+                      <md-select ng-model="busqueda.filterciudad" name="city" aria-label="city">
+                        <md-option selected><em></em></md-option>
+                        <md-option ng-repeat="estado in estados track by $index" ng-value="estado.name" ng-selected="estado.name == experties.city">
+                          {{estado.name}}
+                        </md-option>
+                      </md-select>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" ng-if="!IsCiudad" flex-gt-sm>
+                      <label ng-if="idiomaLocal == 'es_MX'">Cuidad</label>
+                      <label ng-if="idiomaLocal == 'en_EN'">City</label>
+                      <label ng-if="idiomaLocal == 'pt_BR'">Cidade</label>
+                      <input name="city" ng-model="busqueda.filterciudad">
+                    </md-input-container>
+                  </div>
+
+                  <md-input-container class="md-block" flex-gt-sm>
+                    <label ng-if="idiomaLocal == 'es_MX'">Años de experiencia general: {{busqueda.filterAnosExperencia}}</label>
+                    <label ng-if="idiomaLocal == 'en_EN'">Years of general experience: {{busqueda.filterAnosExperencia}}</label>
+                    <label ng-if="idiomaLocal == 'pt_BR'">Anos de experiência geral: {{busqueda.filterAnosExperencia}}</label><br />
+                    <md-slider flex md-discrete ng-model="busqueda.filterAnosExperencia" step="1" min="0" max="30" aria-label="rating" class="md-primary">
+                    </md-slider>
+                  </md-input-container>
+
+                  <md-input-container class="md-block" flex-gt-sm>
+                    <label ng-if="idiomaLocal == 'es_MX'">Jornada</label><label ng-if="idiomaLocal == 'en_EN'">Format</label><label ng-if="idiomaLocal == 'pt_BR'">Formato</label><br /><br />
+                    <div class="col-xs-12" flex="60">
+                      <md-checkbox ng-repeat="horarios in tipohorario" ng-checked="exists(horarios.id, selected)" ng-click="toggle(horarios.id, selected)">
+                        {{ horarios.name }}
+                      </md-checkbox>
+
+                    </div>
+                  </md-input-container>
+
+                  <md-input-container class="md-block" style="margin-bottom:5px">
+                    <label ng-if="idiomaLocal == 'es_MX'">Rango Salarial: </label>
+                    <label ng-if="idiomaLocal == 'en_EN'">Salary Range:</label>
+                    <label ng-if="idiomaLocal == 'pt_BR'">Faixa salarial:</label>
+                  </md-input-container>
+
+                  <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                      <label ng-if="idiomaLocal == 'es_MX'">Desde</label>
+                      <label ng-if="idiomaLocal == 'en_EN'">From</label>
+                      <label ng-if="idiomaLocal == 'pt_BR'">A partir de</label>
+                      <input name="Nombre" ng-model="busqueda.filterdesdesalario">
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                      <label ng-if="idiomaLocal == 'es_MX'">Hasta</label>
+                      <label ng-if="idiomaLocal == 'en_EN'">To</label>
+                      <label ng-if="idiomaLocal == 'pt_BR'">Para</label>
+                      <input name="Nombre" ng-model="busqueda.filterhastasalario">
+                    </md-input-container>
+                  </div>
+
+                  <md-input-container class="md-block">
+                    <label ng-if="idiomaLocal == 'es_MX'">Antiguedad vacante</label>
+                    <label ng-if="idiomaLocal == 'en_EN'">Timing</label>
+                    <label ng-if="idiomaLocal == 'pt_BR'">Cronometragem</label>
+                    <md-select ng-model="busqueda.filterinervalo" aria-label="country" name="interval">
+                      <md-option selected ng-value=""><em ng-if="idiomaLocal == 'es_MX'"></em></md-option>
+                      <md-option ng-repeat="interval in intervals" ng-value="interval.time_days">
+                        {{interval.name}}
+                      </md-option>
+                    </md-select>
+                  </md-input-container>
+
+                  <md-input-container class="md-block" style="margin-top:0; margin-bottom:0;">
+                    <v-accordion id="accordionA" class="vAccordion--default" control="accordionA" onexpand="expandCallback(index, id)" oncollapse="collapseCallback(index, id)">
+
+                      <v-pane id="pane-1a" expanded="false">
+                        <v-pane-header id="pane-1a-header" aria-controls="pane-1a-content" class="col-xs-12">
+
+                          <label ng-if="idiomaLocal == 'es_MX'">Intereses clave </label>
+                          <label ng-if="idiomaLocal == 'en_EN'">Key Interests</label>
+                          <label ng-if="idiomaLocal == 'en_EN'">Interesses Chave</label>
+
+                        </v-pane-header>
+
+                        <v-pane-content id="pane-1a-content" aria-labelledby="pane-1a-header" class="col-xs-12">
+                          <br />
+                          <div class="col-xs-12" ng-repeat="interes in intereses">
+
+                            <md-checkbox aria-label="interes.name" ng-checked="exists_interes(interes.id, selected_interes)" ng-click="toggle_interes(interes.id, selected_interes)">
+                              {{interes.name}}
+                            </md-checkbox>
+
+                          </div>
+
+                        </v-pane-content>
+                      </v-pane>
+                    </v-accordion>
+
+                  </md-input-container>
+                  <br />
+
+                  <md-input-container class="md-block" style="margin-bottom:10px; margin-top:0;">
+                    <label ng-if="idiomaLocal == 'es_MX'">Profesiones &nbsp;&nbsp;ej. Doctor, Publicidad, etc.</label>
+                    <label ng-if="idiomaLocal == 'en_EN'">Studies &nbsp;&nbsp;eg: Business, Engineering, etc...</label>
+                    <label ng-if="idiomaLocal == 'pt_BR'">Estudos &nbsp;&nbsp;por exemplo: negócios, engenharia, etc...</label>
+                  </md-input-container>
+                  <md-chips style="padding:0;" ng-model="selectedVegetables" md-autocomplete-snap
+                            md-transform-chip="transformChip($chip)"
+                            md-require-match="true">
+                    <md-autocomplete md-selected-item="selectedItem"
+                                     md-search-text="searchText"
+                                     md-items="item in querySearch(searchText)"
+                                     md-item-text="item.name"
+                                     placeholder="Buscar">
+                      <span md-highlight-text="searchText">{{item.name}}</span>
+                    </md-autocomplete>
+                    <md-chip-template>
+                      <span>
+                        <strong>{{$chip.name}}</strong>
+                      </span>
+                    </md-chip-template>
+                  </md-chips>
+
+                  <div class="col-xs-12 text-center">
+                    <br />
+                    <button class="btn btn-xs btn-primary btn-ingresa" ng-click="buscar_vacante(); toggleLeft();" ng-if="idiomaLocal == 'es_MX'">Buscar vacantes</button>
+                    <button class="btn btn-xs btn-primary btn-ingresa" ng-click="buscar_vacante(); toggleLeft();" ng-if="idiomaLocal == 'en_EN'">Search</button>
+                    <button class="btn btn-xs btn-primary btn-ingresa" ng-click="buscar_vacante(); toggleLeft();" ng-if="idiomaLocal == 'pt_BR'">Pesquisa</button>
+                    <button class="btn btn-xs btn-primary btn-registrate" ng-click="borrar_filtros(); toggleLeft();"><span ng-if="idiomaLocal == 'es_MX'">Borrar filtros</span><span ng-if="idiomaLocal == 'en_EN'">Erase filters</span><span ng-if="idiomaLocal == 'pt_BR'">Apagar filtros</span></button>
+                  </div>
+                  <div class="col-xs-12 text-center">
+                    <br />
+                    <button class="btn btn-xs btn-primary btn-registrate" ng-click="toggleLeft();"><span ng-if="idiomaLocal == 'es_MX'">Cerrar</span><span ng-if="idiomaLocal == 'en_EN'">Close</span><span ng-if="idiomaLocal == 'pt_BR'">Fechar</span></button>
+                  </div>
+                </form>
+              </div>
+            </md-content>
+          </div>
+
+        </md-sidenav>
+
+      </section>
+
+    </div>
+
+    <div class="col-xs-12">
+      <div class="text-center hidden-md hidden-lg margin-bottom">
+        <a class="btn btn-lg btn-primary" ng-click="toggleLeft()">Ver filtros</a>
+      </div>
+
+      <div class="col-xs-12 col-md-4 hidden-xs hidden-sm" style="height:100%;">
+        <div class="col-xs-12 margin-bottom text-center" style="height:100%; padding: 0">
+          <div class="col-xs-12 col-md-10 thumbnail-vacantes margin-bottom text-left" style="padding:5px 15px 5px 15px;">
+            <v-accordion class="vAccordion--default" multiple>
+
+              <v-pane>
+                <v-pane-header>
+                  <span class="img-circle" style="background-color:#37B34A; color:#fff; padding: 5px 10px 5px 10px;">H</span><span class="negrita"> Headhunting</span>
+
+                </v-pane-header>
+
+                <v-pane-content>
+                  <p ng-if="idiomaLocal == 'es_MX'" style="text-align:justify">El equipo de matteria está a cargo del proceso completo de búsqueda y selección para esta vacante. Al postular recibirás un e-mail con la descripción, tiempos, condiciones e información relevante del proceso de selección.</p>
+                  <p ng-if="idiomaLocal == 'en_EN'" style="text-align:justify">The matteria team is responsible for the headhunting and all the selection process for this vacancy. By applying, you will receive an e-mail with the description, timing, conditions and relevant information regarding the selection process.</p>
+                  <p ng-if="idiomaLocal == 'pt_BR'" style="text-align:justify">A equipe da matteria é responsável por todo o processo de busca e seleção para esta vaga. Ao se candidatar, você receberá um e-mail com a descrição, os prazos, as condições e outras informações relevantes do processo de seleção.</p>
+                </v-pane-content>
+              </v-pane>
+
+            </v-accordion>
+          </div>
+          <div class="col-xs-12 col-md-2 margin-bottom negrita" ng-class="filtro_h" ng-click="filter_services(1);">
+            <span ng-if="idiomaLocal == 'es_MX'">Filtrar</span>
+            <span ng-if="idiomaLocal == 'en_EN'">Filter</span>
+            <span ng-if="idiomaLocal == 'pt_BR'">Filtro</span>
+          </div>
+
+          <div class="col-xs-12 col-md-10 thumbnail-vacantes margin-bottom text-left" style="padding:5px 15px 5px 15px;">
+            <v-accordion class="vAccordion--default" multiple>
+
+              <v-pane>
+                <v-pane-header>
+                  <span class="img-circle" style="background-color:#E34A26; color:#fff; padding: 5px 10px 5px 10px;">F</span>
+                  <span class="negrita">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Filtro de perfiles
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      Profile Filter Delivery
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'">
+                      Filtro de perfil
+                    </span>
+                  </span>
+                </v-pane-header>
+
+                <v-pane-content>
+                  <p ng-if="idiomaLocal == 'es_MX'" style="text-align:justify">El equipo de matteria no es responsable del proceso de búsqueda y selección de esta vacante, sino que ofrece un servicio de difusión a través de nuestra plataforma y luego hace un filtro de las HV más acordes al perfil solicitado. La organización que ofrece está vacante recibe las HV y es responsable de contactar directamente a los postulantes seleccionados.</p>
+                  <p ng-if="idiomaLocal == 'en_EN'" style="text-align:justify">The matteria team is not responsible for the search and selection process of this vacancy. We are supporting the organization by broadcasting the vacancy through our platform and social media networks, and then filtering the CV's according to the requested profile. The organization that offers this opportunity receives the profiles and is responsible for contacting the selected applicants directly.</p>
+                  <p ng-if="idiomaLocal == 'pt_BR'" style="text-align:justify">A equipe da matteria não é responsável pelo processo de busca e seleção para esta vaga, mas oferece um serviço de divulgação por meio da nossa plataforma e realiza uma triagem dos currículos que melhor se encaixem no perfil solicitado. A organização que oferece esta vaga recebe os currículos e é responsável por entrar em contato diretamente com os candidatos selecionados.</p>
+                </v-pane-content>
+              </v-pane>
+            </v-accordion>
+          </div>
+          <div class="col-xs-12 col-md-2 margin-bottom negrita" ng-class="filtro_p" ng-click="filter_services(2);">
+            <span ng-if="idiomaLocal == 'es_MX'">Filtrar</span>
+            <span ng-if="idiomaLocal == 'en_EN'">Filter</span>
+            <span ng-if="idiomaLocal == 'pt_BR'">Filtro</span>
+          </div>
+
+          <div class="col-xs-12 col-md-10 thumbnail-vacantes margin-bottom text-left" style="padding:5px 15px 5px 15px;">
+            <v-accordion class="vAccordion--default" multiple>
+
+              <v-pane>
+                <v-pane-header>
+                  <span class="img-circle" style="background-color:#FBAE25; color:#fff; padding: 5px 10px 5px 10px;">P</span>
+                  <span class="negrita">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Publicación de vacante
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      Job Posting
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'">
+                      Publicação de vagas
+                    </span>
+                  </span>
+                </v-pane-header>
+
+                <v-pane-content>
+                  <p ng-if="idiomaLocal == 'es_MX'" style="text-align:justify">El equipo de matteria no es responsable del proceso de búsqueda y selección de esta vacante, sino que ofrece un servicio de difusión a través de nuestra plataforma. La organización que ofrece está vacante es responsable de contactar directamente a los postulantes seleccionados.</p>
+                  <p ng-if="idiomaLocal == 'en_EN'" style="text-align:justify">The matteria team is not responsible for the search and selection process of this vacancy. We are supporting the organization by broadcasting the vacancy through our platform and social media networks. The organization that offers this opportunity receives the profiles and is responsible for contacting the selected applicants directly.</p>
+                  <p ng-if="idiomaLocal == 'pt_BR'" style="text-align:justify">A equipe da matteria não é responsável pelo processo de busca e seleção para esta vaga, mas oferece um serviço de divulgação por meio da nossa plataforma. A organização que oferece esta vaga é responsável por entrar em contato diretamente com os candidatos selecionados.</p>
+                </v-pane-content>
+              </v-pane>
+
+            </v-accordion>
+          </div>
+          <div class="col-xs-12 col-md-2 margin-bottom negrita" ng-class="filtro_f" ng-click="filter_services(3);">
+            <span ng-if="idiomaLocal == 'es_MX'">Filtrar</span>
+            <span ng-if="idiomaLocal == 'en_EN'">Filter</span>
+            <span ng-if="idiomaLocal == 'pt_BR'">Filtro</span>
+          </div>
+
+          <button class="btn btn-md btn-primary btn-registrate" ng-click="borrar_filtros();"><span ng-if="idiomaLocal == 'es_MX'">Borrar filtros</span><span ng-if="idiomaLocal == 'en_EN'">Erase filters</span><span ng-if="idiomaLocal == 'pt_BR'">Apagar filtros</span></button>
+        </div>
+        <div class="col-xs-12 thumbnail-vacantes margin-bottom" style="height:100%">
+          <md-content layout-padding style="background-color:transparent;">
+            <div>
+              <form name="filtrosForm">
+                <div layout-gt-xs="row">
+                  <md-input-container class="md-block" flex-gt-sm style="margin-bottom:0">
+                    <label ng-if="idiomaLocal == 'es_MX'">Palabra clave</label>
+                    <label ng-if="idiomaLocal == 'en_EN'">Keywords</label>
+                    <label ng-if="idiomaLocal == 'pt_BR'">Palavras-chave</label>
+                    <input name="Nombre" ng-model="busqueda.filterNombre">
+                  </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                  <md-input-container class="md-block" flex-gt-sm>
+                    <label ng-if="idiomaLocal == 'es_MX'">País</label>
+                    <label ng-if="idiomaLocal == 'en_EN'">Country</label>
+                    <label ng-if="idiomaLocal == 'pt_BR'">País</label>
+                    <md-select ng-model="busqueda.filterPais" aria-label="country" name="country" ng-change="selectEstado();">
+                      <md-option ng-repeat="pais in paises" ng-value="pais.id">
+                        {{pais.name}}
+                      </md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                  <md-input-container class="md-block" ng-if="IsCiudad" flex-gt-sm style="margin-bottom:0">
+                    <label ng-if="idiomaLocal == 'es_MX'">Cuidad</label>
+                    <label ng-if="idiomaLocal == 'en_EN'">City</label>
+                    <label ng-if="idiomaLocal == 'pt_BR'">Cidade</label>
+                    <md-select ng-model="busqueda.filterciudad" name="city" aria-label="city">
+                      <md-option selected><em>Seleccionar</em></md-option>
+                      <md-option ng-repeat="estado in estados track by $index" ng-value="estado.name" ng-selected="estado.name == experties.city">
+                        {{estado.name}}
+                      </md-option>
+                    </md-select>
+                  </md-input-container>
+
+                  <md-input-container class="md-block" ng-if="!IsCiudad" flex-gt-sm>
+                    <label ng-if="idiomaLocal == 'es_MX'">Cuidad</label>
+                    <label ng-if="idiomaLocal == 'en_EN'">City</label>
+                    <label ng-if="idiomaLocal == 'pt_BR'">Cidade</label>
+                    <input name="city" ng-model="busqueda.filterciudad">
+                  </md-input-container>
+                </div>
+
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label ng-if="idiomaLocal == 'es_MX'">Años de experiencia general: {{busqueda.filterAnosExperencia}}</label>
+                  <label ng-if="idiomaLocal == 'en_EN'">Years of general experience: {{busqueda.filterAnosExperencia}}</label>
+                  <label ng-if="idiomaLocal == 'pt_BR'">Anos de experiência geral: {{busqueda.filterAnosExperencia}}</label><br />
+                  <md-slider flex md-discrete ng-model="busqueda.filterAnosExperencia" step="1" min="0" max="30" aria-label="rating" class="md-primary">
+                  </md-slider>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label ng-if="idiomaLocal == 'es_MX'">Jornada</label><label ng-if="idiomaLocal == 'en_EN'">Format</label><label ng-if="idiomaLocal == 'pt_BR'">Formato</label><br /><br />
+                  <div class="col-xs-12" flex="60">
+                    <md-checkbox ng-repeat="horarios in tipohorario" ng-checked="exists(horarios.id, selected)" ng-click="toggle(horarios.id, selected)">
+                      {{ horarios.name }}
+                    </md-checkbox>
+
+                  </div>
+                </md-input-container>
+
+                <md-input-container class="md-block" style="margin-bottom:5px">
+                  <label ng-if="idiomaLocal == 'es_MX'">Rango Salarial: </label>
+                  <label ng-if="idiomaLocal == 'en_EN'">Salary Range:</label>
+                  <label ng-if="idiomaLocal == 'pt_BR'">Faixa salarial:</label>
+                </md-input-container>
+
+                <div layout-gt-sm="row">
+                  <md-input-container class="md-block" style="padding-bottom:0; margin-bottom: 0;">
+                    <label ng-if="idiomaLocal == 'es_MX'">Desde</label>
+                    <label ng-if="idiomaLocal == 'en_EN'">From</label>
+                    <label ng-if="idiomaLocal == 'pt_BR'">A partir de</label>
+                    <input name="Nombre" ng-model="busqueda.filterdesdesalario">
+                  </md-input-container>
+
+                  <md-input-container class="md-block" style="padding-bottom:0; margin-bottom: 0;">
+                    <label ng-if="idiomaLocal == 'es_MX'">Hasta</label>
+                    <label ng-if="idiomaLocal == 'en_EN'">To</label>
+                    <label ng-if="idiomaLocal == 'pt_BR'">Para</label>
+                    <input name="Nombre" ng-model="busqueda.filterhastasalario">
+                  </md-input-container>
+                </div>
+
+                <md-input-container class="md-block" ng-if="idiomaLocal == 'es_MX'">
+                  <label>Antiguedad vacante</label>
+                  <md-select ng-model="busqueda.filterinervalo" aria-label="country" name="interval">
+                    <md-option selected ng-value=""><em>Seleccionar</em></md-option>
+                    <md-option ng-repeat="interval in intervals" ng-value="interval.time_days">
+                      {{interval.name}}
+                    </md-option>
+                  </md-select>
+                </md-input-container>
+                <md-input-container class="md-block" ng-if="idiomaLocal == 'en_EN'">
+                  <label>Timing</label>
+                  <md-select ng-model="busqueda.filterinervalo" aria-label="country" name="interval">
+                    <md-option selected ng-value=""><em>Options</em></md-option>
+                    <md-option ng-repeat="interval in intervals" ng-value="interval.time_days">
+                      {{interval.name}}
+                    </md-option>
+                  </md-select>
+                </md-input-container>
+                <md-input-container class="md-block" ng-if="idiomaLocal == 'pt_BR'">
+                  <label>Cronometragem</label>
+                  <md-select ng-model="busqueda.filterinervalo" aria-label="country" name="interval">
+                    <md-option selected ng-value=""><em>Opções</em></md-option>
+                    <md-option ng-repeat="interval in intervals" ng-value="interval.time_days">
+                      {{interval.name}}
+                    </md-option>
+                  </md-select>
+                </md-input-container>
+
+                <md-input-container class="md-block" style="margin-top:0; margin-bottom:0;">
+                  <v-accordion id="accordionA" class="vAccordion--default" control="accordionA" onexpand="expandCallback(index, id)" oncollapse="collapseCallback(index, id)">
+
+                    <v-pane id="pane-1a" expanded="false">
+                      <v-pane-header id="pane-1a-header" aria-controls="pane-1a-content">
+
+                        <label ng-if="idiomaLocal == 'es_MX'">Intereses clave </label>
+                        <label ng-if="idiomaLocal == 'en_EN'">Key Interests</label>
+                        <label ng-if="idiomaLocal == 'pt_BR'">Interesses Chave</label>
+                        <br />
+                      </v-pane-header>
+
+                      <v-pane-content id="pane-1a-content" aria-labelledby="pane-1a-header" class="col-xs-12">
+                        <br />
+                        <div class="col-xs-12" ng-repeat="interes in intereses">
+
+                          <md-checkbox aria-label="interes.name" ng-checked="exists_interes(interes.id, selected_interes)" ng-click="toggle_interes(interes.id, selected_interes)">
+                            {{interes.name}}
+                          </md-checkbox>
+
+                        </div>
+
+                      </v-pane-content>
+                    </v-pane>
+                  </v-accordion>
+
+                </md-input-container>
+                <br />
+
+                <md-input-container class="md-block" style="margin-bottom:10px; margin-top:0;">
+                  <label ng-if="idiomaLocal == 'es_MX'">Profesiones &nbsp;&nbsp;ej. Doctor, Publicidad, etc.</label>
+                  <label ng-if="idiomaLocal == 'en_EN'">Studies &nbsp;&nbsp;eg: Business, Engineering, etc...</label>
+                  <label ng-if="idiomaLocal == 'pt_BR'">Estudos &nbsp;&nbsp;por exemplo: negócios, engenharia, etc...</label>
+                </md-input-container>
+                <md-chips ng-if="idiomaLocal == 'es_MX'" style="padding:0;" ng-model="selectedVegetables" md-autocomplete-snap
+                          md-transform-chip="transformChip($chip)"
+                          md-require-match="true">
+                  <md-autocomplete md-selected-item="selectedItem"
+                                   md-search-text="searchText"
+                                   md-items="item in querySearch(searchText)"
+                                   md-item-text="item.name"
+                                   placeholder="Buscar">
+                    <span md-highlight-text="searchText">{{item.name}}</span>
+                  </md-autocomplete>
+                  <md-chip-template>
+                    <span>
+                      <strong>{{$chip.name}}</strong>
+                    </span>
+                  </md-chip-template>
+                </md-chips>
+
+                <md-chips ng-if="idiomaLocal == 'en_EN'" style="padding:0;" ng-model="selectedVegetables" md-autocomplete-snap
+                          md-transform-chip="transformChip($chip)"
+                          md-require-match="true">
+                  <md-autocomplete md-selected-item="selectedItem"
+                                   md-search-text="searchText"
+                                   md-items="item in querySearch(searchText)"
+                                   md-item-text="item.name"
+                                   placeholder="Search">
+                    <span md-highlight-text="searchText">{{item.name}}</span>
+                  </md-autocomplete>
+                  <md-chip-template>
+                    <span>
+                      <strong>{{$chip.name}}</strong>
+                    </span>
+                  </md-chip-template>
+                </md-chips>
+
+                <md-chips ng-if="idiomaLocal == 'pt_BR'" style="padding:0;" ng-model="selectedVegetables" md-autocomplete-snap
+                          md-transform-chip="transformChip($chip)"
+                          md-require-match="true">
+                  <md-autocomplete md-selected-item="selectedItem"
+                                   md-search-text="searchText"
+                                   md-items="item in querySearch(searchText)"
+                                   md-item-text="item.name"
+                                   placeholder="Pesquisa">
+                    <span md-highlight-text="searchText">{{item.name}}</span>
+                  </md-autocomplete>
+                  <md-chip-template>
+                    <span>
+                      <strong>{{$chip.name}}</strong>
+                    </span>
+                  </md-chip-template>
+                </md-chips>
+
+                <div class="col-xs-12 text-center" style="padding:0;">
+                  <br />
+                  <button class="btn btn-md btn-primary btn-ingresa" ng-click="buscar_vacante();" ng-if="idiomaLocal == 'es_MX'">Buscar vacantes</button>
+                  <button class="btn btn-md btn-primary btn-ingresa" ng-click="buscar_vacante();" ng-if="idiomaLocal == 'en_EN'">Search</button>
+                  <button class="btn btn-md btn-primary btn-ingresa" ng-click="buscar_vacante();" ng-if="idiomaLocal == 'pt_BR'">Pesquisa</button>
+                  <button class="btn btn-md btn-primary btn-registrate" ng-click="borrar_filtros();"><span ng-if="idiomaLocal == 'es_MX'">Borrar filtros</span><span ng-if="idiomaLocal == 'en_EN'">Erase filters</span><span ng-if="idiomaLocal == 'pt_BR'">Apagar filtros</span></button>
+                </div>
+              </form>
+            </div>
+          </md-content>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-md-8" style="height:100%">
+        <div class="margin-bottom" ng-repeat="vacante in vacantes track by $index" ng-if="vacante.top_level == '2'">
+          <div class="col-xs-12 thumbnail-{{vacante.top_level}} margin-bottom" ng-if="!vacante.draft || !vacante.expired">
+            <div class="col-xs-12 col-md-2 text-center" style="padding-left:0; padding-right:0;">
+              <div class="col-xs-12" style="padding-left:0; padding-right:0;">
+                <img style="padding-left:0; padding-right:0px;" class="img-responsive" width="100" height="100" src="{{API_PATH_MEDIA}}{{vacante.company_logo}}" ng-if="!vacante.keep_company_alias" />
+                <img style="padding-left:0; padding-right:0px;" class="img-responsive" width="100" height="100" src="{{API_PATH_MEDIA}}/media/avatar_default/Avatar.jpg" ng-if="vacante.keep_company_alias" />
+              </div>
+              <div class="col-xs-12 text-center hidden-md hidden-lg margin-bottom" style="padding-left:0; padding-right:0;">
+                <span class="negrita">{{vacante.open_opening}}</span>
+                <p style="margin-bottom:5px; margin-top:5px;" ng-if="vacante.opening_type == 'Publicación + Filtro'"><span class="img-circle" style="background-color:#E34A26; color:#fff; padding:7px 10px 7px 10px;">F</span></p>
+                <p style="margin-bottom:5px; margin-top:5px;" ng-if="vacante.opening_type == 'Publicación' || vacante.opening_type == 'Publicación + Difusión'"><span class="img-circle" style="background-color:#FBAE25; color:#fff; padding:7px 10px 7px 10px;">P</span></p>
+                <p style="margin-bottom:5px; margin-top:5px;" ng-if="vacante.opening_type == 'Headhunting'"><span class="img-circle" style="background-color:#37B34A; color:#fff; padding:7px 10px 7px 10px;">H</span></p>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-10" style="padding:0;">
+              <table class="col-xs-12 col-md-10" style="height: 100px; padding:0;">
+                <tbody>
+                  <tr>
+                    <td class="align-middle">
+                      <h4 class="negrita text-left" style="margin-bottom:0; margin-top:0;"><a style="cursor:pointer" ng-click="url(vacante.id);">{{vacante.name}}</a></h4>
+                      <p class="negrita text-left" style="margin-top:0; margin-bottom:0" ng-if="!vacante.keep_company_alias"><span style="font-size:small">{{vacante.company}}</span></p>
+                      <p class="negrita text-left" style="margin-top:0; margin-bottom:0" ng-if="vacante.keep_company_alias"><span style="font-size:small">{{vacante.alternate_company_alias}}</span></p>
+                      <p class="negrita text-left" style="margin-top:0; margin-bottom:0; color:#337ab7">{{vacante.city}}<span ng-if="vacante.city"> | </span>{{vacante.country.name}}</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="col-xs-12 col-md-2" style="height: 100px; padding:0;">
+                <tbody>
+                  <tr>
+                    <td style="vertical-align:top; text-align:right">
+                      <p style="margin-bottom:0;" ng-if="vacante.opening_type == 'Publicación + Filtro'"><span class="img-circle" style="background-color:#E34A26; color:#fff; padding:7px 10px 7px 10px;">F</span></p>
+                      <p style="margin-bottom:0;" ng-if="vacante.opening_type == 'Publicación' || vacante.opening_type == 'Publicación + Difusión'"><span class="img-circle" style="background-color:#FBAE25; color:#fff; padding:7px 10px 7px 10px;">P</span></p>
+                      <p style="margin-bottom:0;" ng-if="vacante.opening_type == 'Headhunting'"><span class="img-circle" style="background-color:#37B34A; color:#fff; padding:7px 10px 7px 10px;">H</span></p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="vertical-align:bottom; text-align:right">
+                      <span class="negrita">{{vacante.open_opening}}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="margin-bottom" ng-repeat="vacante in vacantes track by $index" ng-if="vacante.top_level != '2'">
+          <div class="col-xs-12 thumbnail-{{vacante.top_level}} margin-bottom" ng-if="!vacante.draft || !vacante.expired">
+            <div class="col-xs-12 col-md-2 text-center" style="padding-left:0; padding-right:0;">
+              <div class="col-xs-12" style="padding-left:0; padding-right:0;">
+                <img style="padding-left:0; padding-right:0px;" class="img-responsive" width="100" height="100" src="{{API_PATH_MEDIA}}{{vacante.company_logo}}" ng-if="!vacante.keep_company_alias" />
+                <img style="padding-left:0; padding-right:0px;" class="img-responsive" width="100" height="100" src="{{API_PATH_MEDIA}}/media/avatar_default/Avatar.jpg" ng-if="vacante.keep_company_alias" />
+              </div>
+              <div class="col-xs-12 text-center hidden-md hidden-lg margin-bottom" style="padding-left:0; padding-right:0;">
+                <span class="negrita">{{vacante.open_opening}}</span>
+                <p style="margin-bottom:5px; margin-top:5px;" ng-if="vacante.opening_type == 'Publicación + Filtro'"><span class="img-circle" style="background-color:#E34A26; color:#fff; padding:7px 10px 7px 10px;">F</span></p>
+                <p style="margin-bottom:5px; margin-top:5px;" ng-if="vacante.opening_type == 'Publicación' || vacante.opening_type == 'Publicación + Difusión'"><span class="img-circle" style="background-color:#FBAE25; color:#fff; padding:7px 10px 7px 10px;">P</span></p>
+                <p style="margin-bottom:5px; margin-top:5px;" ng-if="vacante.opening_type == 'Headhunting'"><span class="img-circle" style="background-color:#37B34A; color:#fff; padding:7px 10px 7px 10px;">H</span></p>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-10" style="padding:0;">
+              <table class="col-xs-12 col-md-10" style="height: 100px; padding:0;">
+                <tbody>
+                  <tr>
+                    <td class="align-middle">
+                      <h4 class="negrita text-left" style="margin-bottom:0; margin-top:0;"><a style="cursor:pointer" ng-click="url(vacante.id);">{{vacante.name}}</a></h4>
+                      <p class="negrita text-left" style="margin-top:0; margin-bottom:0" ng-if="!vacante.keep_company_alias"><span style="font-size:small">{{vacante.company}}</span></p>
+                      <p class="negrita text-left" style="margin-top:0; margin-bottom:0" ng-if="vacante.keep_company_alias"><span style="font-size:small">{{vacante.alternate_company_alias}}</span></p>
+                      <p class="negrita text-left" style="margin-top:0; margin-bottom:0; color:#337ab7">{{vacante.city}}<span ng-if="vacante.city"> | </span>{{vacante.country.name}}</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="col-xs-12 col-md-2" style="height: 100px; padding:0;">
+                <tbody>
+                  <tr>
+                    <td style="vertical-align:top; text-align:right">
+                      <p style="margin-bottom:0;" ng-if="vacante.opening_type == 'Publicación + Filtro'"><span class="img-circle" style="background-color:#E34A26; color:#fff; padding:7px 10px 7px 10px;">F</span></p>
+                      <p style="margin-bottom:0;" ng-if="vacante.opening_type == 'Publicación' || vacante.opening_type == 'Publicación + Difusión'"><span class="img-circle" style="background-color:#FBAE25; color:#fff; padding:7px 10px 7px 10px;">P</span></p>
+                      <p style="margin-bottom:0;" ng-if="vacante.opening_type == 'Headhunting'"><span class="img-circle" style="background-color:#37B34A; color:#fff; padding:7px 10px 7px 10px;">H</span></p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="vertical-align:bottom; text-align:right">
+                      <span class="negrita">{{vacante.open_opening}}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-md-offset-2 margin-bottom text-center">
+        <div class="pagination-panel">
+          <button ng-click="beforePage()" type="button" ng-disabled="previous==null"><span ng-if="idiomaLocal == 'es_MX'">Anterior</span><span ng-if="idiomaLocal == 'en_EN'">Back</span><span ng-if="idiomaLocal == 'pt_BR'">Costas</span></button>
+          <small class="indicator">{{pagesinit}}/<span>{{pages}}</span></small>
+          <button ng-click="nextPage()" type="button" ng-disabled="next==null"><span ng-if="idiomaLocal == 'es_MX'">Siguiente</span><span ng-if="idiomaLocal == 'en_EN'">Next</span><span ng-if="idiomaLocal == 'pt_BR'">Próximo</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

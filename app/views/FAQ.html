@@ -1,0 +1,70 @@
+<link href="../styles/v-accordion/v-accordion-do.css" rel="stylesheet" />
+<div class="row margin-bottom banner-verde">
+  <div class="container">
+    <br />
+    <br />
+    <div class="col-xs-12 text-center">
+      <h2 class="negrita">FAQ's</h2>
+      <br />
+      <br />
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="col-xs-12 text-center">
+    <h2 ng-if="idiomaLocal == 'es_MX'">Candidatos</h2>
+    <h2 ng-if="idiomaLocal == 'en_EN'">Candidates</h2>
+    <h2 ng-if="idiomaLocal == 'pt_BR'">Candidatos</h2>
+  </div>
+</div>
+
+
+<div ng-cloak class="container thumbnail-vacantes-interna">
+  <v-accordion id="accordionA" class="vAccordion--default" control="accordionA" onexpand="expandCallback(index, id)" oncollapse="collapseCallback(index, id)">
+
+    <v-pane ng-repeat="faqs in candidatos" id="pane-{{faqs.pregunta}}">
+      <v-pane-header id="pane-{{faqs.pregunta}}-header" aria-controls="pane-{{faqs.pregunta}}-content" class="container">
+        <h4 class="negrita" style="padding-right:100px"><span ng-if="idiomaLocal == 'es_MX'">{{faqs.pregunta}}</span><span ng-if="idiomaLocal == 'en_EN'">{{faqs.pregunta_en}}</span><span ng-if="idiomaLocal == 'pt_BR'">{{faqs.pregunta_pt}}</span></h4>
+      </v-pane-header>
+
+      <v-pane-content id="pane-{{faqs.pregunta}}-content" aria-labelledby="pane-{{faqs.pregunta}}-header">
+        <div class="row banner-verde">
+          <div class="container margin-bottom">
+            <br />
+            <div class="col-xs-12"><p ng-if="idiomaLocal == 'es_MX'" ng-bind-html="faqs.respuesta"></p><p ng-if="idiomaLocal == 'en_EN'" ng-bind-html="faqs.respuesta_en"></p><p ng-if="idiomaLocal == 'pt_BR'" ng-bind-html="faqs.respuesta_pt"></p></div>
+          </div>
+        </div>
+      </v-pane-content>
+      <md-divider></md-divider>
+    </v-pane>
+  </v-accordion>
+</div>
+
+<div class="container">
+  <div class="col-xs-12 text-center">
+    <h2 ng-if="idiomaLocal == 'es_MX'">Organizaciones</h2>
+    <h2 ng-if="idiomaLocal == 'en_EN'">Organizations</h2>
+    <h2 ng-if="idiomaLocal == 'pt_BR'">Organizações</h2>
+  </div>
+</div>
+
+<div ng-cloak class="container thumbnail-vacantes-interna">
+  <v-accordion id="accordionA" class="vAccordion--default" control="accordionA" onexpand="expandCallback(index, id)" oncollapse="collapseCallback(index, id)">
+    <v-pane ng-repeat="faqs in organizaciones" id="pane-{{faqs.pregunta}}can">
+      <v-pane-header id="pane-{{faqs.pregunta}}can-header" aria-controls="pane-{{faqs.pregunta}}can-content" class="container">
+        <h4 class="negrita" style="padding-right:15px"><span ng-if="idiomaLocal == 'es_MX'">{{faqs.pregunta}}</span><span ng-if="idiomaLocal == 'en_EN'">{{faqs.pregunta_en}}</span><span ng-if="idiomaLocal == 'pt_BR'">{{faqs.pregunta_pt}}</span></h4>
+      </v-pane-header>
+
+      <v-pane-content id="pane-{{faqs.pregunta}}can-content" aria-labelledby="pane-{{faqs.pregunta}}can-header">
+        <div class="row banner-verde">
+          <div class="container">
+            <br />
+            <div class="col-xs-12"><p ng-if="idiomaLocal == 'es_MX'" ng-bind-html="faqs.respuesta"></p><p ng-if="idiomaLocal == 'en_EN'" ng-bind-html="faqs.respuesta_en"></p><p ng-if="idiomaLocal == 'pt_BR'" ng-bind-html="faqs.respuesta_pt"></p></div>
+          </div>
+        </div>
+      </v-pane-content>
+      <md-divider></md-divider>
+    </v-pane>
+  </v-accordion>
+</div>

@@ -1,0 +1,101 @@
+
+<div class="row banner-verde">
+  <div class="container">
+    <div class="col-xs-12 text-center">
+      <h2 class="negrita" style="padding:15px 15px 25px 15px" ng-if="idiomaLocal == 'es_MX'">Ingreso</h2>
+      <h2 class="negrita" style="padding:15px 15px 25px 15px" ng-if="idiomaLocal == 'en_EN'">Log in</h2>
+      <h2 class="negrita" style="padding:15px 15px 25px 15px" ng-if="idiomaLocal == 'pt_BR'">Login</h2>
+    </div>
+  </div>
+</div>
+<br />
+<br />
+<div class="container margin-bottom">
+  <div class="col-xs-12">
+    <div ng-class="classregistro" ng-show="disableo">
+      <form name="formloginOrganizacion">
+        <div class="col-xs-12 text-center">
+          <h2 class="negrita" ng-if="idiomaLocal == 'es_MX'">Ingreso Organizaciones</h2>
+          <h2 class="negrita" ng-if="idiomaLocal == 'en_EN'">Organization's Log In</h2>
+          <h2 class="negrita" ng-if="idiomaLocal == 'pt_BR'">Login para organizações</h2>
+        </div>
+        <div class="col-xs-12">
+          <md-input-container class="md-block">
+            <label class="negrita" ng-if="idiomaLocal == 'es_MX'">Correo eléctronico</label>
+            <label class="negrita" ng-if="idiomaLocal == 'en_EN'">Email</label>
+            <label class="negrita" ng-if="idiomaLocal == 'pt_BR'">E-mail</label>
+            <!--<1input type="email" md-maxlength="30" required md-no-asterisk name="email" ng-model="ingresaOrganizacion.email">
+            <div ng-messages="formloginOrganizacion.email.$error">
+                <div ng-message="required">Campo requerido.</div>
+                <div ng-message="md-maxlength">El nombre de la organizacion no puede ser mayor a 30 caracteres.</div>
+            </div>-->
+            <input type="email" minlength="10" maxlength="100" required md-no-asterisk name="email" ng-model="ingresaOrganizacion.email" ng-pattern="/^.+@.+\..+$/">
+            <div ng-messages="formloginPostulante.email.$error">
+              <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                No es un mail valido.
+              </div>
+            </div>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label ng-if="idiomaLocal == 'es_MX'">Contraseña</label>
+            <label ng-if="idiomaLocal == 'en_EN'">Password</label>
+            <label ng-if="idiomaLocal == 'pt_BR'">Senha</label>
+            <input type="password" required md-no-asterisk name="contrasena" ng-model="ingresaOrganizacion.contrasena">
+            <div ng-messages="formloginOrganizacion.contrasena.$error">
+              <div ng-message="required">Campo requerido.</div>
+            </div>
+          </md-input-container>
+          <div class="col-xs-12 text-center margin-bottom">
+            <a ui-sref="recuperarcontrasena({idioma:'es'})" ng-if="idiomaLocal == 'es_MX'">¿Olvidaste tu contraseña? </a>
+            <a ui-sref="recuperarcontrasena({idioma:'en'})" ng-if="idiomaLocal == 'en_EN'">Did you forget your password?</a>
+            <a ui-sref="recuperarcontrasena({idioma:'en'})" ng-if="idiomaLocal == 'pt_BR'">Você esqueceu sua senha?</a>
+          </div>
+          <div class="col-xs-12 text-center">
+            <button class="btn btn-lg btn-primary btn-registrate" ng-click="entrarOrganizacion($event);"><span ng-if="idiomaLocal == 'es_MX'">Entrar</span><span ng-if="idiomaLocal == 'en_EN'">Log In </span><span ng-if="idiomaLocal == 'pt_BR'">Fazer login</span></button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+    <div ng-class="classregistro" ng-show="disablep">
+      <form name="formloginPostulante">
+        <div class="col-xs-12 text-center">
+          <h2 class="negrita" ng-if="idiomaLocal == 'es_MX'">Ingreso Postulante</h2>
+          <h2 class="negrita" ng-if="idiomaLocal == 'en_EN'">Applicants's Log In</h2>
+          <h2 class="negrita" ng-if="idiomaLocal == 'pt_BR'">Login para candidatos</h2>
+        </div>
+        <div class="col-xs-12">
+          <md-input-container class="md-block">
+            <label class="negrita" ng-if="idiomaLocal == 'es_MX'">Correo eléctronico</label>
+            <label class="negrita" ng-if="idiomaLocal == 'en_EN'">Email</label>
+            <label class="negrita" ng-if="idiomaLocal == 'pt_BR'">E-mail</label>
+            <input type="email" minlength="10" maxlength="100" required md-no-asterisk name="Nombre" ng-model="ingresa.email" ng-pattern="/^.+@.+\..+$/">
+            <div ng-messages="formloginPostulante.Nombre.$error">
+              <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                No es un mail valido.
+              </div>
+            </div>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label ng-if="idiomaLocal == 'es_MX'">Contraseña</label>
+            <label ng-if="idiomaLocal == 'en_EN'">Password</label>
+            <label ng-if="idiomaLocal == 'pt_BR'">Senha</label>
+            <input type="password" required md-no-asterisk name="contrasena" ng-model="ingresa.contrasena">
+            <div ng-messages="formloginPostulante.contrasena.$error">
+              <div ng-message="required">Campo requerido.</div>
+            </div>
+          </md-input-container>
+          <div class="col-xs-12 text-center margin-bottom">
+            <a ui-sref="recuperarcontrasena({idioma:'es'})" ng-if="idiomaLocal == 'es_MX'">¿Olvidaste tu contraseña? </a>
+            <a ui-sref="recuperarcontrasena({idioma:'en'})" ng-if="idiomaLocal == 'en_EN'">Did you forget your password?</a>
+            <a ui-sref="recuperarcontrasena({idioma:'en'})" ng-if="idiomaLocal == 'pt_BR'">Você esqueceu sua senha?</a>
+          </div>
+          <div class="col-xs-12 text-center">
+            <button class="btn btn-lg btn-primary btn-registrate" ng-click="entrarPostulante($event);"><span ng-if="idiomaLocal == 'es_MX'">Entrar</span><span ng-if="idiomaLocal == 'en_EN'">Log In </span><span ng-if="idiomaLocal == 'pt_BR'">Fazer login</span></button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

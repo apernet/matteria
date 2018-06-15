@@ -1,0 +1,94 @@
+<div class="container">
+  <div class="col-xs-12 text-left">
+    <form method="post" action="https://checkout.payulatam.com/ppp-web-gateway-payu/">
+      <div class="col-xs-12">
+        <md-input-container class="md-block">
+          <label>Nombre del titular<span style="color:dodgerblue">*</span></label>
+          <input aria-label="nombre" required md-no-asterisk name="Nombre" ng-model="pago.nombre">
+          <div ng-messages="pago.nombre.$error">
+            <div ng-message="required">Campo requerido.</div>
+          </div>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12">
+        <md-input-container class="md-block">
+          <label>Nombre de la organización<span style="color:dodgerblue">*</span></label>
+          <input aria-label="nombre" required md-no-asterisk name="Nombre" ng-model="pago.organizacion">
+          <div ng-messages="pago.organizacion.$error">
+            <div ng-message="required">Campo requerido.</div>
+          </div>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12">
+        <md-input-container class="md-block">
+          <label>Email<span style="color:dodgerblue">*</span></label>
+          <input aria-label="email" type="email" minlength="10" maxlength="100" required md-no-asterisk name="email" ng-model="pago.email" ng-pattern="/^.+@.+\..+$/">
+          <div ng-messages="pago.nombre.$error">
+            <div ng-message="required">Campo requerido.</div>
+            <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" ng-if="idiomaLocal == 'es_MX'">
+              No es un mail valido.
+            </div>
+          </div>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Servicio a pagar<span style="color:dodgerblue">*</span></label>
+          <md-select ng-model="pago.descripcion" required md-no-asterisk>
+            <md-option ng-repeat="servicios in servicio" value="{{servicios.abrv}}">
+              {{servicios.tipo}}
+            </md-option>
+          </md-select>
+          <div ng-messages="pago.descripcion.$error">
+            <div ng-message="required">Campo requerido.</div>
+          </div>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <md-input-container class="md-block">
+          <label>Monto a pagar<span style="color:dodgerblue">*</span></label>
+          <input aria-label="nombre" required md-no-asterisk name="Nombre" ng-model="pago.monto">
+          <div ng-messages="pago.monto.$error">
+            <div ng-message="required">Campo requerido.</div>
+          </div>
+        </md-input-container>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Tipo de moneda<span style="color:dodgerblue">*</span></label>
+          <md-select ng-model="pago.moneda" required md-no-asterisk ng-change="signature()">
+            <md-option ng-repeat="moneda in monedas" value="{{moneda.abrv}}">
+              {{moneda.abrv}} - {{moneda.moneda}}
+            </md-option>
+          </md-select>
+          <div ng-messages="pago.moneda.$error">
+            <div ng-message="required">Campo requerido.</div>
+          </div>
+        </md-input-container>
+      </div>
+
+      <input name="merchantId" type="hidden" value="687128">
+      <input name="accountId" type="hidden" value="689967">
+      <input name="description" type="hidden" value="{{pago.descripcion}} - {{pago.organizacion}}">
+      <input name="extra2" type="hidden" value="{{pago.organizacion}}" />
+      <input name="referenceCode" type="hidden" value="{{referencia}}">
+      <input name="payerFullName" type="hidden" value="{{pago.nombre}}">
+      <input name="buyerFullName" type="hidden" value="{{pago.organizacion}}">
+      <input name="amount" type="hidden" value="{{pago.monto}}">
+      <input name="tax" type="hidden" value="0">
+      <input name="taxReturnBase" type="hidden" value="0">
+      <input name="currency" type="hidden" value="{{pago.moneda}}">
+      <input name="signature" type="hidden" value="{{hash}}">
+      <input name="test" type="hidden" value="0">
+      <input name="buyerEmail" type="hidden" value="{{pago.email}}">
+      <input name="responseUrl" type="hidden" value="http://matteria.co/response">
+      <input name="confirmationUrl" type="hidden" value="http://matteria.co/pagos/es">
+      <div class="col-xs-12 text-center">
+        <input name="Submit" class="btn btn-lg btn-primary btn-registrate" type="submit" value="Procesar pago">
+        <br />
+        <br />
+      </div>
+
+    </form>
+  </div>
+</div>

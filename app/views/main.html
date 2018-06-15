@@ -1,0 +1,440 @@
+
+<div ng-controller="MainCtrl">
+  <div class="row text-center" style="padding:0; margin-bottom:0;">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <!--<ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+          <li data-target="#myCarousel" data-slide-to="3"></li>
+          <li data-target="#myCarousel" data-slide-to="4"></li>
+      </ol>-->
+      <div ng-bind-html="Indicators">
+      </div>
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner" role="listbox" ng-bind-html="Wrapper">
+      </div>
+      <!-- Left and right controls -->
+      <a class="left carousel-control" data-target="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" data-target="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+    <!--<video autoplay loop class="img-responsive" style="display: block;">
+        <source src="../images/matteria.mp4" type="video/mp4" />
+        <source src="../images/matteria.webm" type="video/webm" />
+        <source src="../images/Matteria.ogv" type="video/ogg" />
+    </video>-->
+  </div>
+  <div class="row" style="background-color:#4D4C4C; color:#fff">
+    <div class="container margin-bottom">
+      <div class="margin-bottom"></div>
+      <div class="row text-center">
+        <div ng-repeat="facts in fastfacts">
+          <col-xs-12 class="col-sm-6 col-md-3">
+            <img class="interlineafdo-arriba" width="85" height="85" src="{{API_PATH_MEDIA}}{{facts.imagen}}" alt="">
+            <h2 ng-if="idiomaLocal == 'es_MX'" class="interlineafdo-medio">{{facts.titulo}}</h2>
+            <h2 ng-if="idiomaLocal == 'en_EN'" class="interlineafdo-medio">{{facts.titulo_en}}</h2>
+            <h2 ng-if="idiomaLocal == 'pt_BR'" class="interlineafdo-medio">{{facts.titulo_pt}}</h2>
+            <p ng-if="idiomaLocal == 'es_MX'" class="interlineafdo-abajo">{{facts.descripcion}}</p>
+            <p ng-if="idiomaLocal == 'en_EN'" class="interlineafdo-abajo">{{facts.descripcion_en}}</p>
+            <p ng-if="idiomaLocal == 'pt_BR'" class="interlineafdo-abajo">{{facts.descripcion_pt}}</p>
+          </col-xs-12>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="col-xs-12 col-lg-6 text-center margin-bottom">
+      <h1 ng-if="idiomaLocal == 'es_MX'" class="negrita">Vacantes destacadas</h1>
+      <h1 ng-if="idiomaLocal == 'en_EN'" class="negrita">Featured job offers</h1>
+      <h1 ng-if="idiomaLocal == 'pt_BR'" class="negrita">Vagas em destaque</h1>
+      <br />
+      <div class="col-xs-12 margin-bottom">
+        <div class="col-xs-12 col-sm-6 text-left" ng-repeat="ofert in ofertas | limitTo:5" ng-if="$index >= 1">
+          <div class="media" style="width:100%; height:180px;">
+            <div class="media-left">
+              <a href="/vacante/{{ofert.id}}" target="_blank">
+                <img width="80" height="80" src="{{API_PATH_MEDIA}}{{ofert.company_logo}}" alt="" ng-if="!ofert.keep_company_alias">
+                <img width="80" height="80" src="{{API_PATH_MEDIA}}/media/avatar_default/Avatar.jpg" alt="" ng-if="ofert.keep_company_alias">
+              </a>
+            </div>
+            <div class="media-body">
+              <a href="/vacante/{{ofert.id}}" target="_blank">
+                <h4 ng-if="idiomaLocal == 'es_MX'" class="negrita">{{ofert.name | limitTo:20}}<span ng-if="ofert.name.length > 20">...</span></h4>
+                <h4 ng-if="idiomaLocal == 'en_EN'" class="negrita">{{ofert.name | limitTo:20}}<span ng-if="ofert.name.length > 20">...</span></h4>
+                <h4 ng-if="idiomaLocal == 'pt_BR'" class="negrita">{{ofert.name | limitTo:20}}<span ng-if="ofert.name.length > 20">...</span></h4>
+              </a>
+              <small class="negrita" ng-if="!ofert.keep_company_alias">{{ofert.company | limitTo: 20}}<span ng-if="ofert.company.length > 20">...</span></small>
+              <small class="negrita" ng-if="ofert.keep_company_alias">{{ofert.alternate_company_alias | limitTo: 20}}<span ng-if="ofert.alternate_company_alias.length > 20">...</span></small>
+              <p ng-if="idiomaLocal == 'es_MX'">{{ofert.activities | limitTo:35}}<span ng-if="ofert.activities.length > 35">...</span></p>
+              <p ng-if="idiomaLocal == 'en_EN'">{{ofert.activities | limitTo:35}}<span ng-if="ofert.activities.length > 35">...</span></p>
+              <p ng-if="idiomaLocal == 'pt_BR'">{{ofert.activities | limitTo:35}}<span ng-if="ofert.activities.length > 35">...</span></p>
+              <!--<p ng-if="idiomaLocal == 'es_MX' && ofert.keep_company_alias">{{ofert.alternate_company_description | limitTo:40}}<span ng-if="ofert.name.length > 35">...</span></p>
+              <p ng-if="idiomaLocal == 'en_EN' && ofert.keep_company_alias">{{ofert.alternate_company_description | limitTo:40}}<span ng-if="ofert.name.length > 35">...</span></p>-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 hidden-lg">
+        <a href="/comofunciona/comofunciona#comofunciona" class="btn btn-default">
+          <span ng-if="idiomaLocal == 'es_MX'">
+            Todas las vacantes
+          </span>
+          <span ng-if="idiomaLocal == 'en_EN'">
+            All vacancies
+          </span>
+          <span ng-if="idiomaLocal == 'pt_BR'">
+            Todas as vagas
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-lg-6 text-center margin-bottom">
+      <h1 class="negrita">
+        <span ng-if="idiomaLocal == 'es_MX'">
+          Clientes
+        </span>
+        <span ng-if="idiomaLocal == 'en_EN'">
+          Clients
+        </span>
+        <span ng-if="idiomaLocal == 'pt_BR'">
+          Clientes
+        </span>
+      </h1>
+      <div class="margin-bottom"></div>
+      <div class="row">
+        <div class="col-md-12">
+          <ui-carousel slides="Wrapper_slider1" slides-to-show="4" slides-to-scroll="1">
+            <carousel-item>
+              <a href="{{item.cliente_website_url}}"><img width="150" height="150" src="{{item.imagen}}" class="img-responsive"></a>
+            </carousel-item>
+          </ui-carousel>
+          <!--<div class="carousel carousel-showmanymoveone slide" id="carouselclientes1">
+            <div class="carousel-inner">
+
+
+              <div class="item active">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[0].cliente_website_url}}"><img width="150" height="150" src="{{Wrapper_slider1[0].imagen}}" class="img-responsive"></a></div>
+              </div>
+              <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[1].cliente_website_url}}"><img width="150" height="150" src="{{Wrapper_slider1[1].imagen}}" class="img-responsive"></a></div>
+              </div>
+              <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[2].cliente_website_url}}"><img width="150" height="150" src="{{Wrapper_slider1[2].imagen}}" class="img-responsive"></a></div>
+              </div>
+              <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[3].cliente_website_url}}"><img width="150" height="150" src="{{Wrapper_slider1[3].imagen}}" class="img-responsive"></a></div>
+              </div>
+              <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[4].cliente_website_url}}"><img width="150" height="150" src="{{Wrapper_slider1[4].imagen}}" class="img-responsive"></a></div>
+              </div>
+              <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[5].cliente_website_url}}"><img width="150" height="150" src="{{Wrapper_slider1[5].imagen}}" class="img-responsive"></a></div>
+              </div>
+              <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[6].cliente_website_url}}"><img width="150" height="150" src="{{Wrapper_slider1[6].imagen}}" class="img-responsive"></a></div>
+              </div>
+              <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[7].cliente_website_url}}"><img width="150" height="150" src="{{Wrapper_slider1[7].imagen}}" class="img-responsive"></a></div>
+              </div>
+            </div>
+            <a class="left carousel-control" data-target="#carouselclientes1" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+            <a class="right carousel-control" data-target="#carouselclientes1" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+          </div>-->
+        </div>
+        <div class="hidden-xs" style="margin-bottom:50px"></div>
+        <div class="col-md-12">
+          <ui-carousel slides="Wrapper_slider2" slides-to-show="4" slides-to-scroll="1">
+            <carousel-item>
+              <a href="{{item.cliente_website_url}}"><img width="150" height="150" src="{{item.imagen}}" class="img-responsive"></a>
+            </carousel-item>
+          </ui-carousel>
+          <!--<div class="carousel carousel-showmanymoveone slide" id="carouselclientes2">
+            <div class="carousel-inner">
+              <div class="item active">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[8].cliente_website_url}}"><img width="150" height="150" src="{{API_PATH_MEDIA}}{{Wrapper_slider1[8].imagen}}" class="img-responsive"></a></div>
+              </div>
+              <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[9].cliente_website_url}}"><img width="150" height="150" src="{{API_PATH_MEDIA}}{{Wrapper_slider1[9].imagen}}" class="img-responsive"></a></div>
+              </div>
+              <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[10].cliente_website_url}}"><img width="150" height="150" src="{{API_PATH_MEDIA}}{{Wrapper_slider1[10].imagen}}" class="img-responsive"></a></div>
+              </div>
+              <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[11].cliente_website_url}}"><img width="150" height="150" src="{{API_PATH_MEDIA}}{{Wrapper_slider1[11].imagen}}" class="img-responsive"></a></div>
+              </div>
+              <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[12].cliente_website_url}}"><img width="150" height="150" src="{{API_PATH_MEDIA}}{{Wrapper_slider1[12].imagen}}" class="img-responsive"></a></div>
+              </div>
+              <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[13].cliente_website_url}}"><img width="150" height="150" src="{{API_PATH_MEDIA}}{{Wrapper_slider1[13].imagen}}" class="img-responsive"></a></div>
+              </div>
+              <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[14].cliente_website_url}}"><img width="150" height="150" src="{{API_PATH_MEDIA}}{{Wrapper_slider1[14].imagen}}" class="img-responsive"></a></div>
+              </div>
+              <div class="item">
+                <div class="col-xs-12 col-sm-6 col-md-3"><a href="{{Wrapper_slider1[15].cliente_website_url}}"><img width="150" height="150" src="{{API_PATH_MEDIA}}{{Wrapper_slider1[15].imagen}}" class="img-responsive"></a></div>
+              </div>
+            </div>
+            <a class="left carousel-control" data-target="#carouselclientes2" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+            <a class="right carousel-control" data-target="#carouselclientes2" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+          </div>-->
+        </div>
+      </div>
+
+      <div class="col-xs-12 hidden-lg">
+        <a class="btn btn-default">
+          <span ng-if="idiomaLocal == 'es_MX'" ui-sref="clientes({idioma:'es'})">
+            Nuestros clientes
+          </span>
+          <span ng-if="idiomaLocal == 'en_EN'" ui-sref="clientes({idioma:'en'})">
+            Our clients
+          </span>
+          <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="clientes({idioma:'pt'})">
+            Nossos clientes
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container text-center margin-bottom visible-lg">
+    <div class="col-xs-12 col-lg-6">
+      <a href="" class="btn btn-default">
+        <span ng-if="idiomaLocal == 'es_MX'" ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'es'})">
+          Todas las vacantes
+        </span>
+        <span ng-if="idiomaLocal == 'en_EN'" ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'en'})">
+          All vacancies
+        </span>
+        <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'pt'})">
+          Todas as vagas
+        </span>
+      </a>
+    </div>
+    <div class="col-xs-12 col-lg-6">
+      <a href="" class="btn btn-default">
+        <span ng-if="idiomaLocal == 'es_MX'" ui-sref="clientes({idioma:'es'})">
+          Nuestros clientes
+        </span>
+        <span ng-if="idiomaLocal == 'en_EN'" ui-sref="clientes({idioma:'en'})">
+          Our clients
+        </span>
+        <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="clientes({idioma:'pt'})">
+          Nossos clientes
+        </span>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="container">
+      <div class="col-xs-12 col-lg-6 banner-verde" style="padding-left: 0; padding-right: 0;">
+        <a href ui-sref="organizaciones({scrollTo: 'servicios'})">
+          <img ng-if="idiomaLocal == 'es_MX'" class="img-responsive" src="{{API_PATH_MEDIA}}{{quehacemos[0].imagen}}" alt="">
+          <img ng-if="idiomaLocal == 'en_EN'" class="img-responsive" src="{{API_PATH_MEDIA}}{{quehacemos[0].imagen_en}}" alt="">
+          <img ng-if="idiomaLocal == 'pt_BR'" class="img-responsive" src="{{API_PATH_MEDIA}}{{quehacemos[0].imagen_pt}}" alt="">
+        </a>
+      </div>
+      <div class="col-xs-12 col-lg-6 banner-rosa" style="padding-left: 0; padding-right: 0;">
+        <a href="/comofuncionahead">
+          <img ng-if="idiomaLocal == 'es_MX'" class="img-responsive" src="{{API_PATH_MEDIA}}{{comofunciona[0].imagen}}" alt="">
+          <img ng-if="idiomaLocal == 'en_EN'" class="img-responsive" src="{{API_PATH_MEDIA}}{{comofunciona[0].imagen_en}}" alt="">
+          <img ng-if="idiomaLocal == 'pt_BR'" class="img-responsive" src="{{API_PATH_MEDIA}}{{comofunciona[0].imagen_pt}}" alt="">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="container">
+      <div class="col-xs-12 col-lg-6" style="padding-left: 0; padding-right: 0;" ng-repeat="pro in regorg">
+        <img class="img-responsive" src="{{API_PATH_MEDIA}}{{pro.imagen}}" />
+        <div class="carousel-caption">
+          <h3>
+            <span class="negrita">
+              <span ng-if="idiomaLocal == 'es_MX'">
+                {{pro.mensaje}}
+              </span>
+              <span ng-if="idiomaLocal == 'en_EN'">
+                {{pro.mensaje_en}}
+              </span>
+              <span ng-if="idiomaLocal == 'pt_BR'">
+                {{pro.mensaje_pt}}
+              </span>
+            </span>
+          </h3>
+          <br class="hidden-lg" />
+        </div>
+        <div class="carousel-caption-boton">
+          <a class="btn btn-lg btn-primary btn-banner">
+            <span ng-if="idiomaLocal == 'es_MX'" ui-sref="registro({user: 'organizacion', idioma: 'es'})">
+              {{pro.mensaje_boton}}
+            </span>
+            <span ng-if="idiomaLocal == 'en_EN'" ui-sref="registro({user: 'organizacion', idioma: 'en'})">
+              {{pro.mensaje_boton_en}}
+            </span>
+            <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="registro({user: 'organizacion', idioma: 'pt'})">
+              {{pro.mensaje_boton_pt}}
+            </span>
+          </a>
+        </div>
+      </div>
+      <div class="col-xs-12 col-lg-6" style="padding-left: 0; padding-right: 0;" ng-repeat="pro in regpro">
+        <img class="img-responsive" src="{{API_PATH_MEDIA}}{{pro.imagen}}" />
+        <div class="carousel-caption">
+          <h3>
+            <span class="negrita">
+              <span ng-if="idiomaLocal == 'es_MX'">
+                {{pro.mensaje}}
+              </span>
+              <span ng-if="idiomaLocal == 'en_EN'">
+                {{pro.mensaje_en}}
+              </span>
+              <span ng-if="idiomaLocal == 'pt_BR'">
+                {{pro.mensaje_pt}}
+              </span>
+            </span>
+          </h3>
+          <br class="hidden-lg" />
+        </div>
+        <div class="carousel-caption-boton">
+          <a class="btn btn-lg btn-primary btn-banner">
+            <span ng-if="idiomaLocal == 'es_MX'" ui-sref="registro({user: 'postulante', idioma: 'es'})">
+              {{pro.mensaje_boton}}
+            </span>
+            <span ng-if="idiomaLocal == 'en_EN'" ui-sref="registro({user: 'postulante', idioma: 'en'})">
+              {{pro.mensaje_boton_en}}
+            </span>
+            <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="registro({user: 'postulante', idioma: 'en'})">
+              {{pro.mensaje_boton_pt}}
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row margin-bottom">
+    <div class="container margin-bottom">
+      <div class="col-xs-12 col-lg-6 text-center">
+        <h1>
+          <span class="negrita">
+            <span ng-if="idiomaLocal == 'es_MX'">
+              Noticias y Contenido
+            </span>
+            <span ng-if="idiomaLocal == 'en_EN'">
+              News and Blog
+            </span>
+            <span ng-if="idiomaLocal == 'pt_BR'">
+              Notícias e Blog
+            </span>
+          </span>
+        </h1>
+        <br />
+        <br />
+        <br />
+        <div class="col-xs-12 col-sm-12 text-left" ng-repeat="blogs in blog | limitTo : 4">
+          <div class="media">
+            <div>
+              <a href="">
+                <img class="img-responsive col-xs-12 col-lg-4" src="{{API_PATH_MEDIA}}{{blogs.imagen}}" alt="">
+              </a>
+            </div>
+            <div class="media-body">
+              <h4 class="negrita" ng-bind-html="blogs.titulo"></h4> <small class="negrita">{{blogs.empresa}}</small>
+              <!--<p ng-bind-html="blogs.descripcion">...</p>-->
+              <!--<div ng-bind-html="blogs.descripcion"></div>-->
+            </div>
+            <div class="text-right">
+              <small>
+                <a href="{{blogs.articulo_url}}" target="_blank">
+                  <span ng-if="idiomaLocal == 'es_MX'">
+                    Ver más...
+                  </span>
+                  <span ng-if="idiomaLocal == 'en_EN'">
+                    See more...
+                  </span>
+                  <span ng-if="idiomaLocal == 'pt_BR'">
+                    Ver mais...
+                  </span>
+                </a>
+              </small>
+            </div>
+          </div>
+          <br />
+        </div>
+        <div class="col-xs-12">
+          <a href="" class="btn btn-default">
+            <span ng-if="idiomaLocal == 'es_MX'" ui-sref="blog({idioma: 'es'})">
+              Ver más...
+            </span>
+            <span ng-if="idiomaLocal == 'en_EN'" ui-sref="blog({idioma: 'en'})">
+              See more...
+            </span>
+            <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="blog({idioma: 'pt'})">
+              Ver mais...
+            </span>
+          </a>
+        </div>
+      </div>
+      <div class="col-xs-12 col-lg-6 text-center">
+        <h1>
+          <span class="negrita">
+            <span ng-if="idiomaLocal == 'es_MX'">
+              Aliados
+            </span>
+            <span ng-if="idiomaLocal == 'en_EN'">
+              Partners
+            </span>
+            <span ng-if="idiomaLocal == 'pt_BR'">
+              Parceiros
+            </span>
+          </span>
+        </h1>
+        <br /><br /><br />
+        <div class="col-xs-12 col-sm-12 margin-bottom">
+          <div ng-repeat="aliado in aliados">
+            <div class="col-xs-12 col-sm-4">
+              <div style="height:120px; width:100%;">
+                <a href="{{aliado.aliado_url}}" target="_blank">
+                  <img src="{{API_PATH_MEDIA}}{{aliado.imagen}}" width="150" height="150" class="img-responsive">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    $('#carouselclientes1').carousel({ interval: 2000 });
+    $('#carouselclientes2').carousel({ interval: 3600 });
+  }());
+
+  (function () {
+    $('.carousel-showmanymoveone .item').each(function () {
+      var itemToClone = $(this);
+
+      for (var i = 1; i < 4; i++) {
+        itemToClone = itemToClone.next();
+
+        // wrap around if at end of item collection
+        if (!itemToClone.length) {
+          itemToClone = $(this).siblings(':first');
+        }
+
+        // grab item, clone, add marker class, add to collection
+        itemToClone.children(':first-child').clone()
+          .addClass("cloneditem-" + (i))
+          .appendTo($(this));
+      }
+    });
+  }());
+</script>

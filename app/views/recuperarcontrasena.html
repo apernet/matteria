@@ -1,0 +1,40 @@
+﻿<div class="row margin-bottom banner-verde">
+    <div class="container">
+        <br />
+        <div class="col-xs-12 text-center">
+            <h2 class="negrita">¿Olvidaste tu contraseña?</h2>
+            <p>No te preocupes, a todos nos pasa. Solo introduce tu correo electrónico con el que te registraste, para que recibas todas las instrucciones para recuperar tu cuenta.</p>
+            <br />
+        </div>
+
+    </div>
+</div>
+<div class="container margin-bottom">
+    <form name="formRecuperar">
+        <div class="col-xs-12 text-center">
+            <h2 class="negrita"> Ingresa tu email para restablecer tu contraseña</h2>
+        </div>
+        <div class="col-xs-12 col-lg-6 col-lg-offset-3 margin-bottom">
+
+            <md-input-container class="md-block">
+                <label>Correo eléctronico</label>
+                <input type="email" name="recuperar" ng-model="ingresaOrganizacion.recuperar" required md-no-asterisk minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/">
+                <div ng-messages="formRecuperar.recuperar.$error">
+                    <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                        No es un mail valido.
+                    </div>
+                    <div ng-message="required">Campo requerido.</div>
+                </div>
+
+                <!--<input type="email" md-maxlength="30" required md-no-asterisk name="contrasena" ng-model="ingresaOrganizacion.contrasena">
+                <div ng-messages="formloginOrganizacion.contrasena.$error">
+                    <div ng-message="required">Campo requerido.</div>
+                    <div ng-message="md-maxlength">El nombre de la organizacion no puede ser mayor a 30 caracteres.</div>
+                </div>-->
+            </md-input-container>
+            <div class="col-xs-12 text-center">
+                <button class="btn btn-lg btn-primary btn-registrate" ng-click="recuperarcontrasena($event);">Recuperar</button>
+            </div>
+        </div>
+    </form>
+</div>

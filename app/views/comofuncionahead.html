@@ -1,0 +1,58 @@
+
+<div id="comofunciona" class="row margin-bottom">
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <img class="img-responsive" src="{{API_PATH_MEDIA}}{{sllider[0].imagen}}" />
+        <div class="carousel-caption">
+          <span class="negrita visible-lg"><span ng-if="idiomaLocal == 'es_MX'">{{sllider[0].mensaje_imagen}}</span><span ng-if="idiomaLocal == 'en_EN'">{{sllider[0].mensaje_imagen_en}}</span><span ng-if="idiomaLocal == 'pt_BR'">{{sllider[0].mensaje_imagen_pt}}</span></span>
+        </div>
+        <div class="carousel-caption-boton">
+          <a href="/registro/postulante" class="btn btn-lg btn-primary btn-banner"><span ng-if="idiomaLocal == 'es_MX'">{{sllider[0].mensaje_boton}}</span><span ng-if="idiomaLocal == 'en_EN'">{{sllider[0].mensaje_boton_en}}</span><span ng-if="idiomaLocal == 'pt_BR'">{{sllider[0].mensaje_boton_pt}}</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+</div>
+<div class="row">
+  <div class="col-xs-12 text-center">
+    <h2>
+      <span class="negrita">
+        <span ng-if="idiomaLocal == 'es_MX'">
+          ¿Como funciona?
+        </span>
+        <span ng-if="idiomaLocal == 'en_EN'">
+          How it works
+        </span>
+        <span ng-if="idiomaLocal == 'pt_BR'">
+          Como funciona?
+        </span>
+      </span>
+    </h2>
+    <br />
+  </div>
+</div>
+<div ng-cloak class="row">
+  <div class="margin-bottom text-left">
+    <v-accordion id="accordionA" class="vAccordion--default" control="accordionA" onexpand="expandCallback(index, id)" oncollapse="collapseCallback(index, id)">
+      <v-pane ng-repeat="hacemos in comofunciona" id="pane-{{hacemos.titulo}}" style="background-color:{{hacemos.color}}; color:#fff">
+        <v-pane-header id="pane-{{hacemos.titulo}}-header" aria-controls="pane-{{hacemos.titulo}}-content" class="container visible-lg visible-md">
+          <span class="negrita"><img class="img-responsive" width="100" height="100" src="{{API_PATH_MEDIA}}{{hacemos.imagen}}" /></span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:large"><span ng-if="idiomaLocal == 'es_MX'">{{hacemos.titulo}}</span><span ng-if="idiomaLocal == 'en_EN'">{{hacemos.titulo_en}}</span><span ng-if="idiomaLocal == 'pt_BR'">{{hacemos.titulo_pt}}</span></span>
+        </v-pane-header>
+        <v-pane-header id="pane-{{hacemos.titulo}}-header" aria-controls="pane-{{hacemos.titulo}}-content" class="container hidden-lg hidden-md text-center">
+          <span class="negrita"><img class="img-responsive" width="80" height="80" src="{{API_PATH_MEDIA}}{{hacemos.imagen}}" /></span><br /><span style="font-size:large"><span ng-if="idiomaLocal == 'es_MX'">{{hacemos.titulo}}</span><span ng-if="idiomaLocal == 'en_EN'">{{hacemos.titulo_en}}</span><span ng-if="idiomaLocal == 'pt_BR'">{{hacemos.titulo_pt}}</span></span>
+        </v-pane-header>
+        <v-pane-content id="pane-{{hacemos.titulo}}-content" aria-labelledby="pane-{{hacemos.titulo}}-header">
+          <div class="container text-left">
+            <br />
+            <h4><span ng-if="idiomaLocal == 'es_MX'" ng-bind-html="hacemos.descripcion"></span><span ng-if="idiomaLocal == 'en_EN'" ng-bind-html="hacemos.descripcion_en"></span><span ng-if="idiomaLocal == 'pt_BR'" ng-bind-html="hacemos.descripcion_pt"></span></h4>
+            <br />
+          </div>
+        </v-pane-content>
+      </v-pane>
+    </v-accordion>
+  </div>
+</div>

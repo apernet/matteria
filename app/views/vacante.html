@@ -1,0 +1,181 @@
+
+<div class="row margin-bottom">
+    <div class="container">
+        <br />
+        <br />
+        <div id="dialog-confirm" ng-show="dialog">
+            <h2 class="md-title negrita text-center">¿Cuál es tu expectativa salarial?</h2>
+            <md-input-container class="md-block" style="margin-bottom:5px">
+                <label>Rango Salarial (USD): </label>
+            </md-input-container>
+            <br />
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Desde</label>
+                    <input name="desde" ng-model="desde">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Hasta</label>
+                    <input name="hasta" ng-model="hasta">
+                </md-input-container>
+            </div>
+        </div>
+
+        <div id="dialog-confirm-validacion" ng-show="dialogvalidacion">
+          <h2 class="md-title negrita text-center">Para poder postular es necesario llenar los siguientes datos</h2>
+          <md-input-container class="md-block" style="margin-bottom:5px">
+            <span ng-if="completud.first_name == null">Nombre completo<br /></span>
+            <span ng-if="completud.last_name == null">Apellidos completos<br /></span>
+            <span ng-if="completud.email == null">Email<br /></span>
+            <span ng-if="completud.cellphone_number == null || completud.cellphone_number == ''">Número de móvil<br /></span>
+            <span ng-if="completud.WorkSocialExp_candidate.length == 0">Al menos una experiencia laboral<br /></span>
+            <span ng-if="completud.Education_candidate.length == 0">Al menos un centro de educación<br /></span><br />
+          </md-input-container>
+        </div>
+
+        <div class="col-xs-12 thumbnail-vacantes-interna">
+            <div class="col-lg-6 margin-bottom">
+                <button class="btn btn-lg btn-primary" ng-click="doTheBack()"><i class="fa fa-angle-left" aria-hidden="true"></i> Volver</button>
+            </div>
+            <div class="col-xs-12 margin-bottom">
+                <br />
+                <md-divider></md-divider>
+                <br /><br />
+            </div>
+            <div class="col-xs-12 margin-bottom">
+                <div class="col-xs-12 col-md-3 text-left">
+                    <div class="col-xs-12">
+                        <img class="img-responsive" src="{{API_PATH_MEDIA}}{{vacante.company_logo}}" ng-if="!vacante.keep_company_alias" />
+                        <img class="img-responsive" src="{{API_PATH_MEDIA}}/media/avatar_default/Avatar.jpg" ng-if="vacante.keep_company_alias" />
+                    </div>
+                </div>
+                <div class="col-xs-9 margin-bottom">
+                    <div class="col-xs-12">
+                        <h1 ng-if="!vacante.keep_company_alias">{{vacante.company}}</h1>
+                        <h1 ng-if="vacante.keep_company_alias">{{vacante.alternate_company_alias}}</h1>
+                        <h4>{{vacante.name}}</h4>
+                        <h4 style="margin-top: 1px;">{{compania.company_type.name}}</h4>
+                    </div>
+                    <div class="col-xs-12 col-lg-6 margin-bottom">
+                        <ul style="list-style-type: none; padding: 0">
+                            <li><span class="negrita">Profesiones: </span><span ng-repeat="profesiones in vacante.professions">{{profesiones.name}}, </span></li>
+                            <li><span class="negrita">Nivel de experiencia: </span>{{vacante.years_experience}} años</li>
+                            <li><span class="negrita">Ciudad, país: </span>{{vacante.city}} <span ng-if="vacante.city">,</span> {{vacante.country.name}}</li>
+                            <li ng-if="!vacante.private_salary"><span class="negrita">Salario: </span>{{vacante.salary}} USD</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12 col-lg-6 margin-bottom">
+                        <ul style="list-style-type: none; padding: 0">
+                            <li><span class="negrita">Jornada: </span>{{vacante.avaliability}}</li>
+                            <li><span class="negrita">Fecha publicación: </span>{{vacante.open_opening}}</li>
+                            <li><span class="negrita">Fecha cierre: </span>{{vacante.close_opening}}</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12">
+                        <br />
+                        <!--<script>
+                            function face(url, descripcion) {
+                                
+                            }
+                            
+                        </script>-->
+                        <button class="btn btn-lg btn-primary btn-registrate " ng-click="postula($event);" ng-show="!postulado && role != 'ORGANIZACION'" ng-disabled="isClick">¡Aplicar!</button>
+                        <a ng-if="!vacante.keep_company_alias" href="#" ng-click="face(vacante.id, vacante.company + '-' + vacante.name, vacante.company_logo);">
+                            <img width="30" height="30" src="images/redes_sociales/sociales-02.png" />
+                        </a>
+                        <a ng-if="vacante.keep_company_alias" href="#" ng-click="face(vacante.id, vacante.alternate_company_alias + '-' + vacante.name, '/media/avatar_default/Avatar.jpg');">
+                            <img width="30" height="30" src="images/redes_sociales/sociales-02.png" />
+                        </a>
+                        <!--<a href={{vacante.company_social_facebook}} target="_blank">
+
+                        </a>-->
+                        <a href="#"
+                           socialshare
+                           socialshare-provider="twitter"
+                           socialshare-text="{{vacante.company}}{{vacante.name}}"
+                           socialshare-hashtags="matteria, {{vacante.company}}"
+                           socialshare-url="http://matteria.co/vacante/{{vacante.id}}">
+                            <img width="30" height="30" src="images/redes_sociales/sociales-03.png" />
+                        </a>
+                        <!--<a href={{vacante.company_socia.l_twitter}} target="_blank">
+
+                        </a>-->
+                        <a href="{{vacante.company_social_instagram}}" target="_blank">
+                            <img width="30" height="30" src="images/redes_sociales/sociales-04.png" />
+                        </a>
+                        <a href="{{vacante.company_social_linkedin}}" target="_blank">
+                            <img width="30" height="30" src="images/redes_sociales/sociales-05.png" />
+                        </a>
+                        <!--<i class="btn btn-lg fa fa-linkedin-square fa-2x" style="color:#86BC40; padding-right:0" aria-hidden="true"></i>
+                        <i class="btn btn-lg fa fa-facebook-square fa-2x" style="color:#86BC40; padding-left:0; padding-right:0" aria-hidden="true"></i>
+                        <i class="btn btn-lg fa fa fa-twitter-square fa-2x" style="color:#86BC40; padding-left:0; padding-right:0" aria-hidden="true"></i>-->
+                        <a href={{vacanteurl}}>
+                            <img width="30" height="30" src="../images/redes_sociales/Enviar.png" />
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-12 margin-bottom">
+                    <br />
+                    <br />
+                    <h4 ng-if="!vacante.keep_company_alias" class="negrita"><span>¿Quienes somos?</span></h4>
+                    <p ng-if="!vacante.keep_company_alias" ng-bind-html="compania.description"></p>
+                    <!--<p ng-if="vacante.keep_company_alias">{{vacante.alternate_company_description}}</p>-->
+                    <md-divider ng-if="!vacante.keep_company_alias"></md-divider>
+                    <br ng-if="!vacante.keep_company_alias" />
+                    <br ng-if="!vacante.keep_company_alias" />
+                    <h4 ng-if="!vacante.keep_company_alias" class="negrita"><span>¿Cual es nuestro impacto?</span></h4>
+                    <p ng-if="!vacante.keep_company_alias" ng-bind-html="compania.our_impactinfo"></p>
+                    <md-divider ng-if="!vacante.keep_company_alias"></md-divider>
+                    <br ng-if="!vacante.keep_company_alias" />
+                    <br ng-if="!vacante.keep_company_alias" />
+                    <h4 class="negrita"><span>Propósito del cargo</span></h4>
+                    <p class="text-left" ng-bind-html="vacante.activities"></p>
+                    <!--<p ng-bind-html="vacante.activities"></p>-->
+                    <md-divider></md-divider>
+                    <br />
+                    <br />
+                    <h4 class="negrita"><span>Principales responsabilidades</span></h4>
+                    <p ng-bind-html="vacante.responsabilities"></p>
+                    <md-divider></md-divider>
+                    <br />
+                    <br />
+                    <h4 class="negrita"><span>Requisitos y competencias para trabajar con nosotros</span></h4>
+                    <p ng-bind-html="vacante.key_skills"></p>
+                    <md-divider></md-divider>
+                    <br />
+                    <br />
+                    <h4 class="negrita"><span>Perfil de nuestro equipo de trabajo</span></h4>
+                    <p ng-bind-html="vacante.team_profile"></p>
+                    <md-divider></md-divider>
+                    <br />
+                    <br />
+                    <h4 class="negrita"><span>Intereses clave para trabajar con nosotros</span></h4>
+                    <p ng-repeat="intereses in vacante.interests"><i class="fa fa-check" aria-hidden="true"></i> {{intereses.name}} </p>
+                    <md-divider></md-divider>
+                    <br />
+                    <br />
+                    <h4 class="negrita"><span>Razones para sumarte a nuestro equipo (Qué ofrecemos)</span></h4>
+                    <p ng-bind-html="vacante.perks"></p>
+                    <md-divider></md-divider>
+                    <br />
+                    <br />
+                    <h4 class="negrita"><span>Detalles relevantes antes de postular a esta vacante</span></h4>
+                    <p ng-bind-html="vacante.relevant_details"></p>
+                    <md-divider></md-divider>
+                </div>
+                <div class="col-xs-12 text-center margin-bottom">
+                    <button class="btn btn-lg btn-primary btn-registrate" ng-click="postula();" ng-show="!postulado && role == 'POSTULANTE'" ng-disabled="isClick">¡Aplicar!</button>
+                </div>
+                <div class="col-xs-12 text-center margin-bottom">
+                    <img width="30" height="30" src="images/redes_sociales/sociales-02.png" />
+                    <img width="30" height="30" src="images/redes_sociales/sociales-03.png" />
+                    <img width="30" height="30" src="images/redes_sociales/sociales-04.png" />
+                    <img width="30" height="30" src="images/redes_sociales/sociales-05.png" />
+                    <a href={{vacanteurl}}>
+                        <img width="30" height="30" src="../images/redes_sociales/Enviar.png" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

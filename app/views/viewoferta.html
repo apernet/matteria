@@ -1,0 +1,404 @@
+﻿<script type="text/javascript">
+  $.datepicker.regional['es'] = {
+    closeText: 'Cerrar',
+    prevText: '< Ant',
+    nextText: 'Sig >',
+    currentText: 'Hoy',
+    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+    weekHeader: 'Sm',
+    dateFormat: 'dd/mm/yy',
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: ''
+  };
+  $.datepicker.setDefaults($.datepicker.regional['es']);
+  $(function () {
+    $(".datepickers").datepicker({
+      dateFormat: "dd-mm-yy",
+      appendText: "(dd-mm-yyyy)",
+      yearRange: "1930:+nn",
+      autoclose: true,
+      todayHighlight: true,
+      toggleActive: true,
+      changeMonth: true,
+      changeYear: true,
+      autoSize: true
+
+    })
+  });
+</script>
+<form name="formOfertas">
+  <br />
+  <div class="container">
+
+    <div class="col-xs-12 border-perfil margin-bottom">
+      <div class="col-xs-12 col-lg-5">
+        <h2>Publicar oferta</h2>
+      </div>
+      <div class="col-xs-12 border-separacion margin-bottom">
+      </div>
+
+      <div class="col-xs-12">
+        <div class="col-xs-3 margin-bottom">
+          <md-input-container class="md-block">
+            <md-checkbox ng-model="oferta.keep_company_alias" aria-label="Checkbox1">
+              Usar alias
+            </md-checkbox>
+          </md-input-container>
+        </div>
+        <div class="col-xs-9 margin-bottom">
+          <md-input-container class="md-block">
+            <label>Alias</label>
+            <input name="alternate_company_alias" ng-model="oferta.alternate_company_alias" ng-disabled="!oferta.keep_company_alias">
+
+          </md-input-container>
+        </div>
+        <!--<div class="col-xs-12">
+          <md-input-container class="md-block input-margin">
+            <label>Descripcion alternativa</label>
+            <textarea ng-model="oferta.alternate_company_description" rows="1" md-select-on-focus ng-disabled="!oferta.keep_company_alias"></textarea>
+          </md-input-container>
+        </div>-->
+
+        <div class="col-xs-12">
+          <div class="col-lg-6 col-xs-12">
+            <md-input-container class="md-block">
+              <label>Nombre de vacante <span style="color:dodgerblue">*</span></label>
+              <input required md-no-asterisk name="name" ng-model="oferta.name">
+              <div ng-messages="formOfertas.name.$error">
+                <div ng-message="required">Campo requerido.</div>
+              </div>
+            </md-input-container>
+          </div>
+          <div class="col-lg-6 col-xs-12">
+            <md-input-container class="md-block">
+              <label>Tipo de vacante</label>
+              <md-select ng-model="oferta.opening_types" aria-label="tipo">
+                <md-option ng-repeat="tipo in tipovacante" ng-value="tipo.id" ng-selected="tipo.id == oferta.opening_type.id">
+                  {{tipo.name}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+        </div>
+
+        <div class="col-xs-12">
+          <div class="col-lg-6 col-xs-12">
+            <md-input-container class="md-block">
+              <label>País</label>
+              <md-select ng-model="oferta.countrys" aria-label="country">
+                <md-option selected ng-value="0"><em>Todos</em></md-option>
+                <md-option ng-repeat="pais in paises" ng-value="pais.id" ng-selected="pais.id == oferta.country.id">
+                  {{pais.name}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+          <div class="col-lg-6 col-xs-12">
+            <md-input-container class="md-block">
+              <label>Ciudad<span style="color:dodgerblue">*</span></label>
+              <input required md-no-asterisk name="city" ng-model="oferta.city">
+              <div ng-messages="formOfertas.city.$error">
+                <div ng-message="required">Campo requerido.</div>
+              </div>
+            </md-input-container>
+          </div>
+        </div>
+
+        <div class="col-xs-12">
+          <div class="col-lg-4 col-xs-12">
+            <md-input-container class="md-block">
+              <label>Años de experiencia en el cargo <span style="color:dodgerblue">*</span></label>
+              <input required md-no-asterisk name="years_experience_opening" ng-model="oferta.years_experience_opening">
+              <div ng-messages="formOfertas.years_experience_opening.$error">
+                <div ng-message="required">Campo requerido.</div>
+              </div>
+            </md-input-container>
+          </div>
+          <div class="col-lg-4 col-xs-12">
+            <md-input-container class="md-block">
+              <label>Años de experiencia<span style="color:dodgerblue">*</span></label>
+              <input required md-no-asterisk name="years_experience" ng-model="oferta.years_experience">
+              <div ng-messages="formOfertas.years_experience.$error">
+                <div ng-message="required">Campo requerido.</div>
+              </div>
+            </md-input-container>
+          </div>
+          <div class="col-lg-4 col-xs-12">
+            <md-input-container class="md-block">
+              <label>Jornada</label>
+              <md-select ng-model="oferta.avaliability">
+                <md-option selected ng-value="0"><em>Todos</em></md-option>
+                <md-option value="Full-time">Tiempo completo</md-option>
+                <md-option value="Part-time">Medio tiempo</md-option>
+                <md-option value="Freelance">Independiente</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+        </div>
+
+        <div class="col-xs-12">
+          <div class="col-lg-4 col-xs-12">
+            <md-input-container class="md-block">
+              <label>Salario<span style="color:dodgerblue">*</span></label>
+              <input required md-no-asterisk name="salary" ng-model="oferta.salary">
+              <div ng-messages="formOfertas.salary.$error">
+                <div ng-message="required">Campo requerido.</div>
+              </div>
+            </md-input-container>
+          </div>
+          <div class="col-lg-4 col-xs-12">
+            <md-input-container class="md-block">
+              <label>Moneda</label>
+              <md-select ng-model="oferta.currencys" aria-label="currency">
+                <md-option selected ng-value="0"><em>Todos</em></md-option>
+                <md-option ng-repeat="divisa in divisas" ng-value="divisa.id" ng-selected="divisa.id == oferta.currency.id">
+                  {{divisa.abreviation}} - {{divisa.name}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+          <div class="col-lg-4 col-xs-12">
+            <md-input-container class="md-block">
+              <md-checkbox ng-model="oferta.private_salary" aria-label="Checkbox1">
+                Salario privado
+              </md-checkbox>
+            </md-input-container>
+          </div>
+        </div>
+
+        <div class="col-xs-12">
+          <div class="col-lg-4 col-xs-12">
+            <md-input-container class="md-block">
+              <label>Fecha de nacimiento <span style="color:dodgerblue">*</span></label>
+              <input type="text" class="datepickers" required md-no-asterisk name="open_opening" ng-model="oferta.open_opening">
+              <div ng-messages="formDatosGenerales.open_opening.$error">
+                <div ng-message="required">Campo requerido.</div>
+              </div>
+            </md-input-container>
+          </div>
+          <div class="col-lg-4 col-xs-12">
+            <md-input-container class="md-block">
+              <label>Fecha de nacimiento <span style="color:dodgerblue">*</span></label>
+              <input type="text" class="datepickers" required md-no-asterisk name="close_opening" ng-model="oferta.close_opening">
+              <div ng-messages="formDatosGenerales.open_opening.$error">
+                <div ng-message="required">Campo requerido.</div>
+              </div>
+            </md-input-container>
+          </div>
+          <div class="col-lg-4 col-xs-12">
+            <md-input-container class="md-block">
+              <label>Tipo de contrato</label>
+
+              <md-select ng-model="oferta.hire_type">
+                <md-option selected ng-value="0"><em>Todos</em></md-option>
+                <md-option value="Término indefinido">Término indefinido</md-option>
+                <md-option value="Plazo fijo">Plazo fijo</md-option>
+                <md-option value="Prestación servicios">Prestación servicios</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+        </div>
+        <div class="col-xs-12 margin-bottom">
+          <div class="col-xs-12" style="padding:0">
+            <span layout="row">
+              <h2>
+                Propósito del cargo
+              </h2>
+              &nbsp;&nbsp;
+              <div class="tooltip_sitio visible-lg" style="margin-top: 20px; margin-bottom: 10px">
+                <i class="fa fa-question-circle" aria-hidden="true" style="color:#337ab7"></i>
+                <span class="tooltiptext tooltip-right">Descripción general del rol, su relevancia y su impacto dentro de la organización.</span>
+              </div>
+            </span>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="col-xs-12">
+
+            <md-input-container class="md-block input-margin" ng-class="textarea">
+              <text-angular id="oferta.activities" ng-model="oferta.activities" rows="1" required></text-angular>
+              <!--<label>Misión del cargo <span style="color:dodgerblue">*</span></label>
+              <textarea name="activities" ng-model="oferta.activities" md-maxlength="2000" rows="1" required md-no-asterisk></textarea>-->
+              <!--<div ng-messages="formOfertas.activities.$error">
+                  <div ng-message="required">Campo requerido.</div>
+              </div>-->
+
+            </md-input-container>
+          </div>
+        </div>
+        <div class="col-xs-12 margin-bottom">
+          <div class="col-xs-12" style="padding:0">
+            <span layout="row">
+              <h2>
+                Principales responsabilidades
+              </h2>
+              &nbsp;&nbsp;
+              <div class="tooltip_sitio visible-lg" style="margin-top: 20px; margin-bottom: 10px">
+                <i class="fa fa-question-circle" aria-hidden="true" style="color:#337ab7"></i>
+                <span class="tooltiptext tooltip-right">Principales áreas de responsabilidad, tareas, relación con otros equipos, alcance de decisiones y expectativas sobre la posición.</span>
+              </div>
+            </span>
+          </div>
+        </div>
+
+        <div class="col-xs-12">
+          <div class="col-xs-12">
+            <md-input-container class="md-block input-margin visible-lg">
+
+              <text-angular ng-model="oferta.responsabilities" rows="1"></text-angular>
+
+            </md-input-container>
+          </div>
+        </div>
+        <div class="col-xs-12 margin-bottom">
+          <div class="col-xs-12" style="padding:0">
+            <span layout="row">
+              <h2>
+                Competencias clave para trabajar con nosotros
+              </h2>
+              &nbsp;&nbsp;
+              <div class="tooltip_sitio visible-lg" style="margin-top: 20px; margin-bottom: 10px">
+                <i class="fa fa-question-circle" aria-hidden="true" style="color:#337ab7"></i>
+                <span class="tooltiptext tooltip-right">Competencias y Habilidades para la vacante    Experiencias, estudios, especializaciones y capacitaciones necesarias o deseables para la posición.</span>
+              </div>
+            </span>
+          </div>
+        </div>
+
+        <div class="col-xs-12">
+          <div class="col-xs-12">
+            <md-input-container class="md-block input-margin visible-lg">
+              <text-angular ng-model="oferta.key_skills" rows="1"></text-angular>
+            </md-input-container>
+
+          </div>
+        </div>
+        <div class="col-xs-12 margin-bottom">
+          <div class="col-xs-12" style="padding:0">
+            <span layout="row">
+              <h2>
+                Perfil de nuestro equipo de trabajo
+              </h2>
+              &nbsp;&nbsp;
+              <div class="tooltip_sitio visible-lg" style="margin-top: 20px; margin-bottom: 10px">
+                <i class="fa fa-question-circle" aria-hidden="true" style="color:#337ab7"></i>
+                <span class="tooltiptext tooltip-right">Aspectos culturales que hacen de este equipo humano algo único. Principales valores, rasgos de personalidad y hábitos que destacan en su día a día.</span>
+              </div>
+            </span>
+          </div>
+        </div>
+
+        <div class="col-xs-12">
+          <div class="col-xs-12">
+            <md-input-container class="md-block input-margin visible-lg">
+              <text-angular ng-model="oferta.team_profile" rows="1"></text-angular>
+            </md-input-container>
+
+          </div>
+        </div>
+
+        <div class="col-xs-12">
+          <h2>Profesiones</h2>
+          <div class="col-xs-12">
+            <md-input-container class="md-block">
+              <label>Buscar</label>
+              <input type="text" name="buscarprofesion" ng-model="buscarprofesion" ng-change="buscarprofesiones();">
+            </md-input-container>
+          </div>
+          <div class="col-xs-12 text-center">
+            <div class="col-xs-6 col-lg-2 text-center" ng-repeat="prof in profesiones | filter: buscarprofesion | limitTo: 5">
+
+              <input type="checkbox" name="checkbox" id="cb-{{prof.name}}" checked ng-show="false">
+              <a style="cursor:pointer; text-decoration:none; padding:15px 10px 10px 10px" class="col-xs-12 dp-btn-boton-interes-exp-sin" id="btn-{{prof.name}}" ng-click="changeclassazul(prof);">{{prof.name}}</a>
+
+            </div>
+            <div class="col-xs-6 col-lg-2 text-center" ng-repeat="profesioneses in oferta.professions">
+
+              <input type="checkbox" name="checkbox" id="cb-{{profesioneses.name}}" ng-show="false">
+              <a style="cursor:pointer; text-decoration:none; padding:15px 10px 10px 10px" class="col-xs-12 dp-btn-boton-interes-exp" id="btn-{{profesioneses.name}}" ng-click="changeclassazul(profesioneses);">{{profesioneses.name}}</a>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-12">
+          <div class="col-xs-12">
+            <h2>Intereses clave</h2>
+          </div>
+
+          <div class="col-xs-6 col-lg-2 text-center" ng-repeat="inte in intereses">
+            <div style="width:100%; height:100px">
+              <input type="checkbox" name="checkbox" id="int-{{inte.name}}" checked ng-show="false">
+              <a style="cursor:pointer; text-decoration:none; padding:10px 5px 10px 5px" class="col-xs-12 dp-btn-boton-interes-exp-sin" id="btnint-{{inte.name}}" ng-click="changeinteres(inte);">{{inte.name}}</a>
+            </div>
+
+          </div>
+          <div class="col-xs-6 col-lg-2 text-center" ng-repeat="interes in oferta.interests">
+            <div style="width:100%; height:100px">
+              <input type="checkbox" name="checkbox" id="int-{{interes.name}}" ng-show="false">
+              <a style="cursor:pointer; text-decoration:none; padding:10px 5px 10px 5px" class="col-xs-12 dp-btn-boton-interes-exp" id="btnint-{{interes.name}}" ng-click="changeinteres(interes);">{{interes.name}}</a>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-xs-12" style="padding:0">
+          <span layout="row">
+            <h2>
+              Razones para sumarte a nuestro equipo (Qué ofrecemos)
+            </h2>
+            &nbsp;&nbsp;
+            <div class="tooltip_sitio visible-lg" style="margin-top: 20px; margin-bottom: 10px">
+              <i class="fa fa-question-circle" aria-hidden="true" style="color:#337ab7"></i>
+              <span class="tooltiptext tooltip-right">Información adicional sobre las oportunidades y ventajas de sumarse a este equipo.</span>
+            </div>
+          </span>
+        </div>
+        <div class="col-xs-12">
+
+          <md-input-container class="md-block input-margin visible-lg">
+            <text-angular ng-model="oferta.perks" rows="1"></text-angular>
+          </md-input-container>
+
+        </div>
+
+        <div class="col-xs-12" style="padding:0">
+          <span layout="row">
+            <h2>
+              Detalles relevantes antes de postular a esta vacante
+            </h2>
+            &nbsp;&nbsp;
+            <div class="tooltip_sitio visible-lg" style="margin-top: 20px; margin-bottom: 10px">
+              <i class="fa fa-question-circle" aria-hidden="true" style="color:#337ab7"></i>
+              <span class="tooltiptext tooltip-right">Información adicional relevante que cada postulante debe saber antes de aplicar.</span>
+            </div>
+          </span>
+        </div>
+        <div class="col-xs-12">
+
+          <md-input-container class="md-block input-margin visible-lg">
+            <text-angular ng-model="oferta.relevant_details" rows="1"></text-angular>
+          </md-input-container>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="col-xs-12 input-margin text-right">
+        <span style="color:dodgerblue">* Campos obligatorios</span>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-xs-12 text-center margin-bottom">
+    <button class="btn btn-lg btn-primary btn-ingresa" ng-click="guardarOferta();">Editar</button>
+    <a href="/misvacantes" class="btn btn-lg btn-primary btn-registrate">Cancelar</a>
+  </div>
+</form>

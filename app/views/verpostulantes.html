@@ -1,0 +1,59 @@
+﻿<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<br />
+<div class="container">
+    <div class="col-xs-12 text-left">
+        <a class="btn btn-lg btn-primary" href="/misvacantes">Regresar</a>
+    </div>
+    <div class="col-xs-12">
+        <h2>Ver postulantes</h2>
+    </div>    
+    <div class="col-xs-12 border-separacion margin-bottom"></div>
+    
+    <div class="col-xs-7 margin-bottom">
+        <br />
+        <md-radio-group layout="row" ng-model="rankingmodel">
+            <md-radio-button value="" class="md-primary"><span style="font-size:large" class="negrita">Todos</span></md-radio-button>
+            <md-radio-button value="1" class="md-primary"><span style="font-size:large" class="negrita">1 estrella</span></md-radio-button>
+            <md-radio-button value="2" class="md-primary"><span style="font-size:large" class="negrita">2 estrellas</span></md-radio-button>
+            <md-radio-button value="3" class="md-primary"><span style="font-size:large" class="negrita">3 estrellas</span></md-radio-button>
+            <md-radio-button value="0" class="md-primary"><span style="font-size:large" class="negrita">Sin ranking</span></md-radio-button>
+
+        </md-radio-group>
+        <br />
+    </div>
+    <div class="col-xs-5 margin-bottom">
+        <md-input-container class="md-block">
+            <label>Buscar </label>
+            <input name="Buscar" ng-model="nombremodel">
+        </md-input-container>
+    </div>
+
+    <div class="margin-bottom"><br /><br /></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-lg-3 margin-bottom" ng-repeat="postulante in postulantes | filterMultiple:{ranking:rankingmodel} | filter:nombremodel">
+                <div style="width:100%; height: 520px;">
+                    <div class="border-postulante margin-bottom">
+                        <h3 style="margin-bottom: 1px;" class="negrita"><a ng-href="/perfilcompartidopostulante/{{postulante.candidate.id}}" target="_blank">{{postulante.candidate.first_name}} {{postulante.candidate.last_name | limitTo: 10}}<span ng-if="postulante.candidate.last_name.length > 10">...</span></a></h3>
+                      <div class="col-xs-12 margin-bottom text-left" style="padding:0;">
+                        <jk-rating-stars max-rating="3" rating="postulante.ranking" on-rating="rateFunction(rating, postulante)">
+                        </jk-rating-stars>
+                      </div>
+                        <p style="margin-top: 3px; margin-bottom: 1px;" class="negrita">{{postulante.candidate.country}}<span ng-if="postulante.candidate.city">, </span> {{postulante.candidate.city | limitTo: 10}} <span ng-if="postulante.candidate.city.length > 10">...</span></p>
+                        <p style="margin-top: 3px; margin-bottom: 1px;" ng-if="infopostulante.info_candidate"><span class="negrita">Telefono: </span><span>{{postulante.phone}}</span>
+                        <p ng-if="infopostulante.info_candidate"><span class="negrita">Email: </span><span>{{postulante.email}}</span>
+                       
+                        <p><span class="negrita">Profesiones: </span><span ng-repeat="profesiones in postulante.candidate.professions | limitTo: 4">{{profesiones.name}}<span ng-show="$index < 2">,</span></span><span ng-if="postulante.candidate.professions.length > 4">...</span></p>
+                        <p><span class="negrita">Cargos: </span><span ng-repeat="cargos in postulante.candidate.puestos | limitTo: 4">{{cargos.title}}<span ng-show="$index < 2">,</span></span><span ng-if="postulante.candidate.puestos.length > 4">...</span></p>
+                        <p><span class="negrita">Educacion: </span><span ng-repeat="educacion in postulante.candidate.education | limitTo: 4">{{educacion.discipline__name}}<span ng-show="$index < 2">,</span></span><span ng-if="postulante.candidate.education.length > 4">...</span></p>
+                        <p><span class="negrita">Salario: </span><span>{{postulante.salary_min}} - {{postulante.salary_max}} (USD)</span>
+                        <div class="col-xs-12 text-center margin-bottom">
+                            <a class="btn btn-md btn-primary" ng-href="/perfilcompartidopostulante/{{postulante.candidate.id}}" target="_blank">Ver perfil</a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>    
+</div>

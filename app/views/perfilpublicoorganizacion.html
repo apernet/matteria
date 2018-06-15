@@ -1,0 +1,105 @@
+﻿<br />
+<div class="container">
+    <div class="col-xs-12">
+        <form name="formOrganizacion">
+            <div class="col-xs-12 border-perfil margin-bottom">
+                <div class="col-xs-12 col-lg-3">
+                    <div class="col-xs-12 text-center margin-bottom">
+                        <img class="img-circle img-responsive img-circle-padding" src="{{API_PATH_MEDIA}}{{company.logo}}" />
+                    </div>
+                </div>
+                <div class="col-xs-12 col-lg-9">
+                    <div class="col-xs-12">
+                        <h2>Datos Organización</h2>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-lg-6 col-xs-12">
+                            <md-input-container class="md-block input-margin">
+                                <label>Nombre organización</label>
+                                <h3>{{company.name}}</h3>
+                            </md-input-container>
+                        </div>
+                        <div class="col-lg-6 col-xs-12">
+                            <md-input-container class="md-block input-margin">
+                                <label>Tipo</label>
+                                <h3>
+                                    {{company.company_type.name}}
+                                </h3>
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-lg-6 col-xs-12">
+                            <md-input-container class="md-block input-margin">
+                                <label>Sitio Web</label>
+                                <h3>{{company.website}}</h3>
+                            </md-input-container>
+
+                        </div>
+                        <div class="col-lg-6 col-xs-12">
+                            <md-input-container class="md-block input-margin">
+                                <label>Ciudad, país</label>
+                                <h3>{{company.city}}<span ng-if="company.city">,</span> {{company.country.name}}</h3>
+                            </md-input-container>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-12">
+                        <div class="col-lg-12">
+                            <md-input-container class="md-block input-margin">
+                                <label>Url personalizada</label>
+                                <h3>{{currentLocation}}/perfilo/{{company.custom_url}}</h3>
+                            </md-input-container>
+                        </div>
+                    </div> 
+
+
+                </div>
+                <div class="col-xs-12">
+                    <h3>Redes Sociales</h3>
+                </div>
+                <div class="col-xs-6 col-lg-6">
+                    <a ng-href="{{company.social_facebook}}" target="_blank"><img width="30" height="30" src="images/redes sociales/Iconos redes sociales-02.png" /></a>
+                    <a ng-href="{{company.social_twitter}}" target="_blank"><img width="30" height="30" src="images/redes sociales/Iconos redes sociales-03.png" /></a>
+                    <a ng-href="{{company.social_instagram}}" target="_blank"><img width="30" height="30" src="images/redes sociales/Iconos redes sociales-04.png" /></a>
+                    <a ng-href="{{company.social_linkedin}}" target="_blank"><img width="30" height="30" src="images/redes sociales/Iconos redes sociales-05.png" /></a>
+                </div>
+            </div>
+
+            <div class="col-xs-12 text-right margin-bottom"></div>
+
+            <div class="col-xs-12 border-perfil margin-bottom">
+                <div class="col-xs-12 col-lg-5">
+                    <div class="col-xs-12">
+                        <h2>Información</h2>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-lg-7">
+
+                </div>
+                <div class="col-xs-12 border-separacion margin-bottom">
+                </div>
+                <div class="col-xs-12 margin-bottom">
+                </div>
+                <div class="col-xs-12">
+                    <md-input-container class="md-block input-margin">
+                        <label>¿Quiénes somos? Descripcion de la organización</label><br />
+                        <h4 ng-bind-html="company.description"></h4>
+                    </md-input-container>
+                </div>
+                <div class="col-xs-12">
+                    <md-input-container class="md-block input-margin">
+                        <label>¿Cuál es nuestro impacto?</label><br />
+                        <h4 ng-bind-html="company.our_impactinfo"></h4>
+                    </md-input-container>
+                </div>
+            </div>
+
+
+            <div class="col-xs-12 text-right margin-bottom"></div>
+        </form>
+        
+
+    </div>
+</div>
+

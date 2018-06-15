@@ -1,0 +1,198 @@
+
+
+<div id="slider" class="row margin-bottom text-center">
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <!-- Wrapper for slides -->
+    <div class="item active">
+      <img class="img-responsive" src="../images/Banner-Quienes-Somos.png" />
+      <div class="carousel-caption">
+        <h2 class="hidden-xs hidden-sm hidden-md">
+          <span ng-if="idiomaLocal == 'es_MX'" class="negrita" ng-bind-html="matteria[0].porqueMateria"></span>
+          <span ng-if="idiomaLocal == 'en_EN'" class="negrita" ng-bind-html="matteria[0].porqueMateria_en"></span>
+          <span ng-if="idiomaLocal == 'pt_BR'" class="negrita" ng-bind-html="matteria[0].porqueMateria_pt"></span>
+        </h2>
+      </div>
+      <div class="carousel-caption-boton" ng-if="idiomaLocal == 'es_MX'">
+        <a ui-sref="quienessomos({scrollTo: 'contacto', idioma:'es'})" class="btn btn-lg btn-primary btn-banner hidden-xs hidden-sm">{{matteria[0].mensajeBoton}}</a>
+        <a ui-sref="quienessomos({scrollTo: 'contacto', idioma:'es'})" class="btn btn-xs btn-primary btn-banner hidden-md hidden-lg">{{matteria[0].mensajeBoton}}</a>
+      </div>
+      <div class="carousel-caption-boton" ng-if="idiomaLocal == 'en_EN'">
+        <a ui-sref="quienessomos({scrollTo: 'contacto', idioma:'en'})" class="btn btn-lg btn-primary btn-banner hidden-xs hidden-sm">{{matteria[0].mensajeBoton_en}}</a>
+        <a ui-sref="quienessomos({scrollTo: 'contacto', idioma:'en'})" class="btn btn-xs btn-primary btn-banner hidden-md hidden-lg">{{matteria[0].mensajeBoton_en}}</a>
+      </div>
+      <div class="carousel-caption-boton" ng-if="idiomaLocal == 'pt_BR'">
+        <a ui-sref="quienessomos({scrollTo: 'contacto', idioma:'pt'})" class="btn btn-lg btn-primary btn-banner hidden-xs hidden-sm">{{matteria[0].mensajeBoton_pt}}</a>
+        <a ui-sref="quienessomos({scrollTo: 'contacto', idioma:'pt'})" class="btn btn-xs btn-primary btn-banner hidden-md hidden-lg">{{matteria[0].mensajeBoton_pt}}</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div class="container col-xs-12 text-right">
+  <a href="{{API_PATH_MEDIA}}/media/reporte_de_gestion_2017.pdf" target="_blank">Reporte de gestión 2017</a>
+</div>-->
+<div id="manifiesto">
+  <div class="container">
+    <div class="col-xs-12 text-center margin-bottom">
+      <h2>
+        <span class="negrita" ng-if="idiomaLocal == 'es_MX'">
+          Manifiesto matteria
+        </span>
+        <span class="negrita" ng-if="idiomaLocal == 'en_EN'">
+          Matteria`s declaration
+        </span>
+        <span class="negrita" ng-if="idiomaLocal == 'pt_BR'">
+          Manifesto da matteria
+        </span>
+      </h2>
+      <br />
+      <h4 ng-if="idiomaLocal == 'es_MX'" style="text-align:justify" ng-bind-html="matteria[0].manifiesto"></h4>
+      <h4 ng-if="idiomaLocal == 'en_EN'" style="text-align:justify" ng-bind-html="matteria[0].manifiesto_en"></h4>
+      <h4 ng-if="idiomaLocal == 'pt_BR'" style="text-align:justify" ng-bind-html="matteria[0].manifiesto_pt"></h4>
+    </div>
+    <div class="col-xs-12 text-center margin-bottom">
+      <h2><span class="negrita" ng-if="idiomaLocal == 'es_MX'">Por qué Matteria</span><span class="negrita" ng-if="idiomaLocal == 'en_EN'">Why matteria</span><span class="negrita" ng-if="idiomaLocal == 'pt_BR'">Por que escolher a matteria?</span></h2>
+      <br />
+    </div>
+  </div>
+</div>
+<div class="margin-bottom">
+  <div class="container">
+    <div class="col-xs-12 col-md-4 text-center">
+      <img class="img-responsive" src="{{API_PATH_MEDIA}}{{matteria[0].infografia1}}" alt="" ng-if="idiomaLocal == 'es_MX'" />
+      <img class="img-responsive" src="{{API_PATH_MEDIA}}{{matteria[0].infografia1_en}}" alt="" ng-if="idiomaLocal == 'en_EN'" />
+      <img class="img-responsive" src="{{API_PATH_MEDIA}}{{matteria[0].infografia1_pt}}" alt="" ng-if="idiomaLocal == 'pt_BR'" />
+    </div>
+    <div class="col-xs-12 col-md-4 text-center">
+      <img class="img-responsive" src="{{API_PATH_MEDIA}}{{matteria[0].infografia2}}" alt="" ng-if="idiomaLocal == 'es_MX'">
+      <img class="img-responsive" src="{{API_PATH_MEDIA}}{{matteria[0].infografia2_en}}" alt="" ng-if="idiomaLocal == 'en_EN'">
+      <img class="img-responsive" src="{{API_PATH_MEDIA}}{{matteria[0].infografia2_pt}}" alt="" ng-if="idiomaLocal == 'pt_BR'">
+    </div>
+    <div class="col-xs-12 col-md-4 text-center">
+      <img class="img-responsive" src="{{API_PATH_MEDIA}}{{matteria[0].infografia3}}" alt="" ng-if="idiomaLocal == 'es_MX'">
+      <img class="img-responsive" src="{{API_PATH_MEDIA}}{{matteria[0].infografia3_en}}" alt="" ng-if="idiomaLocal == 'en_EN'">
+      <img class="img-responsive" src="{{API_PATH_MEDIA}}{{matteria[0].infografia3_pt}}" alt="" ng-if="idiomaLocal == 'pt_BR'">
+    </div>
+  </div>
+  <br />
+</div>
+<div id="direfencia" class="row">
+  <div class="col-xs-12 text-center container">
+    <h2><span class="negrita" ng-if="idiomaLocal == 'es_MX'">¿ En qué somos diferentes ?</span><span class="negrita" ng-if="idiomaLocal == 'en_EN'">Why are we different</span><span class="negrita" ng-if="idiomaLocal == 'pt_BR'">Por que somos diferentes?</span></h2>
+    <br />
+    <br />
+  </div>
+  <div class="col-xs-12 margin-bottom text-left" style="padding:0;">
+    <v-accordion id="accordionA" class="vAccordion--default" control="accordionA" onexpand="expandCallback(index, id)" oncollapse="collapseCallback(index, id)">
+      <v-pane id="pane-{{hacemos.titulo}}" ng-repeat="hacemos in diferente" style="background-color:{{hacemos.color}}; color:#fff">
+        <v-pane-header id="pane-{{hacemos.titulo}}-header" aria-controls="pane-{{hacemos.titulo}}-content" class="container visible-lg">
+          <span class="negrita"><img class="img-responsive" width="100" height="100" src="{{API_PATH_MEDIA}}{{hacemos.imagen}}" /></span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:large"><span ng-if="idiomaLocal == 'es_MX'">{{hacemos.titulo}}</span><span ng-if="idiomaLocal == 'en_EN'">{{hacemos.titulo_en}}</span><span ng-if="idiomaLocal == 'pt_BR'">{{hacemos.titulo_pt}}</span></span>
+        </v-pane-header>
+        <v-pane-header id="pane-{{hacemos.titulo}}-header" aria-controls="pane-{{hacemos.titulo}}-content" class="container hidden-lg text-center">
+          <span class="negrita"><img class="img-responsive" width="80" height="80" src="{{API_PATH_MEDIA}}{{hacemos.imagen}}" /></span><br /><span style="font-size:large;"><span ng-if="idiomaLocal == 'es_MX'">{{hacemos.titulo}}</span><span ng-if="idiomaLocal == 'en_EN'">{{hacemos.titulo_en}}</span><span ng-if="idiomaLocal == 'pt_BR'">{{hacemos.titulo_pt}}</span></span>
+        </v-pane-header>
+        <v-pane-content id="pane-{{hacemos.titulo}}-content" aria-labelledby="pane-{{hacemos.titulo}}-header">
+          <div class="container text-left">
+            <h4><span ng-bind-html="hacemos.descripcion" ng-if="idiomaLocal == 'es_MX'"></span><span ng-bind-html="hacemos.descripcion_en" ng-if="idiomaLocal == 'en_EN'"></span><span ng-bind-html="hacemos.descripcion_pt" ng-if="idiomaLocal == 'pt_BR'"></span></h4>
+          </div>
+        </v-pane-content>
+      </v-pane>
+    </v-accordion>
+  </div>
+</div>
+<div id="valores" class="margin-bottom">
+  <div class="container margin-bottom">
+    <div class="col-xs-12">
+      <div class="col-xs-12 text-center">
+        <h2 class="negrita" ng-if="idiomaLocal == 'es_MX'">Nuestro ADN</h2>
+        <h2 class="negrita" ng-if="idiomaLocal == 'en_EN'">Our DNA</h2>
+        <h2 class="negrita" ng-if="idiomaLocal == 'pt_BR'">Nosso DNA </h2>
+        <br />
+      </div>
+      <div class="col-xs-12 col-md-3" ng-repeat="valor in valores">
+        <div style="width:100%; height:210px">
+          <h4 class="text-center negrita" style="color:#86BD40"><span ng-if="idiomaLocal == 'es_MX'">{{valor.valor}}</span><span ng-if="idiomaLocal == 'en_EN'">{{valor.valor_en}}</span><span ng-if="idiomaLocal == 'pt_BR'">{{valor.valor_pt}}</span></h4>
+          <h4 style="padding-left:10px; padding-top:10px; text-align:justify" ng-bind-html="valor.descripcion" ng-if="idiomaLocal == 'es_MX'"></h4>
+          <h4 style="padding-left:10px; padding-top:10px; text-align:justify" ng-bind-html="valor.descripcion_en" ng-if="idiomaLocal == 'en_EN'"></h4>
+          <h4 style="padding-left:10px; padding-top:10px; text-align:justify" ng-bind-html="valor.descripcion_pt" ng-if="idiomaLocal == 'pt_BR'"></h4>
+          <div class="margin-bottom"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="margin-bottom"></div>
+<div id="equipo" class="banner-img-somos">
+  <div class="container margin-bottom">
+    <div class="col-xs-12 text-center">
+      <h2 class="negrita" ng-if="idiomaLocal == 'es_MX'">Nuestro Equipo</h2>
+      <h2 class="negrita" ng-if="idiomaLocal == 'en_EN'">Our team</h2>
+      <h2 class="negrita" ng-if="idiomaLocal == 'pt_BR'">Nossa equipe</h2>
+      <br />
+      <br />
+    </div>
+    <!--<div ng-bind-html="nuestroequipo"></div>-->
+    <div class="col-sm-6 col-md-3 text-center margin-bottom" ng-repeat="eq in equipo">
+      <div style="width:100%; height:300px">
+        <img class="img-circle" src="{{API_PATH_MEDIA}}{{eq.imagen}}" />
+        <h4 class="negrita">{{eq.nombre}}</h4>
+        <h4 class="negrita" ng-if="idiomaLocal == 'es_MX'">{{eq.puesto}}</h4>
+        <h4 class="negrita" ng-if="idiomaLocal == 'en_EN'">{{eq.puesto_en}}</h4>
+        <a href="{{eq.linkedin}}" target="_blank"><img width="30" height="30" src="../images/redes_sociales/sociales-05.png" /></a>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="contacto" class="margin-bottom">
+  <form name="formcontacto">
+    <div class="container margin-bottom">
+      <div class="col-xs-12 text-center">
+        <h2 class="negrita" ng-if="idiomaLocal == 'es_MX'">Contáctanos</h2>
+        <h2 class="negrita" ng-if="idiomaLocal == 'en_EN'">Contact</h2>
+        <h2 class="negrita" ng-if="idiomaLocal == 'pt_BR'">Entre em contato</h2>
+        <br />
+        <br />
+      </div>
+      <div class="col-xs-12 margin-bottom">
+        <md-input-container class="md-block">
+          <label ng-if="idiomaLocal == 'es_MX'">Nombre completo</label>
+          <label ng-if="idiomaLocal == 'en_EN'">Name</label>
+          <label ng-if="idiomaLocal == 'pt_BR'">Nome</label>
+          <input required md-no-asterisk name="name" ng-model="contacto.name">
+          <div ng-messages="formcontacto.name.$error">
+            <div ng-message="required">Campo requerido</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label ng-if="idiomaLocal == 'es_MX'">Correo electrónico</label>
+          <label ng-if="idiomaLocal == 'en_EN'">Email</label>
+          <label ng-if="idiomaLocal == 'pt_BR'">E-mail</label>
+          <input required md-no-asterisk name="Nombre" ng-model="contacto.email">
+          <div ng-messages="formcontacto.name.$error">
+            <div ng-message="required">Campo requerido</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label ng-if="idiomaLocal == 'es_MX'">Teléfono móvil</label>
+          <label ng-if="idiomaLocal == 'en_EN'">Mobile phone</label>
+          <label ng-if="idiomaLocal == 'pt_BR'">Celular</label>
+          <input required md-no-asterisk name="Nombre" ng-model="contacto.phone_number">
+          <div ng-messages="formcontacto.name.$error">
+            <div ng-message="required">Campo requerido</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label ng-if="idiomaLocal == 'es_MX'">Comentarios</label>
+          <label ng-if="idiomaLocal == 'en_EN'">Comments</label>
+          <label ng-if="idiomaLocal == 'pt_BR'">Comentários</label>
+          <textarea ng-model="contacto.comments" rows="1" md-select-on-focus></textarea>
+        </md-input-container>
+        <div class="col-xs-12 text-center">
+          <button class="btn btn-lg btn-primary" ng-click='formcontacto.$valid ? enviarContacto() : ""' ng-if="idiomaLocal == 'es_MX'">Enviar</button>
+          <button class="btn btn-lg btn-primary" ng-click='formcontacto.$valid ? enviarContacto() : ""' ng-if="idiomaLocal == 'en_EN'">Submit</button>
+          <button class="btn btn-lg btn-primary" ng-click='formcontacto.$valid ? enviarContacto() : ""' ng-if="idiomaLocal == 'pt_BR'">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

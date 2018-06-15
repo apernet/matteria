@@ -1,0 +1,37 @@
+<div class="row banner-verde">
+  <div class="container">
+    <div class="col-xs-12 text-center">
+      <h2 class="negrita" style="padding:15px 15px 25px 15px" ng-if="idiomaLocal == 'es_MX'">Noticias y Contenido</h2>
+      <h2 class="negrita" style="padding:15px 15px 25px 15px" ng-if="idiomaLocal == 'en_EN'">Blog</h2>
+      <h2 class="negrita" style="padding:15px 15px 25px 15px" ng-if="idiomaLocal == 'pt_BR'">Blog</h2>
+    </div>
+  </div>
+</div>
+<br />
+<!--<div class="container col-xs-12 text-right">
+  <a href="{{API_PATH_MEDIA}}/media/reporte_de_gestion_2017.pdf" target="_blank">Reporte de gestión 2017</a>
+</div>
+<br />-->
+<div class="container">
+  <div class="col-xs-12" style="padding:0;">
+    <md-input-container class="md-block input-margin">
+      <label ng-if="idiomaLocal == 'es_MX'">Buscar</label>
+      <label ng-if="idiomaLocal == 'en_EN'">Search</label>
+      <label ng-if="idiomaLocal == 'pt_BR'">Pesquisa</label>
+      <input name="busqueda" ng-model="busaqueda">
+    </md-input-container>
+  </div>
+  <div class="col-xs-12 text-left thumbnail" ng-repeat="blogs in blog | filter: busaqueda">
+    <a href="{{blogs.articulo_url}}" target="_blank">
+      <img class="img-responsive col-xs-12 col-lg-3" src="{{API_PATH_MEDIA}}{{blogs.imagen}}" alt="">
+    </a>
+    <div class="col-xs-12 margin-bottom hidden-lg hidden-md"></div>
+    <h5 class="negrita"><a href="{{blogs.articulo_url}}" target="_blank"><span ng-bind-html="blogs.titulo"></span></a></h5> <p ng-bind-html="blogs.descripcion"></p>
+    <div class="text-right">
+      <small ng-if="idiomaLocal == 'es_MX'"><a href="{{blogs.articulo_url}}" target="_blank">Ver mas...</a></small>
+      <small ng-if="idiomaLocal == 'en_EN'"><a href="{{blogs.articulo_url}}" target="_blank">See more...</a></small>
+      <small ng-if="idiomaLocal == 'pt_BR'"><a href="{{blogs.articulo_url}}" target="_blank">Ver mais...</a></small>
+    </div>
+  </div>
+</div>
+

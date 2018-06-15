@@ -1,0 +1,120 @@
+﻿<div class="container">    
+    <br />
+    <div class="text-left hidden-xs hidden-sm margin-bottom">
+        <a ui-sref="publicacionesoferta({idioma: ''})" class="btn btn-lg btn-primary btn-ingresa">Nueva vacante</a>
+    </div>
+    <div class="text-center hidden-md hidden-lg margin-bottom">
+        <a ui-sref="publicacionesoferta({idioma: ''})"  class="btn btn-lg btn-primary btn-ingresa">Nueva vacante</a>
+        <a class="btn btn-lg btn-primary"  ng-click="toggleLeft()">Ver filtros</a>
+    </div>
+   
+    <div class="row">        
+        <section layout="row" flex>
+
+            <md-sidenav class="md-sidenav-left" md-component-id="left"
+                        md-disable-backdrop md-whiteframe="4">
+                <div class="col-xs-12">
+                    <br />
+                    <md-input-container class="md-block">
+                        <label>Buscar </label>
+                        <input name="Buscar" ng-model="busaqueda">
+                    </md-input-container>
+
+                    <md-radio-group ng-model="rankingmodel">
+                        <md-radio-button value="" class="md-primary"><span style="font-size:large" class="negrita">Todos</span></md-radio-button>
+                        <md-radio-button value="published" class="md-primary"><span style="font-size:large" class="negrita">Activas</span></md-radio-button>
+                        <md-radio-button value="draft" class="md-primary"><span style="font-size:large" class="negrita">Borradores</span></md-radio-button>
+                        <md-radio-button value="expired" class="md-primary"><span style="font-size:large" class="negrita">Caducas</span></md-radio-button>
+                    </md-radio-group>
+
+                    <div class="col-xs-12 text-center">
+                        <br />
+                        <br />
+                        <a class="btn btn-lg btn-primary btn-ingresa" ng-click="toggleLeft()">Buscar</a>
+                        <a class="btn btn-lg btn-primary btn-registrate " ng-click="toggleLeft()">Cerrar</a>
+                    </div>
+                </div>
+               
+            </md-sidenav>
+
+        </section>
+
+        <div class="col-xs-12 col-md-3 hidden-xs hidden-sm" style="height:100%;">
+            <div class="col-xs-12 thumbnail-vacantes">
+                <md-input-container class="md-block">
+                    <label>Buscar </label>
+                    <input name="Buscar" ng-model="busaqueda">
+                </md-input-container>
+
+                <md-radio-group ng-model="rankingmodel">
+                    <md-radio-button value="" class="md-primary"><span style="font-size:large" class="negrita">Todos</span></md-radio-button>
+                    <md-radio-button value="published" class="md-primary"><span style="font-size:large" class="negrita">Activas</span></md-radio-button>
+                    <md-radio-button value="draft" class="md-primary"><span style="font-size:large" class="negrita">Borradores</span></md-radio-button>
+                    <md-radio-button value="expired" class="md-primary"><span style="font-size:large" class="negrita">Caducas</span></md-radio-button>
+                </md-radio-group>
+                <!--<md-radio-group ng-model="caducagmodel" ng-click="selectexpired();">
+                    <md-radio-button value="1" class="md-primary"><span style="font-size:large" class="negrita">Caducas</span></md-radio-button>
+                </md-radio-group> ng-click="selectdraft();"-->
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-9" style="height:100%">
+            <div class="row margin-bottom" style="height:100%; padding:0" ng-repeat="vacante in vacantes | filterMultiple:{name:busaqueda, status_opening:rankingmodel}">
+                <div class="col-xs-12 thumbnail-vacantes" style="padding:10px 10px 10px 10px">
+                    <div class="col-xs-12 text-right">
+                        <p class="negrita" ng-if="vacante.status_opening == 'published'">Activa</p>
+                        <!--ng-show="vacante.expired == 0"-->
+                        <p class="negrita" ng-if="vacante.status_opening == 'draft'">Borrador </p>
+                        <p class="negrita" ng-if="vacante.status_opening == 'expired'">Caduca </p>
+                    </div>
+                    <div class="col-xs-12 col-md-7">
+                        <div class="col-xs-12">
+                            <ul style="padding-left: 0;">
+                                <li>
+                                    <p style="margin-bottom:0;"><span class="negrita">Profesiones: </span><span ng-repeat="profesiones in vacante.professions">{{profesiones.name}}</span></p>
+                                </li>
+                                <li>
+                                    <p style="margin-bottom:0;"><span class="negrita">Años de experiencia: </span><span>{{vacante.years_experience}}</span></p>
+                                </li>
+                                <li>
+                                    <p style="margin-bottom:0;"><span class="negrita">Cuidad y país: </span><span>{{vacante.city}}, </span><span>{{vacante.country.name}}</span></p>
+                                </li>
+                                <li>
+                                    <p style="margin-bottom:0;"><span class="negrita">Fecha de publicación: </span><small>{{vacante.open_opening}}, </small></p>
+                                </li>
+                                <li>
+                                    <p style="margin-bottom:0;"><span class="negrita">Fecha de cierre: </span><small>{{vacante.close_opening}}, </small></p>
+                                </li>
+                                <li>
+                                    <p style="margin-bottom:0;" ng-if="vacante.opening_class == 1"><span class="negrita">Tipo de servicio: </span><small >(F) - Filtrado</small></p>
+                                    <p style="margin-bottom:0;" ng-if="vacante.opening_class == 2"><span class="negrita">Tipo de servicio: </span><small>(P) - Postulación</small></p>
+                                    <p style="margin-bottom:0;" ng-if="vacante.opening_class == 3"><span class="negrita">Tipo de servicio: </span><small>(H) - Headhunting</small></p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-5">
+                        <h3 class="negrita text-left" style="margin-bottom:0; margin-top:0;">
+                            <a ng-if="vacante.status_opening == 'published'" style="cursor:pointer" ng-click="url_detalle(vacante.id);">{{vacante.name}}</a>
+                            <a ng-if="vacante.status_opening == 'draft'" style="cursor:pointer" ng-click="url(vacante.id);">{{vacante.name}}</a>
+                            <a ng-if="vacante.status_opening == 'expired'" style="cursor:pointer" ng-click="url(vacante.id);">{{vacante.name}}</a>
+                        </h3>
+                        <p class="negrita text-left" style="margin-top:0;" ng-if="!vacante.keep_company_alias">{{vacante.company}}</p>
+                        <p class="negrita text-left" style="margin-top:0;" ng-if="vacante.keep_company_alias">{{vacante.alternate_company_alias}}</p>
+                        <p class="negrita" style="margin-bottom:0; margin-top:0;">
+                            Propósito del cargo:
+                        </p>
+                        <p class="text-left" ng-bind-html="vacante.activities"></p>
+                        <div class="col-xs-12 text-right">
+                            <a class="btn btn-md btn-primary" ng-click="urlPostulantes(vacante.id);">Ver postulantes</a>
+                            <a class="btn btn-md btn-primary btn-registrate" ng-if="vacante.status_opening == 'published'" ng-click="caducar(vacante.id, $event);">Caducar Vacante </a>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+       
+    </div>
+
+</div>
+
+

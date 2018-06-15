@@ -1,0 +1,182 @@
+<style>
+  .md-select-menu-container {
+    z-index: 100 !important;
+  }
+
+  .ui-widget-overlay {
+    background: rgba(0,0,0,0.87);
+    opacity: .5;
+    filter: inherit;
+    z-index: 10 !important;
+  }
+
+  .ui-widget.ui-widget-content {
+    border: 1px solid #337ab7;
+    z-index: 11 !important;
+  }
+</style>
+<div id="dialog-confirm" ng-show="dialog">
+  <h1 class="md-title negrita text-center">Contáctanos</h1>
+  <br />
+  <div class="col-xs-12">
+    <form name="formcontactos">
+      <md-input-container class="md-block">
+        <label>Nombre completo</label>
+        <input name="nombre" ng-model="modal.name" required>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Nombre de contacto</label>
+        <input name="nombre" ng-model="modal.contact_name" required>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Correo electrónico</label>
+        <input name="hasta" ng-model="modal.email" required>
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>País</label>
+        <md-select ng-model="modal.country" aria-label="country" name="country">
+          <md-option ng-repeat="pais in paises" ng-value="pais.id">
+            {{pais.name}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Teléfono móvil</label>
+        <input name="hasta" ng-model="modal.phone_number">
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>¿Qué servicio te interesa?</label>
+        <br />
+        <br />
+        <div class="col-xs-12 col-lg-6" ng-repeat="interes in  modal.services">
+          <md-checkbox aria-label=" modal.services" ng-checked="exists_interes(interes.id, selected_interes)" ng-click="toggle_interes(interes.id, selected_interes)">
+            {{interes.name}}
+          </md-checkbox>
+
+        </div>
+      </md-input-container>
+      <!--<md-input-container class="md-block">
+        <md-select multiple ng-model="modal.servicios" placeholder="¿Qué servicio te interesa?">
+          <md-option ng-repeat="organizacion in modal.services" value="{{organizacion.id}}">{{organizacion.name}}</md-option>
+        </md-select>
+      </md-input-container>-->
+      <md-input-container class="md-block">
+        <label>Comentarios</label>
+        <!--<input md-maxlength="2000" name="comments" ng-model="modal.comments">-->
+        <textarea md-maxlength="2000" ng-model="modal.comments" rows="1" md-select-on-focus></textarea>
+        <div ng-messages="formcontactos.comments.$error">
+          <div ng-message="md-maxlength">El comentario solo puede tener 2000 caracteres.</div>
+        </div>
+      </md-input-container>
+    </form>
+  </div>
+</div>
+<div id="slider" class="row margin-bottom text-center">
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner" role="listbox" ng-repeat="sliders in slider">
+      <div class="item active">
+        <img class="img-responsive" src="{{API_PATH_MEDIA}}{{sliders.imagen}}" />
+        <div class="carousel-caption">
+          <span class="negrita hidden-xs" ng-if="idiomaLocal == 'es_MX'">{{sliders.mensaje_imagen}}</span>
+          <span class="negrita hidden-xs" ng-if="idiomaLocal == 'en_EN'">{{sliders.mensaje_imagen_en}}</span>
+          <span class="negrita hidden-xs" ng-if="idiomaLocal == 'pt_BR'">{{sliders.mensaje_imagen_pt}}</span>
+        </div>
+        <div class="carousel-caption-boton">
+          <a href="" ng-click="postula($event);" class="btn btn-lg btn-primary btn-banner hidden-xs hidden-sm" ng-if="idiomaLocal == 'es_MX'">
+            <span>
+              {{sliders.mensaje_boton}}
+            </span>
+          </a>
+          <a href="" ng-click="postula($event);" class="btn btn-lg btn-primary btn-banner hidden-xs hidden-sm" ng-if="idiomaLocal == 'en_EN'">
+            <span>
+              {{sliders.mensaje_boton_en}}
+            </span>
+          </a>
+          <a href="" ng-click="postula($event);" class="btn btn-lg btn-primary btn-banner hidden-xs hidden-sm" ng-if="idiomaLocal == 'pt_BR'">
+            <span>
+              {{sliders.mensaje_boton_pt}}
+            </span>
+          </a>
+          <a href="" ng-click="postula($event);" class="btn btn-xs btn-primary btn-banner hidden-md hidden-lg" ng-if="idiomaLocal == 'es_MX'">
+            <span>
+              {{sliders.mensaje_boton}}
+            </span>
+          </a>
+          <a href="" ng-click="postula($event);" class="btn btn-xs btn-primary btn-banner hidden-md hidden-lg" ng-if="idiomaLocal == 'en_EN'">
+            <span>
+              {{sliders.mensaje_boton_en}}
+            </span>
+          </a>
+          <a href="" ng-click="postula($event);" class="btn btn-xs btn-primary btn-banner hidden-md hidden-lg" ng-if="idiomaLocal == 'pt_BR'">
+            <span>
+              {{sliders.mensaje_boton_pt}}
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div id="servicios" class="col-xs-12 container text-center margin-bottom">
+    <h2>
+      <span class="negrita" ng-if="idiomaLocal == 'es_MX'">
+        ¿ Qué hacemos ?
+      </span>
+      <span class="negrita" ng-if="idiomaLocal == 'en_EN'">
+        What we do
+      </span>
+      <span class="negrita" ng-if="idiomaLocal == 'pt_BR'">
+        O que fazemos?
+      </span>
+    </h2>
+    <br />
+  </div>
+  <div class="col-xs-12 margin-bottom" style="padding-left:0; padding-right:0">
+    <v-accordion id="accordionA" class="vAccordion--default" control="accordionA" onexpand="expandCallback(index, id)" oncollapse="collapseCallback(index, id)">
+      <v-pane id="pane-{{hacemos.texto}}" ng-repeat="hacemos in hacemoss" style="background-color:{{hacemos.color}}; color:#fff">
+        <v-pane-header id="pane-{{hacemos.texto}}-header" aria-controls="pane-{{hacemos.texto}}-content" class="container visible-lg visible-md">
+          <span class="negrita"><img class="img-responsive" width="100" height="100" src="{{API_PATH_MEDIA}}{{hacemos.imagen}}" /></span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:large;" ng-if="idiomaLocal == 'es_MX'">{{hacemos.texto}}</span><span style="font-size:large;" ng-if="idiomaLocal == 'en_EN'">{{hacemos.texto_en}}</span><span style="font-size:large;" ng-if="idiomaLocal == 'pt_BR'">{{hacemos.texto_pt}}</span>
+        </v-pane-header>
+        <v-pane-header id="pane-{{hacemos.texto}}-header" aria-controls="pane-{{hacemos.texto}}-content" class="container hidden-lg hidden-md text-center">
+          <span class="negrita"><img class="img-responsive" width="80" height="80" src="{{API_PATH_MEDIA}}{{hacemos.imagen}}" /></span><br /><span style="font-size:large;" ng-if="idiomaLocal == 'es_MX'">{{hacemos.texto}}</span><span style="font-size:large;" ng-if="idiomaLocal == 'en_EN'">{{hacemos.texto_en}}</span><span style="font-size:large;" ng-if="idiomaLocal == 'pt_BR'">{{hacemos.texto_pt}}</span>
+        </v-pane-header>
+        <v-pane-content id="pane-{{hacemos.texto}}-content" aria-labelledby="pane-{{hacemos.texto}}-header">
+          <div class="container text-left">
+            <br />
+            <h4 ng-show="ver"><span ng-if="idiomaLocal == 'es_MX'" ng-bind-html="hacemos.descripcion"></span><span ng-if="idiomaLocal == 'en_EN'" ng-bind-html="hacemos.descripcion_en"></span><span ng-if="idiomaLocal == 'pt_BR'" ng-bind-html="hacemos.descripcion_pt"></span></h4>
+            <br />
+          </div>
+        </v-pane-content>
+      </v-pane>
+    </v-accordion>
+  </div>
+  <div id="candidatos" class="col-xs-12">
+    <br />
+    <div class="container">
+      <img class="img-responsive" src="{{API_PATH_MEDIA}}{{slider[0].segunda_imagen}}" alt="" ng-if="idiomaLocal == 'es_MX'">
+      <img class="img-responsive" src="{{API_PATH_MEDIA}}{{slider[0].segunda_imagen_en}}" alt="" ng-if="idiomaLocal == 'en_EN'">
+      <img class="img-responsive" src="{{API_PATH_MEDIA}}{{slider[0].segunda_imagen_pt}}" alt="" ng-if="idiomaLocal == 'pt_BR'">
+    </div>
+  </div>
+</div>
+<div id="vacantes" class="row col-xs-12">
+  <div class="container">
+    <div class="col-xs-12 text-center">
+      <h2><span class="negrita" ng-if="idiomaLocal == 'es_MX'">Últimos cargos seleccionados</span></h2>
+      <h2><span class="negrita" ng-if="idiomaLocal == 'en_EN'">Roles we have placed</span></h2>
+      <h2><span class="negrita" ng-if="idiomaLocal == 'pt_BR'">Vagas preenchidas</span></h2>
+      <br />
+      <div class="row">
+        <div class="col-xs-12 col-lg-2" ng-repeat="vacante in utimasvacantes">
+          <div style="width:100%; height:250px;">
+            <a href="{{vacante.website_url}}"></a>
+            <img class="img-circle" width="150" height="150" src="{{API_PATH_MEDIA}}{{vacante.imagen}}">
+            <h4 ng-bind-html="vacante.empresa"></h4>
+            <p ng-bind-html="vacante.vacante"> </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

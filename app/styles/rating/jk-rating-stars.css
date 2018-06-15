@@ -1,0 +1,16 @@
+.jk-rating-stars-container .button {
+  cursor: pointer; }
+  .jk-rating-stars-container .button .material-icons {
+    font-size: 30px; }
+
+.jk-rating-stars-container .star-button {
+  text-shadow: none; }
+  .jk-rating-stars-container .star-button.star-on .material-icons {
+    color: #EE9A00; 
+    background-color:transparent;
+  }
+  .jk-rating-stars-container .star-button.star-off .material-icons {
+    color: #ddd; }
+
+.jk-rating-stars-container[read-only="true"] .button {
+  cursor: default; }

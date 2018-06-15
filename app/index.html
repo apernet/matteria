@@ -1,0 +1,1177 @@
+﻿<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>matteria - ADN de impacto</title>
+  <base href="/">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css(.) styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+  <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="bower_components/angularjs-slider/dist/rzslider.css" />
+  <link rel="stylesheet" href="bower_components/v-accordion/dist/v-accordion.css" />
+  <link rel="stylesheet" href="bower_components/angular-xeditable/dist/css/xeditable.css" />
+  <link rel="stylesheet" href="bower_components/ngImgCrop/compile/minified/ng-img-crop.css" />
+  <link rel="stylesheet" href="bower_components/textAngular/dist/textAngular.css" />
+  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
+  <link rel="stylesheet" href="bower_components/angular-ui-carousel/dist/ui-carousel.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css(.tmp) styles/main.css -->
+  <link href="styles/rating/jk-rating-stars.css" rel="stylesheet" />
+  <link href="styles/datepicker/jquery-ui.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
+</head>
+<body ng-app="tcsGruntApp">
+  <!--[if lte IE 8]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+  <!-- Add your site or application content here -->
+  <script>
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: '2014416175460452',
+        autoLogAppEvents: true,
+        xfbml: true,
+        version: 'v2.11'
+      });
+    };
+
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) { return; }
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+  <div class="matteria-nav container-fluid" ng-controller="HeaderCtrl">
+    <nav class="navbar navbar-default" role="navigation" ng-if="pago">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#matteria-navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--<a class="navbar-brand cargador" href="/">
+            <img class="img-responsive post-carga" width="100" height="100" data-src="{{lg}}" />
+          </a>-->
+          <a class="navbar-brand" href="/es" ng-if="idiomaLocal == 'es_MX'">
+            <img class="img-responsive" width="100" height="100" ng-src="{{lg}}" />
+          </a>
+          <a class="navbar-brand" href="/en" ng-if="idiomaLocal == 'en_EN'">
+            <img class="img-responsive" width="100" height="100" ng-src="{{lg}}" />
+          </a>
+          <a class="navbar-brand" href="/pt" ng-if="idiomaLocal == 'pt_BR'">
+            <img class="img-responsive" width="100" height="100" ng-src="{{lg}}" />
+          </a>
+        </div>
+        <div id="matteria-navbar" class="navbar-collapse collapse text-center">
+          <ul class="nav navbar-nav navbar-right matteria-navbar hidden-xs">
+            <li class="dropdown">
+              <a href="" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true" role="button" aria-expanded="false">
+                <span ui-sref="organizaciones({scrollTo: 'top', idioma: 'es'})" class="negrita" ng-if="idiomaLocal == 'es_MX'">
+                  Para<br />Organizaciones
+                </span>
+                <span ui-sref="organizaciones({scrollTo: 'top', idioma: 'en'})" ng-if="idiomaLocal == 'en_EN'" class="negrita">
+                  For<br />Organizations
+                </span>
+                <span ui-sref="organizaciones({scrollTo: 'top', idioma: 'pt'})" ng-if="idiomaLocal == 'pt_BR'" class="negrita">
+                  Para<br />Organizações
+                </span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a ng-if="idiomaLocal == 'es_MX'" href ui-sref="ingresa({user: 'organizacion', idioma: 'es'})" style="padding:10px 10px 10px 10px;">
+                    Ingreso
+                  </a>
+                  <a ng-if="idiomaLocal == 'en_EN'" href ui-sref="ingresa({user: 'organizacion', idioma: 'en'})" style="padding:10px 10px 10px 10px;">
+                    Log In
+                  </a>
+                  <a ng-if="idiomaLocal == 'pt_BR'" href ui-sref="ingresa({user: 'organizacion', idioma: 'pt'})" style="padding:10px 10px 10px 10px;">
+                    Login
+                  </a>
+                </li>
+                <li>
+                  <a ng-if="idiomaLocal == 'es_MX'" href ui-sref="registro({user: 'organizacion', idioma: 'es'})" style="padding:10px 10px 10px 10px;">
+                    Registro
+                  </a>
+                  <a ng-if="idiomaLocal == 'en_EN'" href ui-sref="registro({user: 'organizacion', idioma: 'en'})" style="padding:10px 10px 10px 10px;">
+                    Sign Up
+                  </a>
+                  <a ng-if="idiomaLocal == 'pt_BR'" href ui-sref="registro({user: 'organizacion', idioma: 'pt'})" style="padding:10px 10px 10px 10px;">
+                    Registro
+                  </a>
+                </li>
+                <li>
+                  <a ng-if="idiomaLocal == 'es_MX'" href ui-sref="organizaciones({scrollTo: 'servicios', idioma: 'es'})" style="padding:10px 10px 10px 10px;">
+                    Nuestros Servicios
+                  </a>
+                  <a ng-if="idiomaLocal == 'en_EN'" href ui-sref="organizaciones({scrollTo: 'servicios', idioma: 'en'})" style="padding:10px 10px 10px 10px;">
+                    What we do
+                  </a>
+                  <a ng-if="idiomaLocal == 'pt_BR'" href ui-sref="organizaciones({scrollTo: 'servicios', idioma: 'pt'})" style="padding:10px 10px 10px 10px;">
+                    Nossos serviços
+                  </a>
+                </li>
+                <li>
+                  <a ng-if="idiomaLocal == 'es_MX'" href ui-sref="organizaciones({scrollTo: 'candidatos', idioma: 'es'})" style="padding:10px 10px 10px 10px;">
+                    Nuestros Postulantes
+                  </a>
+                  <a ng-if="idiomaLocal == 'en_EN'" href ui-sref="organizaciones({scrollTo: 'candidatos', idioma: 'en'})" style="padding:10px 10px 10px 10px;">
+                    Our candidates
+                  </a>
+                  <a ng-if="idiomaLocal == 'pt_BR'" href ui-sref="organizaciones({scrollTo: 'candidatos', idioma: 'pt'})" style="padding:10px 10px 10px 10px;">
+                    Nossos candidatos
+                  </a>
+                </li>
+                <li>
+                  <a ng-if="idiomaLocal == 'es_MX'" href ui-sref="organizaciones({scrollTo: 'vacantes', idioma: 'es'})" style="padding:10px 10px 10px 10px;">
+                    Vacantes Cubiertas
+                  </a>
+                  <a ng-if="idiomaLocal == 'en_EN'" href ui-sref="organizaciones({scrollTo: 'vacantes', idioma: 'en'})" style="padding:10px 10px 10px 10px;">
+                    Roles we have placed
+                  </a>
+                  <a ng-if="idiomaLocal == 'pt_BR'" href ui-sref="organizaciones({scrollTo: 'vacantes', idioma: 'pt'})" style="padding:10px 10px 10px 10px;">
+                    Vagas preenchidas
+                  </a>
+                </li>
+                <li>
+                  <a ng-if="idiomaLocal == 'es_MX'" href ui-sref="clientes({idioma:'es'})" style="padding:10px 10px 10px 10px;">
+                    Nuestros Clientes
+                  </a>
+                  <a ng-if="idiomaLocal == 'en_EN'" href ui-sref="clientes({idioma:'en'})" style="padding:10px 10px 10px 10px;">
+                    Our clients
+                  </a>
+                  <a ng-if="idiomaLocal == 'pt_BR'" href ui-sref="clientes({idioma:'pt'})" style="padding:10px 10px 10px 10px;">
+                    Nossos clientes
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true" role="button" aria-expanded="false">
+                <span ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'es'})" class="negrita" ng-if="idiomaLocal == 'es_MX'">
+                  Para<br />Postulantes
+                </span>
+                <span ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'en'})" class="negrita" ng-if="idiomaLocal == 'en_EN'">
+                  For<br />Candidates
+                </span>
+                <span ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'pt'})" class="negrita" ng-if="idiomaLocal == 'pt_BR'">
+                  Para<br />Candidatos
+                </span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a ng-if="idiomaLocal == 'es_MX'" ui-sref="ingresa({user: 'postulante', idioma: 'es'})" style="padding:10px 10px 10px 10px;">
+                    Ingreso
+                  </a>
+                  <a ng-if="idiomaLocal == 'en_EN'" ui-sref="ingresa({user: 'postulante', idioma: 'en'})" style="padding:10px 10px 10px 10px;">
+                    Log In
+                  </a>
+                  <a ng-if="idiomaLocal == 'pt_BR'" ui-sref="ingresa({user: 'postulante', idioma: 'pt'})" style="padding:10px 10px 10px 10px;">
+                    Login
+                  </a>
+                </li>
+                <li>
+                  <a ng-if="idiomaLocal == 'es_MX'" ui-sref="registro({user: 'postulante', idioma: 'es'})" style="padding:10px 10px 10px 10px;">
+                    Registro
+                  </a>
+                  <a ng-if="idiomaLocal == 'en_EN'" ui-sref="registro({user: 'postulante', idioma: 'en'})" style="padding:10px 10px 10px 10px;">
+                    Sign Up
+                  </a>
+                  <a ng-if="idiomaLocal == 'pt_BR'" ui-sref="registro({user: 'postulante', idioma: 'pt'})" style="padding:10px 10px 10px 10px;">
+                    Registro
+                  </a>
+                </li>
+                <li>
+                  <a ng-if="idiomaLocal == 'es_MX'" ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'es'})" style="padding:10px 10px 10px 10px;">
+                    Vacantes
+                  </a>
+                  <a ng-if="idiomaLocal == 'en_EN'" href ui-sref="comofunciona({scrollTo: 'vacantes', idioma: 'en'})" style="padding:10px 10px 10px 10px;">
+                    Job vacancies
+                  </a>
+                  <a ng-if="idiomaLocal == 'pt_BR'" href ui-sref="comofunciona({scrollTo: 'vacantes', idioma: 'pt'})" style="padding:10px 10px 10px 10px;">
+                    Vagas
+                  </a>
+                </li>
+                <li>
+                  <a ng-if="idiomaLocal == 'es_MX'" ui-sref="comofuncionahead({idioma: 'es'})" style="padding:10px 10px 10px 10px;">
+                    Cómo Funciona
+                  </a>
+                  <a ng-if="idiomaLocal == 'en_EN'" ui-sref="comofuncionahead({idioma: 'en'})" style="padding:10px 10px 10px 10px;">
+                    How it works
+                  </a>
+                  <a ng-if="idiomaLocal == 'pt_BR'" ui-sref="comofuncionahead({idioma: 'pt'})" style="padding:10px 10px 10px 10px;">
+                    Como funciona
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" data-hover="dropdown" data-delay="1000" data-close-others="true" aria-expanded="false">
+                <span ui-sref="quienessomos({scrollTo: 'top', idioma: 'es'})" class="negrita" ng-if="idiomaLocal == 'es_MX'">
+                  Quiénes<br />Somos
+                </span>
+                <span ui-sref="quienessomos({scrollTo: 'top', idioma: 'en'})" class="negrita" ng-if="idiomaLocal == 'en_EN'">
+                  About<br />matteria
+                </span>
+                <span ui-sref="quienessomos({scrollTo: 'top', idioma: 'pt'})" class="negrita" ng-if="idiomaLocal == 'pt_BR'">
+                  Quem<br />Somos
+                </span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a href="" style="padding:10px 10px 10px 10px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="quienessomos({scrollTo: 'manifiesto', idioma: 'es'})">
+                      Manifiesto Matteria
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="quienessomos({scrollTo: 'manifiesto', idioma: 'en'})">
+                      Our manifesto
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="quienessomos({scrollTo: 'manifiesto', idioma: 'pt'})">
+                      Manifesto da matteria
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="" style="padding:10px 10px 10px 10px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="quienessomos({scrollTo: 'direfencia', idioma: 'es'})">
+                      Nuestra Diferencia
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="quienessomos({scrollTo: 'direfencia', idioma: 'en'})">
+                      How we are different
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="quienessomos({scrollTo: 'direfencia', idioma: 'br'})">
+                      Nosso diferencial
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="" style="padding:10px 10px 10px 10px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="quienessomos({scrollTo: 'valores', idioma: 'es'})">
+                      Nuestro ADN
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="quienessomos({scrollTo: 'valores', idioma: 'en'})">
+                      Our DNA
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="quienessomos({scrollTo: 'valores', idioma: 'pt'})">
+                      Nosso DNA
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="" style="padding:10px 10px 10px 10px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="quienessomos({scrollTo: 'equipo', idioma: 'es'})">
+                      Equipo
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="quienessomos({scrollTo: 'equipo', idioma: 'en'})">
+                      Our team
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="quienessomos({scrollTo: 'equipo', idioma: 'pt'})">
+                      Equipe
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="" style="padding:10px 10px 10px 10px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="quienessomos({scrollTo: 'contacto', idioma:'es'})">
+                      Contáctanos
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="quienessomos({scrollTo: 'contacto', idioma: 'en'})">
+                      Contact
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="quienessomos({scrollTo: 'contacto', idioma: 'pt'})">
+                      Entre em contato
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="">
+                <span class="negrita">
+                  <span ng-if="idiomaLocal == 'es_MX'" ui-sref="blog({idioma: 'es'})">
+                    Noticias y<br />Contenido<br />
+                  </span>
+                  <span ng-if="idiomaLocal == 'en_EN'" ui-sref="blog({idioma: 'en'})">
+                    News <br />and Content<br />
+                  </span>
+                  <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="blog({idioma: 'pt'})">
+                    Notícias <br />e Conteúdo<br />
+                  </span>
+                </span>
+              </a>
+            </li>
+
+            <li class="dropdown hidden-md hidden-sm" permission permission-only="'ANONIMO'">
+              <a style="max-height:110px" href="">
+                <button class="btn btn-lg btn-primary btn-ingresa">
+                  <span ng-if="idiomaLocal == 'es_MX'" ui-sref="ingresa({user: 'ambos', idioma: 'es'})">
+                    Ingresa
+                  </span>
+                  <span ng-if="idiomaLocal == 'en_EN'" ui-sref="ingresa({user: 'ambos', idioma: 'en'})">
+                    Log In
+                  </span>
+                  <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="ingresa({user: 'ambos', idioma: 'pt'})">
+                    Faça login
+                  </span>
+                </button>
+              </a>
+            </li>
+            <li class="dropdown hidden-lg hidden-sx" permission permission-only="'ANONIMO'">
+              <a href ui-sref="ingresa({user: 'ambos', idioma: 'es'})">
+                <button class="btn btn-sm btn-primary btn-ingresa">
+                  <i class="fa fa-sign-in" aria-hidden="true"></i>
+                </button>
+              </a>
+            </li>
+            <li class="dropdown hidden-md hidden-sm" permission permission-only="'ANONIMO'">
+              <a style="max-height:110px" href="">
+                <button class="btn btn-lg btn-primary btn-registrate ">
+                  <span ng-if="idiomaLocal == 'es_MX'" ui-sref="registro({user: 'ambos', idioma:'es'})">
+                    Registrate
+                  </span>
+                  <span ng-if="idiomaLocal == 'en_EN'" ui-sref="registro({user: 'ambos', idioma: 'en'})">
+                    Sign Up
+                  </span>
+                  <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="registro({user: 'ambos', idioma: 'pt'})">
+                    Registre-se
+                  </span>
+                </button>
+              </a>
+            </li>
+            <li class="dropdown hidden-lg hidden-sx" permission permission-only="'ANONIMO'">
+              <a href ui-sref="ingresa({user: 'ambos', idioma: 'es'})">
+                <button class="btn btn-sm btn-primary btn-registrate">
+                  <i class="fa fa-sign-in" aria-hidden="true"></i>
+                </button>
+              </a>
+            </li>
+            <li class="dropdown" permission permission-except="['ANONIMO']" ng-cloak>
+              <a style="padding-bottom:31px" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true" role="button" aria-expanded="false">
+                <img class="img-circle" width="50" height="50" src="{{API_PATH_MEDIA}}{{avatar}}" ng-if="avatar != 'null'" />
+                <img class="img-circle-perfil" src="https://placehold.it/50x50" ng-if="avatar == 'null'" />
+                <span class="negrita ">
+                  {{nombre | limitTo:15}}
+                </span>
+                <span ng-if="nombre.length > 15">...</span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li permission permission-only="'POSTULANTE'">
+                  <a ui-sref="perfilpostulante({idioma:''})" style="padding:10px 10px 10px 10px;" ng-click="validar()">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Mi perfil
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      My profile
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'">
+                      Meu perfil
+                    </span>
+                  </a>
+                </li>
+                <li permission permission-only="'ORGANIZACION'">
+                  <a ui-sref="perfilorganizacion({idioma:''})" style="padding:10px 10px 10px 10px;" ng-click="validar()">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Mi perfil
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      My profile
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'">
+                      Meu perfil
+                    </span>
+                  </a>
+                </li>
+                <li permission permission-only="'POSTULANTE'">
+                  <a ui-sref="mispostulaciones({idioma:''})" style="padding:10px 10px 10px 10px;">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Mis postulaciones
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      My applications
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'">
+                      Meus aplicativos
+                    </span>
+                  </a>
+                </li>
+                <li permission permission-only="'ORGANIZACION'">
+                  <a ui-sref="misvacantes({idioma:''})" style="padding:10px 10px 10px 10px;">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Mis vacantes
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      My job vacancies
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'">
+                      Minhas vagas de emprego
+                    </span>
+                  </a>
+                </li>
+                <li permission permission-only="'POSTULANTE'">
+                  <a ui-sref="configuracion({idioma:''})" style="padding:10px 10px 10px 10px;">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Configuración
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      Settings
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'">
+                      Configurações
+                    </span>
+                  </a>
+                </li>
+                <li permission permission-only="'ORGANIZACION'">
+                  <a ui-sref="configuracionorganizacion({idioma:''})" style="padding:10px 10px 10px 10px;">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Configuración
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      Settings
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'">
+                      Configurações
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a style="padding:10px 10px 10px 10px; cursor:pointer" ng-click="salir();">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Cerrar sesión
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      Log out
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      Fechar Sessão
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a>
+                <button class="btn btn-sm btn-primary btn-idioma" ng-click="changeLanguage('en_EN')">
+                  EN
+                </button>
+                <button class="btn btn-sm btn-primary btn-idioma" ng-click="changeLanguage('es_MX')">
+                  ES
+                </button>
+                <button class="btn btn-sm btn-primary btn-idioma" ng-click="changeLanguage('pt_BR')">
+                  PT
+                </button>
+              </a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav hidden-lg hidden-md hidden-sm text-left">
+            <li class="dropdown" permission permission-except="['ANONIMO']" ng-cloak>
+              <a class="dropdown-toggle" style="padding:10px 10px 10px 20px" data-toggle="dropdown" role="button" aria-expanded="false">
+                <img class="img-circle img-responsive" width="50" height="50" src="{{API_PATH_MEDIA}}{{avatar}}" ng-if="avatar != 'null'" />
+                <img class="img-circle-perfil img-responsive" src="https://placehold.it/50x50" ng-if="avatar == 'null'" />
+                <span class="negrita">
+                  {{nombre | limitTo:15}}
+                </span>
+                <span ng-if="nombre.length > 15">...</span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li permission permission-only="'POSTULANTE'">
+                  <a data-toggle="collapse" data-target=".navbar-collapse" ui-sref="perfilpostulante({idioma:''})" style="padding:10px 10px 10px 30px;" ng-click="validar()">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Mi perfil
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      My profile
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'">
+                      Meu perfil
+                    </span>
+                  </a>
+                </li>
+                <li permission permission-only="'ORGANIZACION'">
+                  <a data-toggle="collapse" data-target=".navbar-collapse" ui-sref="perfilorganizacion({idioma:''})" style="padding:10px 10px 10px 30px;" ng-click="validar()">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Mi perfil
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      My profile
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'">
+                      Meu perfil
+                    </span>
+                  </a>
+                </li>
+                <li permission permission-only="'POSTULANTE'">
+                  <a data-toggle="collapse" data-target=".navbar-collapse" ui-sref="mispostulaciones({idioma:''})" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Mis postulaciones
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      My applications
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'">
+                      Meus aplicativos
+                    </span>
+                  </a>
+                </li>
+                <li permission permission-only="'ORGANIZACION'">
+                  <a data-toggle="collapse" data-target=".navbar-collapse" ui-sref="misvacantes({idioma:''})" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Mis vacantes
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      My job vacancies
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'">
+                      Minhas vagas de emprego
+                    </span>
+                  </a>
+                </li>
+                <li permission permission-only="'POSTULANTE'">
+                  <a data-toggle="collapse" data-target=".navbar-collapse" ui-sref="configuracion({idioma:''})" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Configuración
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      Settings
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'">
+                      Configurações
+                    </span>
+                  </a>
+                </li>
+                <li permission permission-only="'ORGANIZACION'">
+                  <a data-toggle="collapse" data-target=".navbar-collapse" ui-sref="configuracionorganizacion({idioma:''})" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Configuración
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      Settings
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'">
+                      Configurações
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a style="padding:10px 10px 10px 30px;" ng-click="salir();">
+                    <span ng-if="idiomaLocal == 'es_MX'">
+                      Cerrar sesión
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      Log out
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">
+                      Fechar Sessão
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" style="padding:10px 10px 10px 20px" data-toggle="dropdown" role="button" aria-expanded="false">
+                <span class="negrita">
+                  <span ng-if="idiomaLocal == 'es_MX'">
+                    Para Organizaciones
+                  </span>
+                  <span ng-if="idiomaLocal == 'en_EN'">
+                    For Organizations
+                  </span>
+                  <span ng-if="idiomaLocal == 'pt_BR'">
+                    Para Organizações
+                  </span>
+                </span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a data-toggle="collapse" data-target=".navbar-collapse" href="" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="ingresa({user: 'organizacion' , idioma: 'es'})">
+                      Ingreso
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="ingresa({user: 'organizacion' , idioma: 'en'})">
+                      Log In
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="ingresa({user: 'organizacion' , idioma: 'pt'})">
+                      Login
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="collapse" data-target=".navbar-collapse" href="" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="registro({user: 'organizacion', idioma: 'es'})">
+                      Registro
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="registro({user: 'organizacion', idioma: 'en'})">
+                      Sign Up
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="registro({user: 'organizacion', idioma: 'pt'})">
+                      Registro
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="collapse" data-target=".navbar-collapse" href="" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="organizaciones({scrollTo: 'servicios', idioma: 'es'})">
+                      Nuestros Servicios
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="organizaciones({scrollTo: 'servicios', idioma: 'en'})">
+                      What we do
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="organizaciones({scrollTo: 'servicios', idioma: 'pt'})">
+                      Nossos serviços
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="collapse" data-target=".navbar-collapse" href="" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="organizaciones({scrollTo: 'candidatos', idioma: 'es'})">
+                      Nuestros Candidatos
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="organizaciones({scrollTo: 'candidatos', idioma: 'en'})">
+                      Our candidates
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="organizaciones({scrollTo: 'candidatos', idioma: 'pt'})">
+                      Nossos candidatos
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="collapse" data-target=".navbar-collapse" href="" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="organizaciones({scrollTo: 'vacantes', idioma: 'es'})">
+                      Vacantes Cubiertas
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="organizaciones({scrollTo: 'vacantes', idioma: 'en'})">
+                      Roles we have placed
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="organizaciones({scrollTo: 'vacantes', idioma: 'pt'})">
+                      Vagas preenchidas
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="collapse" data-target=".navbar-collapse" href="" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="clientes({idioma:'es'})">
+                      Nuestros Clientes
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="clientes({idioma:'en'})">
+                      Our clients
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="clientes({idioma:'pt'})">
+                      Nossos clientes
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" style="padding:10px 10px 10px 20px" data-toggle="dropdown" role="button" aria-expanded="false">
+                <span class="negrita">
+                  <span ng-if="idiomaLocal == 'es_MX'">
+                    Para Postulantes
+                  </span>
+                  <span ng-if="idiomaLocal == 'en_EN'">
+                    For Candidates
+                  </span>
+                  <span ng-if="idiomaLocal == 'pt_BR'">
+                    Para candidatos
+                  </span>
+                </span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a data-toggle="collapse" href="" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="ingresa({user: 'postulante', idioma: 'es'})">
+                      Ingreso
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="ingresa({user: 'postulante', idioma: 'en'})">
+                      Log In
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="ingresa({user: 'postulante', idioma: 'pt'})">
+                      Login
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="collapse" href="" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="registro({user: 'postulante', idioma: 'es'})">
+                      Registro
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="registro({user: 'postulante', idioma: 'en'})">
+                      Sign Up
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="registro({user: 'postulante', idioma: 'pt'})">
+                      Registro
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="collapse" data-target=".navbar-collapse" href="" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'es'})">
+                      Vacantes
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'en'})">
+                      Job vacancies
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'pt'})">
+                      Vagas
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="collapse" data-target=".navbar-collapse" href="" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="comofuncionahead({idioma: 'es'})">
+                      Cómo Funciona
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="comofuncionahead({idioma: 'en'})">
+                      How it works
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="comofuncionahead({idioma: 'pt'})">
+                      Como funciona
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" style="padding:10px 10px 10px 20px" data-toggle="dropdown" role="button" aria-expanded="false">
+                <span class="negrita">
+                  <span ng-if="idiomaLocal == 'es_MX'">
+                    Quiénes Somos
+                  </span>
+                  <span ng-if="idiomaLocal == 'en_EN'">
+                    About matteria
+                  </span>
+                  <span ng-if="idiomaLocal == 'pt_BR'">
+                    Quem somos
+                  </span>
+                </span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a data-toggle="collapse" data-target=".navbar-collapse" href="" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="quienessomos({scrollTo: 'manifiesto', idioma: 'es'})">
+                      Manifiesto Matteria
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="quienessomos({scrollTo: 'manifiesto', idioma: 'en'})">
+                      Our manifesto
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="quienessomos({scrollTo: 'manifiesto', idioma: 'pt'})">
+                      Manifesto da matteria
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="collapse" data-target=".navbar-collapse" href="" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="quienessomos({scrollTo: 'direfencia', idioma: 'es'})">
+                      Nuestra Diferencia
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="quienessomos({scrollTo: 'direfencia', idioma: 'en'})">
+                      How we are different
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="quienessomos({scrollTo: 'direfencia', idioma: 'pt'})">
+                      Nosso diferencial
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="collapse" data-target=".navbar-collapse" href="" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="quienessomos({scrollTo: 'valores', idioma: 'es'})">
+                      Nuestro ADN
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="quienessomos({scrollTo: 'valores', idioma: 'en'})">
+                      Our DNA
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="quienessomos({scrollTo: 'valores', idioma: 'pt'})">
+                      Nosso DNA
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="collapse" data-target=".navbar-collapse" href="" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="quienessomos({scrollTo: 'equipo', idioma: 'es'})">
+                      Equipo
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="quienessomos({scrollTo: 'equipo', idioma: 'en'})">
+                      Our team
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="quienessomos({scrollTo: 'equipo', idioma: 'pt'})">
+                      Equipe
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a data-toggle="collapse" data-target=".navbar-collapse" href="" style="padding:10px 10px 10px 30px;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ui-sref="quienessomos({scrollTo: 'contacto', idioma: 'es'})">
+                      Contáctanos
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ui-sref="quienessomos({scrollTo: 'contacto', idioma: 'en'})">
+                      Contact
+                    </span>
+                    <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="quienessomos({scrollTo: 'contacto', idioma: 'pt'})">
+                      Entre em contato
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a data-toggle="collapse" data-target=".navbar-collapse" style="padding:10px 10px 10px 20px" href="">
+                <span class="negrita">
+                  <span ng-if="idiomaLocal == 'es_MX'" ui-sref="blog({idioma: 'es'})">
+                    Noticias y Contenido
+                  </span>
+                  <span ng-if="idiomaLocal == 'en_EN'" ui-sref="blog({idioma: 'en'})">
+                    News and Content
+                  </span>
+                  <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="blog({idioma: 'pt'})">
+                    Notícias e conteúdo
+                  </span>
+                  <br />
+                </span>
+              </a>
+            </li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" style="padding:10px 10px 10px 20px" data-toggle="dropdown" role="button" data-hover="dropdown" data-delay="1000" data-close-others="true" aria-expanded="false"><span ng-if="idiomaLocal == 'es_MX'" class="negrita">Idioma<br /><br /></span><span ng-if="idiomaLocal == 'en_EN'" class="negrita">Language</span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a style="padding:10px 10px 10px 30px; cursor:pointer;">
+                    <span ng-if="idiomaLocal == 'es_MX'" ng-click="changeLanguage('es_MX')">
+                      Español
+                      <br /><br />
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ng-click="changeLanguage('es_MX')">
+                      Spanish
+                      <br /><br />
+                    </span>
+                    <!--<span ng-if="idiomaLocal == 'pt_BR'" ng-click="changeLanguage('es_MX')">
+                      Espanhol
+                    </span>-->
+
+                    <span ng-if="idiomaLocal == 'es_MX'" ng-click="changeLanguage('en_EN')">
+                      Inglés
+                      <br /><br />
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ng-click="changeLanguage('en_EN')">
+                      English
+                      <br /><br />
+                    </span>
+                    <!--<span ng-if="idiomaLocal == 'pt_BR'" ng-click="changeLanguage('en_EN')">
+                      Inglês
+                    </span>-->
+
+                    <span ng-if="idiomaLocal == 'es_MX'" ng-click="changeLanguage('pt_BR')">
+                      Portugues
+                      <br /><br />
+                    </span>
+                    <span ng-if="idiomaLocal == 'en_EN'" ng-click="changeLanguage('pt_BR')">
+                      Portuguese
+                      <br /><br />
+                    </span>
+                    <!--<span ng-if="idiomaLocal == 'pt_BR'" ng-click="changeLanguage('pt_BR')">
+                      Portugues
+                    </span>-->
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right hidden-lg hidden-md hidden-sm text-left">
+            <li class="dropdown" permission permission-only="'ANONIMO'">
+              <div class="col-xs-12 text-center">
+                <div class="col-xs-6">
+                  <a data-toggle="collapse" data-target=".navbar-collapse" style="padding:10px 10px 10px 20px">
+                    <button class="btn btn-sm btn-primary btn-ingresa">
+                      <span ng-if="idiomaLocal == 'es_MX'" ui-sref="ingresa({user: 'ambos', idioma: 'es'})">
+                        Ingresa
+                      </span>
+                      <span ng-if="idiomaLocal == 'en_EN'" ui-sref="ingresa({user: 'ambos', idioma: 'en'})">
+                        Log In
+                      </span>
+                      <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="ingresa({user: 'ambos', idioma: 'pt'})">
+                        Faça login
+                      </span>
+                    </button>
+                  </a>
+                </div>
+                <div class="col-xs-6">
+                  <a data-toggle="collapse" data-target=".navbar-collapse" style="padding:10px 10px 10px 20px">
+                    <button class="btn btn-sm btn-primary btn-registrate ">
+                      <span ng-if="idiomaLocal == 'es_MX'" ui-sref="ingresa({user: 'ambos', idioma: 'es'})">
+                        Registrate
+                      </span>
+                      <span ng-if="idiomaLocal == 'en_EN'" ui-sref="ingresa({user: 'ambos', idioma: 'en'})">
+                        Sign Up
+                      </span>
+                      <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="ingresa({user: 'ambos', idioma: 'pt'})">
+                        Registre-se
+                      </span>
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+      <!--/.container-fluid -->
+    </nav>
+    <div class="col-xs-12 text-center" ng-if="!pago">
+      <h1>Gracias por confiar en matteria</h1>
+      <h3>Por favor ingresa los siguientes datos para comenzar tu operación</h3>
+    </div>
+  </div>
+  <!--<div ng-http-loader template="views/templateMail/templatedialog.html"></div>-->
+  <div class="container-fluid">
+    <div ui-view></div>
+  </div>
+  <footer class="footer" style="background-color:#F1F1F1; padding-top:0;" ng-controller="HeaderCtrl">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-8">
+          <li style="list-style-type:none">
+            <img class="img-responsive" style="padding-top:0;" width="300" height="200" ng-src="{{API_PATH_MEDIA}}{{logo[0].logo_footer}}" ng-if="idiomaLocal == 'es_MX'" />
+            <img class="img-responsive" style="padding-top:0;" width="300" height="200" ng-src="{{API_PATH_MEDIA}}{{logo[0].logo_footer_en}}" ng-if="idiomaLocal == 'en_EN'" />
+            <img class="img-responsive" style="padding-top:0;" width="300" height="200" ng-src="{{API_PATH_MEDIA}}{{logo[0].logo_footer_pt}}" ng-if="idiomaLocal == 'pt_BR'" />
+          </li>
+        </div>
+        <div class="col-xs-12 col-md-4 text-right hidden-xs hidden-sm">
+          <li style="list-style-type:none">
+            <img class="img-responsive" width="100" height="100" style="padding-top:20px;" ng-src="images/CertificacionB-ES-300x300.png" ng-if="idiomaLocal == 'es_MX'" />
+            <img class="img-responsive" width="100" height="100" style="padding-top:20px;" ng-src="images/CertificacionB-EN-300x300.png" ng-if="idiomaLocal == 'en_EN'" />
+            <img class="img-responsive" width="100" height="100" style="padding-top:20px;" ng-src="images/CertificacionB-ES-300x300.png" ng-if="idiomaLocal == 'pt_BR'" />
+          </li>
+        </div>
+        <div class="col-xs-12 col-md-4 text-center hidden-lg hidden-md">
+          <li style="list-style-type:none">
+            <img class="img-responsive" width="100" height="100" style="padding-top:20px;" ng-src="images/CertificacionB-ES-300x300.png" ng-if="idiomaLocal == 'es_MX'" />
+            <img class="img-responsive" width="100" height="100" style="padding-top:20px;" ng-src="images/CertificacionB-EN-300x300.png" ng-if="idiomaLocal == 'en_EN'" />
+            <img class="img-responsive" width="100" height="100" style="padding-top:20px;" ng-src="images/CertificacionB-ES-300x300.png" ng-if="idiomaLocal == 'pt_BR'" />
+          </li>
+        </div>
+        <div class="col-xs-12">
+          <li style="list-style:none;">
+            <p style=" padding-left:20px;">
+              <a href="https://www.google.com.mx/maps/place/Cl.+93+%2313-42,+Bogot%C3%A1,+Colombia/@4.6757218,-74.0523573,17z/data=!3m1!4b1!4m5!3m4!1s0x8e3f9a8d83f8f111:0xfe3a7090b5bab11!8m2!3d4.6757218!4d-74.0501686" target="_blank"><span style="color:#33393A"><b>Colombia</b>: Calle 93 #13-42, Oficina 306, Bogotá</span></a> |
+              <a href="https://www.google.com.mx/maps/place/Munay+Coworking/@-34.5750433,-58.4515059,17z/data=!3m1!4b1!4m5!3m4!1s0x95bcb5c2fae48ecb:0x572a28c2a81211bc!8m2!3d-34.5750477!4d-58.4493172" target="_blank"><span style="color:#33393A"><b>Argentina</b>: Calle Teodoro Garcia 2964, Cowork Munay, Buenos Aires</span></a>
+            </p>
+          </li>
+        </div>
+        <div class="col-xs-12 margin-bottom">
+          <br />
+          <md-divider style="font-weight:bold"></md-divider>
+          <br />
+        </div>
+        <div class="col-xs-12 col-lg-9 negrita" style="text-transform:uppercase; padding-bottom:0;">
+          <li style="list-style:none;">
+            <a href ui-sref="quienessomos({scrollTo: 'manifiesto'})" style="padding-left:20px; padding-right:10px;">
+              <span ng-if="idiomaLocal == 'es_MX'" style="color:#33393A">
+                Quiénes somos
+              </span>
+              <span ng-if="idiomaLocal == 'en_EN'" style="color:#33393A">
+                Who we are
+              </span>
+              <span ng-if="idiomaLocal == 'pt_BR'" style="color:#33393A">
+                Quem somos
+              </span>
+            </a>
+            <a href ui-sref="organizaciones({scrollTo: 'servicios'})" style="padding-left:20px; padding-right:10px;">
+              <span ng-if="idiomaLocal == 'es_MX'" style="color:#33393A">
+                Qué hacemos
+              </span>
+              <span ng-if="idiomaLocal == 'en_EN'" style="color:#33393A">
+                What we do
+              </span>
+              <span ng-if="idiomaLocal == 'pt_BR'" style="color:#33393A">
+                Que fazemos
+              </span>
+            </a>
+            <a href="" style="padding-left:20px; padding-right:10px;">
+              <span ng-if="idiomaLocal == 'es_MX'" ui-sref="organizaciones({scrollTo: 'organizacion', idioma: 'es'})" style="color:#33393A">
+                Para Organizaciones
+              </span>
+              <span ng-if="idiomaLocal == 'en_EN'" ui-sref="organizaciones({scrollTo: 'organizacion', idioma: 'en'})" style="color:#33393A">
+                For Organizations
+              </span>
+              <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="organizaciones({scrollTo: 'organizacion', idioma: 'pt'})" style="color:#33393A">
+                Para Organizações
+              </span>
+            </a>
+            <a href="" style="padding-left:20px; padding-right:10px;">
+              <span ng-if="idiomaLocal == 'es_MX'" ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'es'})" style="color:#33393A">
+                Para Postulantes
+              </span>
+              <span ng-if="idiomaLocal == 'en_EN'" ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'en'})" style="color:#33393A">
+                For Candidates
+              </span>
+              <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'pt'})" style="color:#33393A">
+                Para Candidatos
+              </span>
+            </a>
+            <a href="" style="padding-left:20px; padding-right:10px;">
+              <span ng-if="idiomaLocal == 'es_MX'" ui-sref="blog({idioma: 'es'})" style="color:#33393A">
+                Clientes
+              </span>
+              <span ng-if="idiomaLocal == 'en_EN'" ui-sref="blog({idioma: 'en'})" style="color:#33393A">
+                Clients
+              </span>
+              <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="blog({idioma: 'pt'})" style="color:#33393A">
+                Clientes
+              </span>
+            </a>
+            <a href="" style="padding-left:20px; padding-right:10px;">
+              <span ng-if="idiomaLocal == 'es_MX'" ui-sref="faq({idioma: 'es'})" style="color:#33393A">
+                FAQ's
+              </span>
+              <span ng-if="idiomaLocal == 'en_EN'" ui-sref="faq({idioma: 'en'})" style="color:#33393A">
+                FAQ's
+              </span>
+              <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="faq({idioma: 'pt'})" style="color:#33393A">
+                FAQ's
+              </span>
+            </a>
+          </li>
+        </div>
+        <div class="col-xs-12 col-lg-3 hidden-xs hidden-sm" style="padding-bottom:0">
+          <li style="list-style:none;">
+            <div class="col-lg-12 text-right margin-bottom" style="padding-left:0">
+              <a href="http://bit.ly/matteria_facebook" target="_blank"><img width="30" height="30" src="images/redes_sociales/sociales-02.png" /></a>
+              <a href="http://bit.ly/matteria_twitter" target="_blank"><img width="30" height="30" src="images/redes_sociales/sociales-03.png" /></a>
+              <a href="http://bit.ly/matteria_instagram" target="_blank"><img width="30" height="30" src="images/redes_sociales/sociales-04.png" /></a>
+              <a href="http://bit.ly/matteria_linkedin" target="_blank"><img width="30" height="30" src="images/redes_sociales/sociales-05.png" /></a>
+            </div>
+          </li>
+        </div>
+        <div class="col-xs-12 col-lg-3 hidden-md hidden-lg" style="padding-bottom:0">
+          <li style="list-style:none;">
+            <div class="col-lg-12 text-center margin-bottom" style="padding-left:0">
+              <a href="http://bit.ly/matteria_facebook" target="_blank"><img width="30" height="30" src="images/redes_sociales/sociales-02.png" /></a>
+              <a href="http://bit.ly/matteria_twitter" target="_blank"><img width="30" height="30" src="images/redes_sociales/sociales-03.png" /></a>
+              <a href="http://bit.ly/matteria_instagram" target="_blank"><img width="30" height="30" src="images/redes_sociales/sociales-04.png" /></a>
+              <a href="http://bit.ly/matteria_linkedin" target="_blank"><img width="30" height="30" src="images/redes_sociales/sociales-05.png" /></a>
+            </div>
+          </li>
+        </div>
+        <div class="col-xs-12 text-left" style="padding-top:0">
+          <p style="padding-left:20px;">
+            Copyright © 2017 matteria.
+            <span ng-if="idiomaLocal == 'es_MX'">
+              Todos los Derechos Reservados.
+            </span>
+            <span ng-if="idiomaLocal == 'en_EN'">
+              All rights reserved
+            </span>
+            <span ng-if="idiomaLocal == 'pt_BR'">
+              Todos os direitos reservados
+            </span>
+          </p>
+        </div>
+        <div class="col-xs-12 text-center margin-bottom" style="padding-top:0">
+          <p>
+            <a href="http://minimalist.mx/" target="_blank"><span style="color:#33393A"><img class="img-responsive" width="30" height="30" src="images/imgminimalist.png" /> Powered by Minimalist Technology</span></a>
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-100386078-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+  <!-- build:js(.) scripts/vendor.js -->
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/moment/moment.js"></script>
+  <script src="bower_components/angular-moment/angular-moment.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-aria/angular-aria.js"></script>
+  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="bower_components/angular-messages/angular-messages.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="bower_components/angular-touch/angular-touch.js"></script>
+  <script src="bower_components/angular-material/angular-material.js"></script>
+  <script src="bower_components/angularjs-slider/dist/rzslider.js"></script>
+  <script src="bower_components/v-accordion/dist/v-accordion.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/angular-permission/dist/angular-permission.js"></script>
+  <script src="bower_components/angular-permission/dist/angular-permission-ui.js"></script>
+  <script src="bower_components/angular-permission/dist/angular-permission-ng.js"></script>
+  <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+  <script src="bower_components/ngImgCrop/compile/minified/ng-img-crop.js"></script>
+  <script src="bower_components/bootstrap-hover-dropdown/bootstrap-hover-dropdown.js"></script>
+  <script src="bower_components/angular-http-loader/app/package/js/angular-http-loader.js"></script>
+  <script src="bower_components/rangy/rangy-core.js"></script>
+  <script src="bower_components/rangy/rangy-classapplier.js"></script>
+  <script src="bower_components/rangy/rangy-highlighter.js"></script>
+  <script src="bower_components/rangy/rangy-selectionsaverestore.js"></script>
+  <script src="bower_components/rangy/rangy-serializer.js"></script>
+  <script src="bower_components/rangy/rangy-textrange.js"></script>
+  <script src="bower_components/textAngular/dist/textAngular.js"></script>
+  <script src="bower_components/textAngular/dist/textAngular-sanitize.js"></script>
+  <script src="bower_components/textAngular/dist/textAngularSetup.js"></script>
+  <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+  <script src="bower_components/angular-translate/angular-translate.js"></script>
+  <script src="bower_components/angularjs-socialshare/dist/angular-socialshare.min.js"></script>
+  <script src="bower_components/angular-ui-carousel/dist/ui-carousel.js"></script>
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:js({.tmp,app}) scripts/scripts.js -->
+  <script src="scripts/app.js"></script>
+  <script src="scripts/controllers/header.js"></script>
+  <script src="scripts/controllers/main.js"></script>
+  <script src="scripts/controllers/about.js"></script>
+  <script src="scripts/controllers/clientes.js"></script>
+  <script src="scripts/controllers/organizaciones.js"></script>
+  <script src="scripts/controllers/faq.js"></script>
+  <script src="scripts/controllers/quienessomos.js"></script>
+  <script src="scripts/controllers/comofunciona.js"></script>
+  <script src="scripts/controllers/login.js"></script>
+  <script src="scripts/controllers/registro.js"></script>
+  <script src="scripts/controllers/perfilpostulante.js"></script>
+  <script src="scripts/controllers/perfilorganizacion.js"></script>
+  <script src="scripts/controllers/vacante.js"></script>
+  <script src="scripts/controllers/perfilpublicoorganizacion.js"></script>
+  <script src="scripts/controllers/publicacionesoferta.js"></script>
+  <script src="scripts/controllers/viewoferta.js"></script>
+  <script src="scripts/controllers/misvacantes.js"></script>
+  <script src="scripts/controllers/perfilcompartidopostulante.js"></script>
+  <script src="scripts/controllers/mispostulaciones.js"></script>
+  <script src="scripts/controllers/verpostulantes.js"></script>
+  <script src="scripts/controllers/configuracionespostulante.js"></script>
+  <script src="scripts/controllers/configuracionesorganizacion.js"></script>
+  <script src="scripts/services/contenido.service.js"></script>
+  <script src="scripts/controllers/perfil.js"></script>
+  <script src="scripts/controllers/perfilo.js"></script>
+  <script src="scripts/controllers/payu.js"></script>
+  <script src="scripts/services/imagen.service.js"></script>
+  <script src="scripts/filter/vacantes.js"></script>
+  <script src="scripts/paginacion/angular-pagination.js"></script>
+  <script src="scripts/rating/jk-rating-stars.js"></script>
+  <!-- endbuild -->
+</body>
+</html>
