@@ -35,7 +35,7 @@
 
         <div class="col-xs-12 thumbnail-vacantes-interna">
             <div class="col-lg-6 margin-bottom">
-                <button class="btn btn-lg btn-primary" ng-click="doTheBack()"><i class="fa fa-angle-left" aria-hidden="true"></i> Volver</button>
+                <button id="volverBtn" class="btn btn-lg btn-primary" ng-click="doTheBack()"><i class="fa fa-angle-left" aria-hidden="true"></i> Volver</button>
             </div>
             <div class="col-xs-12 margin-bottom">
                 <br />
@@ -49,7 +49,7 @@
                         <img class="img-responsive" src="{{API_PATH_MEDIA}}/media/avatar_default/Avatar.jpg" ng-if="vacante.keep_company_alias" />
                     </div>
                 </div>
-                <div class="col-xs-9 margin-bottom">
+                <div class="col-xs-12 margin-bottom">
                     <div class="col-xs-12">
                         <h1 ng-if="!vacante.keep_company_alias">{{vacante.company}}</h1>
                         <h1 ng-if="vacante.keep_company_alias">{{vacante.alternate_company_alias}}</h1>
@@ -73,48 +73,89 @@
                     </div>
                     <div class="col-xs-12">
                         <br />
-                        <!--<script>
-                            function face(url, descripcion) {
-                                
-                            }
-                            
-                        </script>-->
-                        <button class="btn btn-lg btn-primary btn-registrate " ng-click="postula($event);" ng-show="!postulado && role != 'ORGANIZACION'" ng-disabled="isClick">¡Aplicar!</button>
-                        <a ng-if="!vacante.keep_company_alias" href="#" ng-click="face(vacante.id, vacante.company + '-' + vacante.name, vacante.company_logo);">
-                            <img width="30" height="30" src="images/redes_sociales/sociales-02.png" />
-                        </a>
-                        <a ng-if="vacante.keep_company_alias" href="#" ng-click="face(vacante.id, vacante.alternate_company_alias + '-' + vacante.name, '/media/avatar_default/Avatar.jpg');">
-                            <img width="30" height="30" src="images/redes_sociales/sociales-02.png" />
-                        </a>
-                        <!--<a href={{vacante.company_social_facebook}} target="_blank">
-
-                        </a>-->
-                        <a href="#"
-                           socialshare
-                           socialshare-provider="twitter"
-                           socialshare-text="{{vacante.company}}{{vacante.name}}"
-                           socialshare-hashtags="matteria, {{vacante.company}}"
-                           socialshare-url="http://matteria.co/vacante/{{vacante.id}}">
-                            <img width="30" height="30" src="images/redes_sociales/sociales-03.png" />
-                        </a>
-                        <!--<a href={{vacante.company_socia.l_twitter}} target="_blank">
-
-                        </a>-->
-                        <a href="{{vacante.company_social_instagram}}" target="_blank">
-                            <img width="30" height="30" src="images/redes_sociales/sociales-04.png" />
-                        </a>
-                        <a href="{{vacante.company_social_linkedin}}" target="_blank">
-                            <img width="30" height="30" src="images/redes_sociales/sociales-05.png" />
-                        </a>
-                        <!--<i class="btn btn-lg fa fa-linkedin-square fa-2x" style="color:#86BC40; padding-right:0" aria-hidden="true"></i>
-                        <i class="btn btn-lg fa fa-facebook-square fa-2x" style="color:#86BC40; padding-left:0; padding-right:0" aria-hidden="true"></i>
-                        <i class="btn btn-lg fa fa fa-twitter-square fa-2x" style="color:#86BC40; padding-left:0; padding-right:0" aria-hidden="true"></i>-->
-                        <a href={{vacanteurl}}>
-                            <img width="30" height="30" src="../images/redes_sociales/Enviar.png" />
-                        </a>
+                        <button class="btn btn-lg btn-primary btn-registrate " ng-click="postula($event);" ng-show="!postulado && role != 'ORGANIZACION'" ng-disabled="isClick">¡Aplicar!</button><br class="visible-xs">
+                        <span style="padding-left: 30px; padding-right: 5px;">
+                            <b class="hidden-xs">Comparte esta vacante</b> 
+                        </span>
+                        <br class="visible-xs"><br class="visible-xs">
+                        <span class="hidden-xs">
+                                <a ng-if="!vacante.keep_company_alias" href="#" ng-click="face(vacante.id, vacante.company + '-' + vacante.name, vacante.company_logo);">
+                                    <img width="30" height="30" src="images/redes_sociales/sociales-02.png" />
+                                </a>
+                                <a ng-if="vacante.keep_company_alias" href="#" ng-click="face(vacante.id, vacante.alternate_company_alias + '-' + vacante.name, '/media/avatar_default/Avatar.jpg');">
+                                    <img width="30" height="30" src="images/redes_sociales/sociales-02.png" />
+                                </a>
+                                <a href="#"
+                                    socialshare
+                                    socialshare-provider="twitter"
+                                    socialshare-text="Hola, encontré esta vacante y creo que te puede interesar: {{vacante.company}} - {{vacante.name}}"
+                                    socialshare-hashtags="matteria, {{vacante.company}}"
+                                    socialshare-url="http://matteria.co/vacante/{{vacante.id}}">
+                                    <img width="30" height="30" src="images/redes_sociales/sociales-03.png" />
+                                </a>
+                                <a href="#"
+                                    socialshare
+                                    socialshare-provider="linkedin"
+                                    socialshare-text="{{vacante.company}}{{vacante.name}}"
+                                    socialshare-description="Hola, encontré esta vacante y creo que te puede interesar"
+                                    socialshare-url="http://matteria.co/vacante/{{vacante.id}}">
+                                <img width="30" height="30" src="images/redes_sociales/sociales-05.png" />
+                                </a>
+                                <a href={{vacanteurl}}>
+                                    <img width="30" height="30" src="../images/redes_sociales/Enviar.png" />
+                                </a>
+                        </span>
+                        <div class="visible-xs">
+                                <div class="col-xs-12 text-center">
+                                        <b>Comparte esta vacante</b> 
+                                </div>
+                            <div class="col-xs-2">
+                                <a ng-if="!vacante.keep_company_alias" href="#" ng-click="face(vacante.id, vacante.company + '-' + vacante.name, vacante.company_logo);">
+                                    <img width="30" height="30" src="images/redes_sociales/sociales-02.png" />
+                                </a>
+                                <a ng-if="vacante.keep_company_alias" href="#" ng-click="face(vacante.id, vacante.alternate_company_alias + '-' + vacante.name, '/media/avatar_default/Avatar.jpg');">
+                                    <img width="30" height="30" src="images/redes_sociales/sociales-02.png" />
+                                </a>
+                            </div>
+                            <div class="col-xs-2">
+                                <a href="#"
+                                    socialshare
+                                    socialshare-provider="twitter"
+                                    socialshare-text="{{vacante.company}}{{vacante.name}}"
+                                    socialshare-hashtags="matteria, {{vacante.company}}"
+                                    socialshare-url="http://matteria.co/vacante/{{vacante.id}}">
+                                    <img width="30" height="30" src="images/redes_sociales/sociales-03.png" />
+                                </a>
+                            </div>
+                            <div class="col-xs-2">
+                                <a href="#" 
+                                    socialshare
+                                    socialshare-provider="whatsapp"
+                                    socialshare-text="Mira esta vacante, tal vez te pueda interesar:"
+                                    socialshare-url="{{mensajeUrl}}">
+                                    <img class="visible-xs" width="30" height="30" src="images/redes_sociales/social-12.png" />
+                                </a>
+                            </div>
+                            <div class="col-xs-2">
+                                <a href="#"
+                                    socialshare
+                                    socialshare-provider="linkedin"
+                                    socialshare-text="{{vacante.company}}{{vacante.name}}"
+                                    socialshare-description="Hola, encontré esta vacante y creo que te puede interesar"
+                                    socialshare-url="http://matteria.co/vacante/{{vacante.id}}">
+                                <img width="30" height="30" src="images/redes_sociales/sociales-05.png" />
+                                </a>
+                            </div>
+                            <div class="col-xs-2">
+                                <a href={{vacanteurl}}>
+                                    <img width="30" height="30" src="../images/redes_sociales/Enviar.png" />
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-xs-12 margin-bottom">
+                    
                     <br />
                     <br />
                     <h4 ng-if="!vacante.keep_company_alias" class="negrita"><span>¿Quienes somos?</span></h4>
@@ -167,15 +208,81 @@
                     <button class="btn btn-lg btn-primary btn-registrate" ng-click="postula();" ng-show="!postulado && role == 'POSTULANTE'" ng-disabled="isClick">¡Aplicar!</button>
                 </div>
                 <div class="col-xs-12 text-center margin-bottom">
-                    <img width="30" height="30" src="images/redes_sociales/sociales-02.png" />
-                    <img width="30" height="30" src="images/redes_sociales/sociales-03.png" />
-                    <img width="30" height="30" src="images/redes_sociales/sociales-04.png" />
-                    <img width="30" height="30" src="images/redes_sociales/sociales-05.png" />
-                    <a href={{vacanteurl}}>
-                        <img width="30" height="30" src="../images/redes_sociales/Enviar.png" />
-                    </a>
+                    <b>Comparte esta vacante  </b> <br><br>
+                    <span class="hidden-xs">
+                        <a ng-if="!vacante.keep_company_alias" href="#" ng-click="face(vacante.id, vacante.company + '-' + vacante.name, vacante.company_logo);">
+                            <img width="30" height="30" src="images/redes_sociales/sociales-02.png" />
+                        </a>
+                        <a ng-if="vacante.keep_company_alias" href="#" ng-click="face(vacante.id, vacante.alternate_company_alias + '-' + vacante.name, '/media/avatar_default/Avatar.jpg');">
+                            <img width="30" height="30" src="images/redes_sociales/sociales-02.png" />
+                        </a>
+                        <a href="#"
+                            socialshare
+                            socialshare-provider="twitter"
+                            socialshare-text="{{vacante.company}}{{vacante.name}}"
+                            socialshare-hashtags="matteria, {{vacante.company}}"
+                            socialshare-url="http://matteria.co/vacante/{{vacante.id}}">
+                            <img width="30" height="30" src="images/redes_sociales/sociales-03.png" />
+                        </a>
+                        <a href="#"
+                            socialshare
+                            socialshare-provider="linkedin"
+                            socialshare-text="{{vacante.company}}{{vacante.name}}"
+                            socialshare-description="Hola, encontré esta vacante y creo que te puede interesar"
+                            socialshare-url="http://matteria.co/vacante/{{vacante.id}}">
+                        <img width="30" height="30" src="images/redes_sociales/sociales-05.png" />
+                        </a>
+                        <a href={{vacanteurl}}>
+                            <img width="30" height="30" src="../images/redes_sociales/Enviar.png" />
+                        </a>
+                    </span>
+                    <div class="visible-xs">
+                        <div class="col-xs-2">
+                            <a ng-if="!vacante.keep_company_alias" href="#" ng-click="face(vacante.id, vacante.company + '-' + vacante.name, vacante.company_logo);">
+                                <img width="30" height="30" src="images/redes_sociales/sociales-02.png" />
+                            </a>
+                            <a ng-if="vacante.keep_company_alias" href="#" ng-click="face(vacante.id, vacante.alternate_company_alias + '-' + vacante.name, '/media/avatar_default/Avatar.jpg');">
+                                <img width="30" height="30" src="images/redes_sociales/sociales-02.png" />
+                            </a>
+                        </div>
+                        <div class="col-xs-2">
+                            <a href="#"
+                                socialshare
+                                socialshare-provider="twitter"
+                                socialshare-text="{{vacante.company}}{{vacante.name}}"
+                                socialshare-hashtags="matteria, {{vacante.company}}"
+                                socialshare-url="http://matteria.co/vacante/{{vacante.id}}">
+                                <img width="30" height="30" src="images/redes_sociales/sociales-03.png" />
+                            </a>
+                        </div>
+                        <div class="col-xs-2">
+                            <a href="#" 
+                                socialshare
+                                socialshare-provider="whatsapp"
+                                socialshare-text="Mira esta vacante, tal vez te pueda interesar:"
+                                socialshare-url="{{mensajeUrl}}">
+                                <img class="visible-xs" width="30" height="30" src="images/redes_sociales/social-12.png" />
+                            </a>
+                        </div>
+                        <div class="col-xs-2">
+                            <a href="#"
+                                socialshare
+                                socialshare-provider="linkedin"
+                                socialshare-text="{{vacante.company}}{{vacante.name}}"
+                                socialshare-description="Hola, encontré esta vacante y creo que te puede interesar"
+                                socialshare-url="http://matteria.co/vacante/{{vacante.id}}">
+                            <img width="30" height="30" src="images/redes_sociales/sociales-05.png" />
+                            </a>
+                        </div>
+                        <div class="col-xs-2">
+                            <a href={{vacanteurl}}>
+                                <img width="30" height="30" src="../images/redes_sociales/Enviar.png" />
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+

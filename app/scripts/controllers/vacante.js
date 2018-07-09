@@ -21,23 +21,35 @@ angular.module('tcsGruntApp')
     var newLine = escape("\n");
     var url = "<a href'" + window.location.href + "'>" + window.location.href + "</a>"
     $scope.vacanteurl = 'mailto:?subject=Mira esta vacante en matteria, me parece que te puede interesar.&body=' + newLine + window.location.href + newLine + '';
+    $scope.mensajeUrl =  window.location.href;
+    //console.log($scope.mensajeUrl);
     $scope.role = $window.localStorage.role;
     $scope.isClick = false;
     $window.localStorage.validacion = false;
 
+
+    //window.history.pushState('forward', null, './#forward');
+    $(window).on('popstate', function() {
+      $window.localStorage.if_url  = true;
+      $window.location.href = $window.localStorage.url_return;
+    });
+    
     $scope.doTheBack = function () {
       //console.log($window.localStorage.url_vacante.split("api/")[1]);
       //$window.localStorage.url_vacante = $window.localStorage.url_vacante.split("api/")[1];
+     // $window.localStorage.if_url  = true;
       $window.location.href = $window.localStorage.url_return;
+      
+     
     };
-
+    
     $scope.face = function (url, descripcion, img) {
       FB.ui({
         method: 'share_open_graph',
         action_type: 'og.shares',
         action_properties: JSON.stringify({
           object: {
-            'og:url': 'http://matteria.co/vacante/' + url, // your url to share
+            'og:url': 'http://matteria.co/vacante/'+ url, // your url to share
             'og:title': 'Hola, encontré esta vacante y creo que te puede interesar',
             'og:description': descripcion,
             'og:image': API_PATH_MEDIA + img

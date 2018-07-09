@@ -37,7 +37,7 @@
                                     <md-input-container class="md-block">
                                         <label>Tipo <span style="color:dodgerblue">*</span></label>
                                         <md-select required md-no-asterisk name="tipo" ng-model="company.tipo" aria-label="tipo">
-                                            <md-option selected ng-value="0"><em>Todos</em></md-option>
+                                            <md-option selected ng-value="0"><em>Todos</em></md-option> 
                                             <md-option ng-repeat="tipo in tipos" ng-value="tipo.id" ng-selected="$index == company.company_type.id - 1">
                                                 {{tipo.name}}
                                             </md-option>

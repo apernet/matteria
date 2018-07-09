@@ -198,7 +198,7 @@
                   <md-input-container class="md-block" flex-gt-sm>
                     <label ng-if="idiomaLocal == 'es_MX'">Jornada</label><label ng-if="idiomaLocal == 'en_EN'">Format</label><label ng-if="idiomaLocal == 'pt_BR'">Formato</label><br /><br />
                     <div class="col-xs-12" flex="60">
-                      <md-checkbox ng-repeat="horarios in tipohorario" ng-checked="exists(horarios.id, selected)" ng-click="toggle(horarios.id, selected)">
+                      <md-checkbox ng-model="intereses_checkbox" ng-repeat="horarios in tipohorario" ng-checked="exists(horarios.id, selected)" ng-click="toggle(horarios.id, selected)">
                         {{ horarios.name }}
                       </md-checkbox>
 
@@ -444,7 +444,7 @@
                     <label ng-if="idiomaLocal == 'en_EN'">City</label>
                     <label ng-if="idiomaLocal == 'pt_BR'">Cidade</label>
                     <md-select ng-model="busqueda.filterciudad" name="city" aria-label="city">
-                      <md-option selected><em>Seleccionar</em></md-option>
+                      <md-option value="" selected><em>Seleccionar</em></md-option>
                       <md-option ng-repeat="estado in estados track by $index" ng-value="estado.name" ng-selected="estado.name == experties.city">
                         {{estado.name}}
                       </md-option>
@@ -455,7 +455,7 @@
                     <label ng-if="idiomaLocal == 'es_MX'">Cuidad</label>
                     <label ng-if="idiomaLocal == 'en_EN'">City</label>
                     <label ng-if="idiomaLocal == 'pt_BR'">Cidade</label>
-                    <input name="city" ng-model="busqueda.filterciudad">
+                    <input name="city" ng-model="busqueda.filterciudad" ng-value="">
                   </md-input-container>
                 </div>
 
@@ -468,9 +468,9 @@
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm>
-                  <label ng-if="idiomaLocal == 'es_MX'">Jornada</label><label ng-if="idiomaLocal == 'en_EN'">Format</label><label ng-if="idiomaLocal == 'pt_BR'">Formato</label><br /><br />
+                  <label ng-if="idiomaLocal == 'es_MX'">Jornada laboral</label><label ng-if="idiomaLocal == 'en_EN'">Format</label><label ng-if="idiomaLocal == 'pt_BR'">Formato</label><br /><br />
                   <div class="col-xs-12" flex="60">
-                    <md-checkbox ng-repeat="horarios in tipohorario" ng-checked="exists(horarios.id, selected)" ng-click="toggle(horarios.id, selected)">
+                    <md-checkbox  ng-repeat="horarios in tipohorario" ng-checked="exists(horarios.id, selected)" ng-click="toggle(horarios.id, selected)">
                       {{ horarios.name }}
                     </md-checkbox>
 
@@ -543,7 +543,7 @@
                         <br />
                         <div class="col-xs-12" ng-repeat="interes in intereses">
 
-                          <md-checkbox aria-label="interes.name" ng-checked="exists_interes(interes.id, selected_interes)" ng-click="toggle_interes(interes.id, selected_interes)">
+                          <md-checkbox ng-model="intereses_checkbox" aria-label="interes.name" ng-checked="exists_interes(interes.id, selected_interes)" ng-click="toggle_interes(interes.id, selected_interes)">
                             {{interes.name}}
                           </md-checkbox>
 
@@ -555,7 +555,6 @@
 
                 </md-input-container>
                 <br />
-
                 <md-input-container class="md-block" style="margin-bottom:10px; margin-top:0;">
                   <label ng-if="idiomaLocal == 'es_MX'">Profesiones &nbsp;&nbsp;ej. Doctor, Publicidad, etc.</label>
                   <label ng-if="idiomaLocal == 'en_EN'">Studies &nbsp;&nbsp;eg: Business, Engineering, etc...</label>
@@ -721,6 +720,7 @@
         </div>
       </div>
 
+      
       <div class="col-xs-12 col-md-offset-2 margin-bottom text-center">
         <div class="pagination-panel">
           <button ng-click="beforePage()" type="button" ng-disabled="previous==null"><span ng-if="idiomaLocal == 'es_MX'">Anterior</span><span ng-if="idiomaLocal == 'en_EN'">Back</span><span ng-if="idiomaLocal == 'pt_BR'">Costas</span></button>

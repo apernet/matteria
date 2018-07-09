@@ -33,16 +33,17 @@ angular
     'ui.carousel'
   ])
   //Pruebass
-  //.constant('API_PATH', 'http://apitest.matteria.co/api/')
-  //.constant('API_PATH_MEDIA', 'http://apitest.matteria.co')
+  .constant('API_PATH', 'http://apitest.matteria.co/api/')
+  .constant('API_PATH_MEDIA', 'http://apitest.matteria.co')
 
   //Produccion
-  .constant('API_PATH', 'https://api.matteria.co/api/')
-  .constant('API_PATH_MEDIA', 'https://api.matteria.co')
+  // .constant('API_PATH', 'https://api.matteria.co/api/')
+  // .constant('API_PATH_MEDIA', 'https://api.matteria.co')
 
   //Local
-  //.constant('API_PATH', 'http://127.0.0.1:8001/api/')
-  //.constant('API_PATH_MEDIA', 'http://127.0.0.1:8001')
+  // .constant('API_PATH', 'http://127.0.0.1:8000/api/')
+  // .constant('API_PATH_MEDIA', 'http://127.0.0.1:8000')
+
 
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $qProvider, $httpProvider, $translateProvider, API_PATH) {
     //$httpProvider.defaults.headers.common = {};
@@ -94,7 +95,6 @@ angular
       .state('perfilorganizacion', {
         url: '/perfilorganizacion/:idioma',
         templateUrl: 'views/perfilorganizacion.html',
-
         data: {
           permissions: {
             only: ['ORGANIZACION'],
@@ -214,6 +214,17 @@ angular
         url: '/misvacantes/:idioma',
         templateUrl: 'views/misvacantes.html',
         controller: 'MisVacanteCtrl'
+      })
+      .state('editarvacante', {
+        url: '/editarvacante/:id',
+        templateUrl: 'views/editarvacante.html',
+        controller: 'EditarVacanteCtrl',
+        data: {
+          permissions: {
+            only: ['ORGANIZACION'],
+            redirectTo: '/'
+          }
+        }
       })
       .state('politicasdeprivacidad', {
         url: '/politicasdeprivacidad',

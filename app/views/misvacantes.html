@@ -70,7 +70,7 @@
                         <div class="col-xs-12">
                             <ul style="padding-left: 0;">
                                 <li>
-                                    <p style="margin-bottom:0;"><span class="negrita">Profesiones: </span><span ng-repeat="profesiones in vacante.professions">{{profesiones.name}}</span></p>
+                                    <p style="margin-bottom:0;"><span class="negrita">Profesiones: </span><span ng-repeat="profesiones in vacante.professions">{{profesiones.name}}, </span></p>
                                 </li>
                                 <li>
                                     <p style="margin-bottom:0;"><span class="negrita">Años de experiencia: </span><span>{{vacante.years_experience}}</span></p>
@@ -85,9 +85,10 @@
                                     <p style="margin-bottom:0;"><span class="negrita">Fecha de cierre: </span><small>{{vacante.close_opening}}, </small></p>
                                 </li>
                                 <li>
-                                    <p style="margin-bottom:0;" ng-if="vacante.opening_class == 1"><span class="negrita">Tipo de servicio: </span><small >(F) - Filtrado</small></p>
-                                    <p style="margin-bottom:0;" ng-if="vacante.opening_class == 2"><span class="negrita">Tipo de servicio: </span><small>(P) - Postulación</small></p>
-                                    <p style="margin-bottom:0;" ng-if="vacante.opening_class == 3"><span class="negrita">Tipo de servicio: </span><small>(H) - Headhunting</small></p>
+                                    <p style="margin-bottom:0;" ng-if="vacante.opening_type == 'Headhunting'"><span class="negrita">Tipo de servicio: </span><small >(H) - Headhunting</small></p>
+                                    <p style="margin-bottom:0;" ng-if="vacante.opening_type == 'Publicación + Filtro'"><span class="negrita">Tipo de servicio: </span><small>(PF) - Publicación + Filtro</small></p>
+                                    <p style="margin-bottom:0;" ng-if="vacante.opening_type == 'Publicación + Difusión'"><span class="negrita">Tipo de servicio: </span><small>(PD) - Publicación + Difusión</small></p>
+                                    <p style="margin-bottom:0;" ng-if="vacante.opening_type == 'Publicación'"><span class="negrita">Tipo de servicio: </span><small>(P) - Publicación</small></p>
                                 </li>
                             </ul>
                         </div>
@@ -104,11 +105,12 @@
                             Propósito del cargo:
                         </p>
                         <p class="text-left" ng-bind-html="vacante.activities"></p>
-                        <div class="col-xs-12 text-right">
-                            <a class="btn btn-md btn-primary" ng-click="urlPostulantes(vacante.id);">Ver postulantes</a>
-                            <a class="btn btn-md btn-primary btn-registrate" ng-if="vacante.status_opening == 'published'" ng-click="caducar(vacante.id, $event);">Caducar Vacante </a>
-                        </div>
-                    </div>                    
+                    </div>   
+                    <div class="col-xs-12 text-right">
+                        <a class="btn btn-md btn-primary" ng-click="urlPostulantes(vacante.id);">Ver postulantes</a>
+                        <a class="btn btn-md btn-primary btn-registrate" ng-if="vacante.status_opening == 'published'" ng-click="caducar(vacante.id, $event);">Caducar Vacante </a>
+                        <a class="btn btn-md btn-primary" ng-if="vacante.status_opening == 'published'" href="/editarvacante/{{vacante.id}}">Editar Vacante </a>
+                    </div>                 
                 </div>
             </div>
         </div>

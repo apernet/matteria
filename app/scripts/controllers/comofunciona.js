@@ -13,13 +13,14 @@ angular.module('tcsGruntApp')
     $scope.filterFin = new Date();
 
     //console.log($scope.filterInicio);
+
     $scope.busqueda = {};
     $scope.sllider = [{}];
     $scope.vacantes = [{}];
     $scope.next = [{}];
     $scope.previous = [{}];
     $scope.pages = [{}];
-    $scope.pagesinit = 1;
+    $scope.pagesinit = parseInt(1);
     $scope.comofunciona = [];
     $scope.intereses = [{}];
     $scope.paises = [{}];
@@ -37,7 +38,7 @@ angular.module('tcsGruntApp')
     $scope.filtro_f = "filtrar";
     $scope.next = [{}];
     $scope.previous = [{}];
-    //$window.localStorage.if_url = false;
+    $window.localStorage.if_url = false;
 
     $scope.filter_services = function (service) {
       $scope.vacantes = [];
@@ -214,9 +215,17 @@ angular.module('tcsGruntApp')
 
     //vacantes
     console.log($window.localStorage.if_url);
-    if ($window.localStorage.if_url == "true") {
-      console.log($window.localStorage.url_vacante);
+    window.onhashchange = function() { 
+      //$('#volverBtn').attr('ng-click','doTheBack()');
+      $scope.url_json = $window.localStorage.url_vacante;
+      //console.log("Json page: "+window.localStorage.url_vacante.split("&")[1].split("=")[1]);
+    } 
+    if($scope.url_json) {
+      console.log("Si existe una variable url");
+    }
+    if ($window.localStorage.if_url == true || $window.sessionStorage['sesionNext']  ) {
       $window.localStorage.if_url = false;
+      console.log($window.sessionStorage['sesionNext']);
       $http({
         url: $window.localStorage.url_vacante,
         method: 'GET',
@@ -226,7 +235,7 @@ angular.module('tcsGruntApp')
       }).then(function successCallback(data) {
         $scope.vacantes = data.data.results;
         $scope.pages = data.data.pages;
-        $scope.pagesinit = $window.localStorage.url_vacante.split("&")[1].split("=")[1];
+        $scope.pagesinit = parseInt($window.localStorage.url_vacante.split("&")[1].split("=")[1]);
         $scope.next = data.data.next;
         $scope.previous = data.data.previous;
       });
@@ -242,7 +251,7 @@ angular.module('tcsGruntApp')
         $scope.pages = data.data.pages;
         $scope.next = data.data.next;
         $scope.previous = data.data.previous;
-
+        $window.sessionStorage['sesionNext']  = $scope.next;
       });
     }
 
@@ -290,9 +299,18 @@ angular.module('tcsGruntApp')
       $scope.intervals = data.data;
     });
 
+    //Control del navegador atras
+    // if ($window.history && $window.history.pushState) {
+    //   alert("Clic atras");
+    // }
+
     $scope.url = function (id) {
       //console.log(id);
+      $window.sessionStorage['sesionNext'] = $location.path();
+      console.log($window.sessionStorage['sesionNext']);
       $window.localStorage.url_return = $location.path();
+     // console.log('$window.localStorage.url_return value: '+$window.localStorage.url_return);
+      //console.log('$window.localStorage.url_vacante value: '+$window.localStorage.url_vacante);
       $location.url('/vacante/' + id);
     }
     //Busquedas
@@ -512,7 +530,7 @@ angular.module('tcsGruntApp')
       //console.log("Fecha modificada: " + day + "/" + month + "/" + year);
       return year + "-" + month + "-" + day;
     }
-
+   
     $scope.buscar_vacante = function (ev) {
       //console.log($scope.selectedVegetables);
       $scope.pagesinit = 1;
@@ -542,8 +560,49 @@ angular.module('tcsGruntApp')
       if ($scope.busqueda.filterinervalo == undefined) { open_opening = ""; } else { open_opening = mostrarFecha(-$scope.busqueda.filterinervalo); }
 
       if ($scope.busqueda.filterNombre != "" || $scope.busqueda.filterPais != "" || $scope.busqueda.filterciudad != "" || $scope.busqueda.filterdesdesalario != "" || $scope.busqueda.filterhastasalario != "" || $scope.busqueda.filterAnosExperencia != "" || open_opening != "" || avaliability != "" || interests != "" || professions != "") {
-        console.log($scope.busqueda.filterNombre + '---' + $scope.busqueda.filterPais);
-        if ($scope.busqueda.filterPais == "") {
+        if($scope.busqueda.filterPais == "" ) {
+   
+          contenidoFactory.ServiceContenido('openings/?salary_min=' + $scope.busqueda.filterdesdesalario + '&salary_max=' + $scope.busqueda.filterhastasalario + '&years_experience=' + $scope.busqueda.filterAnosExperencia + avaliability + interests + professions + '&open_opening=' + open_opening + '&search=' + $scope.busqueda.filterNombre, 'GET', '{}').then(function (data) {
+            $scope.vacantes = data.data.results;
+            $scope.pages = data.data.pages;
+            $scope.pagesinit = $scope.pagesinit;
+            $scope.next = data.data.next;
+            $scope.previous = data.data.previous;
+          });
+        }
+        //console.log($scope.busqueda.filterNombre + '---' + $scope.busqueda.filterPais);
+        if($scope.busqueda.filterciudad != "" ) {
+          // console.log("Pais: "+$scope.busqueda.filterPais + " Ciudad: " +$scope.busqueda.filterciudad);
+          // console.log("Solo buscas por pais y ciudad");
+          
+          console.log('openings/?country=' + $scope.busqueda.filterPais + '&city=' + $scope.busqueda.filterciudad + '&salary_min=' + $scope.busqueda.filterdesdesalario + '&salary_max=' + $scope.busqueda.filterhastasalario + '&years_experience=' + $scope.busqueda.filterAnosExperencia + avaliability + interests + professions + '&open_opening=' + open_opening + '&search=' + $scope.busqueda.filterNombre);
+
+          contenidoFactory.ServiceContenido('openings/?country=' + $scope.busqueda.filterPais + '&city=' + $scope.busqueda.filterciudad + '&salary_min=' + $scope.busqueda.filterdesdesalario + '&salary_max=' + $scope.busqueda.filterhastasalario + '&years_experience=' + $scope.busqueda.filterAnosExperencia + avaliability + interests + professions + '&open_opening=' + open_opening + '&search=' + $scope.busqueda.filterNombre, 'GET', '{}').then(function (data) {
+            $scope.vacantes = data.data.results;
+            $scope.pages = data.data.pages;
+            $scope.pagesinit = $scope.pagesinit;
+            $scope.next = data.data.next;
+            $scope.previous = data.data.previous;
+          });
+          
+        } else {
+          // console.log("Solo buscas por pais");
+          // console.log("Pais: "+$scope.busqueda.filterPais + " Ciudad: " +$scope.busqueda.filterciudad);
+
+          console.log('openings/?country=' + $scope.busqueda.filterPais+ '&salary_min=' + $scope.busqueda.filterdesdesalario + '&salary_max=' + $scope.busqueda.filterhastasalario + '&years_experience=' + $scope.busqueda.filterAnosExperencia + avaliability + interests + professions + '&open_opening=' + open_opening + '&search=' + $scope.busqueda.filterNombre);
+
+          contenidoFactory.ServiceContenido('openings/?country=' + $scope.busqueda.filterPais + '&salary_min=' + $scope.busqueda.filterdesdesalario + '&salary_max=' + $scope.busqueda.filterhastasalario + '&years_experience=' + $scope.busqueda.filterAnosExperencia + avaliability + interests + professions + '&open_opening=' + open_opening + '&search=' + $scope.busqueda.filterNombre, 'GET', '{}').then(function (data) {
+            console.log(data.data.results);
+            $scope.vacantes = data.data.results;
+            $scope.pages = data.data.pages;
+            $scope.pagesinit = $scope.pagesinit;
+            $scope.next = data.data.next;
+            $scope.previous = data.data.previous;
+            console.log("Pagina siguiente:" + $scope.next);
+          });
+
+        }
+        /*if ($scope.busqueda.filterPais == "") {
 
           console.log('openings/?city=' + $scope.busqueda.filterciudad + '&salary_min=' + $scope.busqueda.filterdesdesalario + '&salary_max=' + $scope.busqueda.filterhastasalario + '&years_experience=' + $scope.busqueda.filterAnosExperencia + avaliability + interests + professions + '&open_opening=' + open_opening + '&search=' + $scope.busqueda.filterNombre);
 
@@ -553,7 +612,7 @@ angular.module('tcsGruntApp')
             $scope.pages = data.data.pages;
             $scope.next = data.data.next.toString().split("api/")[1];
             $scope.previous = data.data.previous.toString().split("api/")[1];
-
+            console.log($scope.next );
           });
         }
         else {
@@ -568,7 +627,7 @@ angular.module('tcsGruntApp')
             $scope.next = data.data.next.toString().split("api/")[1];
             $scope.previous = data.data.previous.toString().split("api/")[1];
           });
-        }
+        }*/
 
       }
       else {
@@ -579,10 +638,12 @@ angular.module('tcsGruntApp')
     $scope.borrar_filtros = function () {
       contenidoFactory.ServiceContenido('openings/?format=json', 'GET', '{}').then(function (data) {
 
-        //console.log(data.data);
         $scope.filtro_h = "filtrar";
         $scope.filtro_p = "filtrar";
         $scope.filtro_f = "filtrar";
+        $scope.selectedVegetables = [];
+        $scope.selected = [];
+        $scope.selected_interes = [];
         $scope.busqueda = {};
         $scope.vacantes = data.data.results;
         $scope.pages = data.data.pages;
@@ -640,9 +701,11 @@ angular.module('tcsGruntApp')
       //    console.log($scope.next);
       //    console.log($scope.previous);
       //});
-      console.log($scope.next);
+      
       $window.localStorage.url_vacante = $scope.next;
       $window.localStorage.if_url = true;
+
+
       $http({
         url: $scope.next,
         method: 'GET',

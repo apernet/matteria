@@ -73,6 +73,7 @@ angular.module('tcsGruntApp')
           });          
       }
 
+
       //Vacante
       function vervacantes() {
           contenidoFactory.ServiceContenido('companies/' + $window.localStorage.id_company + '/openings/?format=json', 'GET', '{}').then(function (data) {

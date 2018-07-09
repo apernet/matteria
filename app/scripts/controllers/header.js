@@ -59,6 +59,7 @@ angular.module('tcsGruntApp')
       $window.localStorage.clear();
       $window.location.assign('/ingresa');
       $window.localStorage.idioma = 'es_MX';
+      $window.sessionStorage['sesionNext'] = "";
     }
 
     contenidoFactory.ServiceContenido('fcm/logos/?format=json', 'GET', '{}').then(function (data) {
