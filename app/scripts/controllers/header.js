@@ -14,6 +14,7 @@ angular.module('tcsGruntApp')
     $scope.nombre = $window.localStorage.nombre;
     $scope.classs = 'cargador'
     $scope.pago = true;
+    //localStorage.setItem('ingreso', "")
 
     if ($window.localStorage.idioma == undefined) {
       $scope.idiomaLocal = $window.localStorage.idioma = 'es_MX';

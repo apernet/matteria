@@ -90,22 +90,30 @@
         <div class="col-xs-12">
           <div class="col-lg-6 col-xs-12">
             <md-input-container class="md-block">
-              <label>País</label>
-              <md-select ng-model="oferta.countrys" aria-label="country">
-                <md-option selected ng-value="0"><em>Todos</em></md-option>
+              <label>País <span style="color:dodgerblue">*</span></label>
+              <md-select  ng-model="oferta.pais" aria-label="pais" name="pais" required md-no-asterisk ng-change="selectEstado();">
                 <md-option ng-repeat="pais in paises" ng-value="pais.id" ng-selected="pais.id == oferta.country.id">
                   {{pais.name}}
                 </md-option>
               </md-select>
-            </md-input-container>
-          </div>
-          <div class="col-lg-6 col-xs-12">
-            <md-input-container class="md-block">
-              <label>Ciudad<span style="color:dodgerblue">*</span></label>
-              <input required md-no-asterisk name="city" ng-model="oferta.city">
-              <div ng-messages="formOfertas.city.$error">
+              <div ng-messages="formOfertas.country.$error">
                 <div ng-message="required">Campo requerido.</div>
               </div>
+            </md-input-container>
+          </div>
+          <div class="col-xs-12 col-lg-6">
+            <md-input-container class="md-block" ng-if="IsCiudad">
+              <label>Cuidad</label>
+              <md-select ng-model="oferta.city" name="city" aria-label="city">
+                <md-option ng-repeat="estado in estados track by $index" ng-value="estado.name">
+                  {{estado.name}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+
+            <md-input-container class="md-block" ng-if="!IsCiudad">
+              <label>Cuidad</label>
+              <input name="city" ng-model="oferta.city">
             </md-input-container>
           </div>
         </div>

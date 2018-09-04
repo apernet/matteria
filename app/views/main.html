@@ -82,15 +82,15 @@
         </div>
       </div>
       <div class="col-xs-12 hidden-lg">
-        <a href="/comofunciona/comofunciona#comofunciona" class="btn btn-default">
-          <span ng-if="idiomaLocal == 'es_MX'">
+        <a href="" class="btn btn-default">
+          <span ng-if="idiomaLocal == 'es_MX'" ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'es'})">
             Todas las vacantes
           </span>
-          <span ng-if="idiomaLocal == 'en_EN'">
+          <span ng-if="idiomaLocal == 'en_EN'" ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'en'})">
             All vacancies
           </span>
-          <span ng-if="idiomaLocal == 'pt_BR'">
-            Todas as vagas
+          <span ng-if="idiomaLocal == 'pt_BR'" ui-sref="comofunciona({scrollTo: 'comofunciona', idioma: 'pt'})">
+              Todas as vagas
           </span>
         </a>
       </div>

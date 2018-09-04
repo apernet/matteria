@@ -1,3 +1,7 @@
+
+
+
+
 'use strict';
 
 /**
@@ -38,7 +42,7 @@ angular.module('tcsGruntApp')
     $scope.filtro_f = "filtrar";
     $scope.next = [{}];
     $scope.previous = [{}];
-    $window.localStorage.if_url = false;
+    //$window.localStorage.if_url = false;
 
     $scope.filter_services = function (service) {
       $scope.vacantes = [];
@@ -213,48 +217,6 @@ angular.module('tcsGruntApp')
       $scope.sllider = data.data
     });
 
-    //vacantes
-    console.log($window.localStorage.if_url);
-    window.onhashchange = function() { 
-      //$('#volverBtn').attr('ng-click','doTheBack()');
-      $scope.url_json = $window.localStorage.url_vacante;
-      //console.log("Json page: "+window.localStorage.url_vacante.split("&")[1].split("=")[1]);
-    } 
-    if($scope.url_json) {
-      console.log("Si existe una variable url");
-    }
-    if ($window.localStorage.if_url == true || $window.sessionStorage['sesionNext']  ) {
-      $window.localStorage.if_url = false;
-      console.log($window.sessionStorage['sesionNext']);
-      $http({
-        url: $window.localStorage.url_vacante,
-        method: 'GET',
-        data: {},
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json'
-      }).then(function successCallback(data) {
-        $scope.vacantes = data.data.results;
-        $scope.pages = data.data.pages;
-        $scope.pagesinit = parseInt($window.localStorage.url_vacante.split("&")[1].split("=")[1]);
-        $scope.next = data.data.next;
-        $scope.previous = data.data.previous;
-      });
-
-      $window.scrollTo(0, 0);
-    }
-    else {
-      console.log("Prueba");
-      $window.localStorage.url_vacante = 'openings/?format=json';
-      contenidoFactory.ServiceContenido($window.localStorage.url_vacante, 'GET', '{}').then(function (data) {
-        //console.log(data.data.results);
-        $scope.vacantes = data.data.results;
-        $scope.pages = data.data.pages;
-        $scope.next = data.data.next;
-        $scope.previous = data.data.previous;
-        $window.sessionStorage['sesionNext']  = $scope.next;
-      });
-    }
-
     //Como funciona
     contenidoFactory.ServiceContenido('fcm/como-funciona-candidatos/?format=json', 'GET', '{}').then(function (data) {
       //console.log(data);
@@ -306,8 +268,8 @@ angular.module('tcsGruntApp')
 
     $scope.url = function (id) {
       //console.log(id);
-      $window.sessionStorage['sesionNext'] = $location.path();
-      console.log($window.sessionStorage['sesionNext']);
+      //$window.sessionStorage['sesionNext'] = $location.path();
+      //console.log($window.sessionStorage['sesionNext']);
       $window.localStorage.url_return = $location.path();
      // console.log('$window.localStorage.url_return value: '+$window.localStorage.url_return);
       //console.log('$window.localStorage.url_vacante value: '+$window.localStorage.url_vacante);
@@ -568,6 +530,12 @@ angular.module('tcsGruntApp')
             $scope.pagesinit = $scope.pagesinit;
             $scope.next = data.data.next;
             $scope.previous = data.data.previous;
+
+            localStorage.setItem('pagesinit', parseInt($scope.pagesinit) + 1);
+            localStorage.setItem("results", JSON.stringify((data.data.results)));
+            localStorage.setItem('pages', data.data.pages);
+            localStorage.setItem('next', data.data.next);
+            localStorage.setItem('previous', data.data.previous);
           });
         }
         //console.log($scope.busqueda.filterNombre + '---' + $scope.busqueda.filterPais);
@@ -583,11 +551,15 @@ angular.module('tcsGruntApp')
             $scope.pagesinit = $scope.pagesinit;
             $scope.next = data.data.next;
             $scope.previous = data.data.previous;
+
+            localStorage.setItem('pagesinit', parseInt($scope.pagesinit) + 1);
+            localStorage.setItem("results", JSON.stringify((data.data.results)));
+            localStorage.setItem('pages', data.data.pages);
+            localStorage.setItem('next', data.data.next);
+            localStorage.setItem('previous', data.data.previous);
           });
           
         } else {
-          // console.log("Solo buscas por pais");
-          // console.log("Pais: "+$scope.busqueda.filterPais + " Ciudad: " +$scope.busqueda.filterciudad);
 
           console.log('openings/?country=' + $scope.busqueda.filterPais+ '&salary_min=' + $scope.busqueda.filterdesdesalario + '&salary_max=' + $scope.busqueda.filterhastasalario + '&years_experience=' + $scope.busqueda.filterAnosExperencia + avaliability + interests + professions + '&open_opening=' + open_opening + '&search=' + $scope.busqueda.filterNombre);
 
@@ -598,37 +570,15 @@ angular.module('tcsGruntApp')
             $scope.pagesinit = $scope.pagesinit;
             $scope.next = data.data.next;
             $scope.previous = data.data.previous;
-            console.log("Pagina siguiente:" + $scope.next);
+
+            localStorage.setItem('pagesinit', parseInt($scope.pagesinit) + 1);
+            localStorage.setItem("results", JSON.stringify((data.data.results)));
+            localStorage.setItem('pages', data.data.pages);
+            localStorage.setItem('next', data.data.next);
+            localStorage.setItem('previous', data.data.previous);
           });
 
         }
-        /*if ($scope.busqueda.filterPais == "") {
-
-          console.log('openings/?city=' + $scope.busqueda.filterciudad + '&salary_min=' + $scope.busqueda.filterdesdesalario + '&salary_max=' + $scope.busqueda.filterhastasalario + '&years_experience=' + $scope.busqueda.filterAnosExperencia + avaliability + interests + professions + '&open_opening=' + open_opening + '&search=' + $scope.busqueda.filterNombre);
-
-          contenidoFactory.ServiceContenido('openings/?city=' + $scope.busqueda.filterciudad + '&salary_min=' + $scope.busqueda.filterdesdesalario + '&salary_max=' + $scope.busqueda.filterhastasalario + '&years_experience=' + $scope.busqueda.filterAnosExperencia + avaliability + interests + professions + '&open_opening=' + open_opening + '&search=' + $scope.busqueda.filterNombre, 'GET', '{}').then(function (data) {
-            console.log(data.data.results);
-            $scope.vacantes = data.data.results;
-            $scope.pages = data.data.pages;
-            $scope.next = data.data.next.toString().split("api/")[1];
-            $scope.previous = data.data.previous.toString().split("api/")[1];
-            console.log($scope.next );
-          });
-        }
-        else {
-
-          console.log('openings/?country=' + $scope.busqueda.filterPais + '&city=' + $scope.busqueda.filterciudad + '&salary_min=' + $scope.busqueda.filterdesdesalario + '&salary_max=' + $scope.busqueda.filterhastasalario + '&years_experience=' + $scope.busqueda.filterAnosExperencia + avaliability + interests + professions + '&open_opening=' + open_opening + '&search=' + $scope.busqueda.filterNombre);
-
-          //open_opening = mostrarFecha(-$scope.busqueda.filterinervalo);
-          console.log($scope.busqueda.filterAnosExperencia);
-          contenidoFactory.ServiceContenido('openings/?country=' + $scope.busqueda.filterPais + '&city=' + $scope.busqueda.filterciudad + '&salary_min=' + $scope.busqueda.filterdesdesalario + '&salary_max=' + $scope.busqueda.filterhastasalario + '&years_experience=' + $scope.busqueda.filterAnosExperencia + avaliability + interests + professions + '&open_opening=' + open_opening + '&search=' + $scope.busqueda.filterNombre, 'GET', '{}').then(function (data) {
-            $scope.vacantes = data.data.results;
-            $scope.pages = data.data.pages;
-            $scope.next = data.data.next.toString().split("api/")[1];
-            $scope.previous = data.data.previous.toString().split("api/")[1];
-          });
-        }*/
-
       }
       else {
         contenidoFactory.mensaje(ev, "Elige un parámetro de búsqueda");
@@ -679,32 +629,36 @@ angular.module('tcsGruntApp')
       }
     }
 
+    var URLactual = window.location;
+    console.log(URLactual.pathname);
+    //Vacantes
+    if (!localStorage.getItem('ingreso')) {
+      contenidoFactory.ServiceContenido('openings/?format=json', 'GET', '{}').then(function (data) {
+        console.log(data.data.results);
+        $scope.vacantes = data.data.results;
+        $scope.pages = data.data.pages;
+        $scope.next = data.data.next;
+        $scope.previous = data.data.previous;
+
+        localStorage.setItem('pagesinit', 1);
+        localStorage.setItem("results", JSON.stringify((data.data.results)));
+        localStorage.setItem('pages', data.data.pages);
+        localStorage.setItem('next', data.data.next);
+        localStorage.setItem('previous', data.data.previous);
+      });
+      localStorage.setItem('ingreso', 1);
+
+    } else {
+      $scope.vacantes = JSON.parse(localStorage.getItem("results"));
+      $scope.pages = localStorage.getItem('pages');
+      $scope.pagesinit = localStorage.getItem('pagesinit');
+      $scope.next = localStorage.getItem('next');
+      $scope.previous = localStorage.getItem('previous');
+
+      //localStorage.clear();
+    }    
+
     $scope.nextPage = function () {
-      //console.log("next");
-      //contenidoFactory.ServiceContenido($scope.next, 'GET', '{}').then(function (data) {
-      //    //console.log(data.data);
-      //    //var _next = data.data.next.toString().split("api/")[1];
-      //    console.log(data.data.next);
-
-      //    $scope.vacantes = data.data.results;
-      //    $scope.pages = data.data.pages;
-      //    $scope.next = data.data.next.toString().split("api/")[1];
-
-
-      //    if (data.data.next.toString().split("&")[1] === 'page=2') {
-      //        $scope.previous = data.data.previous;
-      //    }
-      //    else {
-      //        $scope.previous = data.data.previous.toString().split("api/")[1];
-      //    }
-
-      //    console.log($scope.next);
-      //    console.log($scope.previous);
-      //});
-      
-      $window.localStorage.url_vacante = $scope.next;
-      $window.localStorage.if_url = true;
-
 
       $http({
         url: $scope.next,
@@ -715,30 +669,24 @@ angular.module('tcsGruntApp')
       }).then(function successCallback(data) {
         $scope.vacantes = data.data.results;
         $scope.pages = data.data.pages;
-        $scope.pagesinit = $scope.pagesinit + 1;
+        localStorage.setItem('pagesinit', parseInt($scope.pagesinit) + 1);
+        $scope.pagesinit = parseInt($scope.pagesinit) + 1;
         $scope.next = data.data.next;
         $scope.previous = data.data.previous;
+
+        localStorage.setItem("results", JSON.stringify((data.data.results)));
+        localStorage.setItem('pages', data.data.pages);        
+        localStorage.setItem('next', data.data.next);
+        localStorage.setItem('previous', data.data.previous);
+
+        
       });
 
       $window.scrollTo(0, 0);
     }
 
     $scope.beforePage = function () {
-      //console.log("before");
-      //contenidoFactory.ServiceContenido($scope.previous, 'GET', '{}').then(function (data) {
-      //    $scope.vacantes = data.data.results;
-      //    $scope.pages = data.data.pages;
-      //    $scope.next = data.data.next.toString().split("api/")[1];
-      //    if ($scope.next.toString().split("&")[1] === 'page=2') {
-      //        $scope.previous = data.data.previous;
-      //    }
-      //    else {
-      //        $scope.previous = data.data.previous.toString().split("api/")[1];
-      //    }
-      //    console.log($scope.previous);
-      //});
-      $window.localStorage.url_vacante = $scope.previous;
-      $window.localStorage.if_url = true;
+
       $http({
         url: $scope.previous,
         method: 'GET',
@@ -748,9 +696,15 @@ angular.module('tcsGruntApp')
       }).then(function successCallback(data) {
         $scope.vacantes = data.data.results;
         $scope.pages = data.data.pages;
-        $scope.pagesinit = $scope.pagesinit - 1;
+        localStorage.setItem('pagesinit', parseInt($scope.pagesinit) - 1);
+        $scope.pagesinit = parseInt($scope.pagesinit) - 1;
         $scope.next = data.data.next;
         $scope.previous = data.data.previous;
+
+        localStorage.setItem("results", JSON.stringify((data.data.results)));
+        localStorage.setItem('pages', data.data.pages);        
+        localStorage.setItem('next', data.data.next);
+        localStorage.setItem('previous', data.data.previous);
       });
       $window.scrollTo(0, 0);
     }

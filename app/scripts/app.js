@@ -32,47 +32,20 @@ angular
     '720kb.socialshare',
     'ui.carousel'
   ])
-  //Pruebass
-  .constant('API_PATH', 'http://apitest.matteria.co/api/')
-  .constant('API_PATH_MEDIA', 'http://apitest.matteria.co')
+  //Pruebas
+  // .constant('API_PATH', 'http://apitest.matteria.co/api/')
+  // .constant('API_PATH_MEDIA', 'http://apitest.matteria.co')
 
   //Produccion
-  // .constant('API_PATH', 'https://api.matteria.co/api/')
-  // .constant('API_PATH_MEDIA', 'https://api.matteria.co')
+  .constant('API_PATH', 'https://api.matteria.co/api/')
+  .constant('API_PATH_MEDIA', 'https://api.matteria.co')
 
   //Local
-  // .constant('API_PATH', 'http://127.0.0.1:8000/api/')
-  // .constant('API_PATH_MEDIA', 'http://127.0.0.1:8000')
+  //.constant('API_PATH', 'http://127.0.0.1:8000/api/')
+  //.constant('API_PATH_MEDIA', 'http://127.0.0.1:8000')
 
 
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $qProvider, $httpProvider, $translateProvider, API_PATH) {
-    //$httpProvider.defaults.headers.common = {};
-    //$httpProvider.defaults.headers.post = {};
-    //$httpProvider.defaults.headers.put = {};
-    //$httpProvider.defaults.headers.patch = {};
-    //$httpProvider.defaults.headers.get = {};
-
-    //$httpProvider.defaults.useXDomain = true;
-    //delete $httpProvider.defaults.headers.common['X-Requested-With'];
-
-    //$.get(API_PATH + "fcm/sliders/", function (data, status) {
-    //    console.log(data);
-    //});
-
-    //$translateProvider.translations('es_MX', {
-    //    'TITLE': 'Hello',
-    //    'FOO': 'This is a paragraph'
-    //});
-
-    //$translateProvider.translations('en_EN', {
-    //    'TITLE': 'Hallo',
-    //    'FOO': 'Dies ist ein Absatz'
-    //});
-
-    //$translateProvider.useMissingTranslationHandlerLog();
-    //$translateProvider.useSanitizeValueStrategy('sanitize');
-    //$translateProvider.preferredLanguage('es_MX');
-
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
@@ -187,7 +160,7 @@ angular
           $timeout(function () {
             $location.hash($stateParams.scrollTo);
             $anchorScroll()
-          }, 200)
+          }, 300)
         }
       })
       .state('perfilpublicopostulante', {
@@ -203,7 +176,13 @@ angular
       .state('viewoferta', {
         url: '/viewoferta/:id',
         templateUrl: 'views/viewoferta.html',
-        controller: 'ViewOfertasCtrl'
+        controller: 'ViewOfertasCtrl',
+        data: {
+          permissions: {
+            only: ['ORGANIZACION'],
+            redirectTo: '/'
+          }
+        }
       })
       .state('perfilcompartidopostulante', {
         url: '/perfilcompartidopostulante/:id',

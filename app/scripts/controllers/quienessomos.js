@@ -30,7 +30,7 @@ angular.module('tcsGruntApp')
     //  $scope.matteria = $scope.matteria;
 
     //}
-
+    localStorage.setItem('ingreso', "")
     $scope.calcular = function () {
 
       if ($window.localStorage.idioma == 'es_MX') {

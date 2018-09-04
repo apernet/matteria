@@ -8,7 +8,7 @@
  * Controller of the tcsGruntApp
  */
 angular.module('tcsGruntApp')
-  .controller('ViewOfertasCtrl', ['$scope', 'API_PATH_MEDIA', 'contenidoFactory', '$stateParams', '$window', function ($scope, API_PATH_MEDIA, contenidoFactory, $stateParams, $window) {
+  .controller('ViewOfertasCtrl', ['$scope', 'API_PATH_MEDIA', 'contenidoFactory', '$stateParams', '$window','$mdDialog', function ($scope, API_PATH_MEDIA, contenidoFactory, $stateParams, $window, $mdDialog) {
 
       $scope.professions = [];
       $scope.tempProfesiones = [];
@@ -17,11 +17,29 @@ angular.module('tcsGruntApp')
       $scope.API_PATH_MEDIA = API_PATH_MEDIA;
 
       //vacantes detalle
+
+      
+
       contenidoFactory.ServiceContenido('openings/' + $stateParams.id + '/?format=json', 'GET', '{}').then(function (data) {
           
           $scope.oferta = data.data
 
-          console.log($scope.oferta.opening_type.id);
+        //   console.log("Compañia de la vacante: "+$scope.oferta.company_id);
+        //   console.log("Compañia logueada: "+$window.localStorage.id_company);
+
+          //Verifica que la vacante pertenece al usuario
+          if($scope.oferta.company_id == $window.localStorage.id_company) {
+            $scope.oferta = data.data  
+          } else {
+            $scope.oferta = {};
+            $window.location.href = '/misvacantes';
+          }
+
+          //Tipo de vacantes
+          contenidoFactory.ServiceContenido('catalogs/opening-services/?format=json', 'GET', '{}').then(function (data) {
+            $scope.tipovacante = data.data;
+          });
+
           //Profesiones 
           for (var j = 0; j < $scope.oferta.professions.length; j++) {
               $scope.tempProfesiones.push($scope.oferta.professions[j].id);
@@ -50,16 +68,29 @@ angular.module('tcsGruntApp')
           });
       });
 
-      //Tipo de vacantes
-      contenidoFactory.ServiceContenido('catalogs/company-services/?format=json', 'GET', '{}').then(function (data) {
-          $scope.tipovacante = data.data
-      });
+
 
       //Pais
       contenidoFactory.ServiceContenido('catalogs/countries/?format=json', 'GET', '{}').then(function (data) {
           $scope.paises = data.data;
 
       });
+
+       //Ciudades
+       $scope.selectEstado = function () {
+        $scope.estados = [{}];
+        contenidoFactory.ServiceContenido('catalogs/countries/' + $scope.oferta.pais + '/states/?format=json', 'GET', '{}').then(function (data) {
+            console.log(data.data);
+            $scope.estados = data.data;
+
+            if ($scope.estados == "") {
+                $scope.IsCiudad = false;
+            }
+            else {
+                $scope.IsCiudad = true;
+            }
+        });
+    }
 
       //Divisas
       contenidoFactory.ServiceContenido('catalogs/currencies/?format=json', 'GET', '{}').then(function (data) {
@@ -163,14 +194,15 @@ angular.module('tcsGruntApp')
       $scope.guardarOferta = function (ev) {
           console.log($scope.oferta.opening_type);
           contenidoFactory.ServicePerfil('openings/' + $stateParams.id + '/edit/', 'PUT', {
-              "opening_type": $scope.oferta.opening_type.id,
+            
+            "opening_type": $scope.oferta.opening_type.id,
               "keep_company_alias": $scope.oferta.keep_company_alias,
               "alternate_company_alias": $scope.oferta.alternate_company_alias,
               "alternate_company_description": "",
               "name": $scope.oferta.name,
               "years_experience_opening": $scope.oferta.years_experience_opening,
               "years_experience": $scope.oferta.years_experience,
-              "country": $scope.oferta.countrys,
+              "country": $scope.oferta.pais,
               "city": $scope.oferta.city,
               "avaliability": $scope.oferta.avaliability,
               "salary": $scope.oferta.salary,
@@ -192,8 +224,34 @@ angular.module('tcsGruntApp')
 
           }).then(function (data) {
               //$mdToast.show($mdToast.simple().content("Tus datos se han actualizado correctamente").parent($("#toast-container")).hideDelay(6000).theme('error-toast'));
-              console.log(data);
-              contenidoFactory.mensaje(ev, "Tus datos se han actualizado correctamente");
+            //   console.log(data);
+            //   contenidoFactory.mensaje(ev, "Tus datos se han actualizado correctamente");
+              if (data.name != undefined) {
+                //contenidoFactory.mensaje(ev, "Tus datos se han actualizado correctamente");
+                console.log("Entre al fin de data.name viewvacante");
+                var confirm = $mdDialog.confirm(
+                {
+                    targetEvent: ev,
+                    template: '<md-dialog md-theme="{{ dialog.theme || dialog.defaultTheme }}" aria-label="{{ dialog.ariaLabel }}" ng-class="dialog.css">' +
+                              '<md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">' +
+                              '<div class="md-dialog-content-body"><h4 class="negrita">Tus datos se han actualizado correctamente</h4></div>' +
+                              '</md-dialog-content>' +
+                              '<md-dialog-actions>' +
+                              '<md-button ng-click="dialog.hide()" class="md-primary md-confirm-button">Aceptar</md-button>' +
+                              '</md-dialog-actions>' +
+                              '</md-dialog>'
+                });
+                //.title('Borrar Experiencia Laboral?')
+                //.textContent('Estas seguro que deseas borrar este item.')
+                //.ariaLabel('')
+                //.targetEvent(ev)
+                //.cancel('No')
+                //.ok('Si');                
+                ////confirm);
+                $mdDialog.show(confirm).then(function () {
+                    $window.location.href = "/misvacantes/";
+                });
+            }
           });
       }
 

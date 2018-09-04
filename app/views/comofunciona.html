@@ -20,6 +20,7 @@
     display: block;
     position: relative;
     cursor: pointer;
+    border-bottom: 0px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -136,10 +137,8 @@
   <div class="container margin-bottom">
     <div class="row" style="padding:0;">
       <section layout="row" flex>
-
         <md-sidenav class="md-sidenav-left" md-component-id="left"
                     md-disable-backdrop md-whiteframe="4">
-
           <div class="col-xs-12">
             <md-content layout-padding style="background-color:transparent;">
               <div>
@@ -152,7 +151,6 @@
                       <input name="Nombre" ng-model="busqueda.filterNombre">
                     </md-input-container>
                   </div>
-
                   <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                       <label ng-if="idiomaLocal == 'es_MX'">País</label>
@@ -165,7 +163,6 @@
                       </md-select>
                     </md-input-container>
                   </div>
-
                   <div layout-gt-sm="row">
                     <md-input-container class="md-block" ng-if="IsCiudad" flex-gt-sm style="margin-bottom:0">
                       <label ng-if="idiomaLocal == 'es_MX'">Cuidad</label>
@@ -178,7 +175,6 @@
                         </md-option>
                       </md-select>
                     </md-input-container>
-
                     <md-input-container class="md-block" ng-if="!IsCiudad" flex-gt-sm>
                       <label ng-if="idiomaLocal == 'es_MX'">Cuidad</label>
                       <label ng-if="idiomaLocal == 'en_EN'">City</label>
@@ -186,7 +182,6 @@
                       <input name="city" ng-model="busqueda.filterciudad">
                     </md-input-container>
                   </div>
-
                   <md-input-container class="md-block" flex-gt-sm>
                     <label ng-if="idiomaLocal == 'es_MX'">Años de experiencia general: {{busqueda.filterAnosExperencia}}</label>
                     <label ng-if="idiomaLocal == 'en_EN'">Years of general experience: {{busqueda.filterAnosExperencia}}</label>
@@ -194,23 +189,19 @@
                     <md-slider flex md-discrete ng-model="busqueda.filterAnosExperencia" step="1" min="0" max="30" aria-label="rating" class="md-primary">
                     </md-slider>
                   </md-input-container>
-
                   <md-input-container class="md-block" flex-gt-sm>
                     <label ng-if="idiomaLocal == 'es_MX'">Jornada</label><label ng-if="idiomaLocal == 'en_EN'">Format</label><label ng-if="idiomaLocal == 'pt_BR'">Formato</label><br /><br />
                     <div class="col-xs-12" flex="60">
                       <md-checkbox ng-model="intereses_checkbox" ng-repeat="horarios in tipohorario" ng-checked="exists(horarios.id, selected)" ng-click="toggle(horarios.id, selected)">
                         {{ horarios.name }}
                       </md-checkbox>
-
                     </div>
                   </md-input-container>
-
                   <md-input-container class="md-block" style="margin-bottom:5px">
                     <label ng-if="idiomaLocal == 'es_MX'">Rango Salarial: </label>
                     <label ng-if="idiomaLocal == 'en_EN'">Salary Range:</label>
                     <label ng-if="idiomaLocal == 'pt_BR'">Faixa salarial:</label>
                   </md-input-container>
-
                   <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                       <label ng-if="idiomaLocal == 'es_MX'">Desde</label>
@@ -218,7 +209,6 @@
                       <label ng-if="idiomaLocal == 'pt_BR'">A partir de</label>
                       <input name="Nombre" ng-model="busqueda.filterdesdesalario">
                     </md-input-container>
-
                     <md-input-container class="md-block" flex-gt-sm>
                       <label ng-if="idiomaLocal == 'es_MX'">Hasta</label>
                       <label ng-if="idiomaLocal == 'en_EN'">To</label>
@@ -226,7 +216,6 @@
                       <input name="Nombre" ng-model="busqueda.filterhastasalario">
                     </md-input-container>
                   </div>
-
                   <md-input-container class="md-block">
                     <label ng-if="idiomaLocal == 'es_MX'">Antiguedad vacante</label>
                     <label ng-if="idiomaLocal == 'en_EN'">Timing</label>
@@ -238,36 +227,26 @@
                       </md-option>
                     </md-select>
                   </md-input-container>
-
                   <md-input-container class="md-block" style="margin-top:0; margin-bottom:0;">
                     <v-accordion id="accordionA" class="vAccordion--default" control="accordionA" onexpand="expandCallback(index, id)" oncollapse="collapseCallback(index, id)">
-
                       <v-pane id="pane-1a" expanded="false">
                         <v-pane-header id="pane-1a-header" aria-controls="pane-1a-content" class="col-xs-12">
-
                           <label ng-if="idiomaLocal == 'es_MX'">Intereses clave </label>
                           <label ng-if="idiomaLocal == 'en_EN'">Key Interests</label>
                           <label ng-if="idiomaLocal == 'en_EN'">Interesses Chave</label>
-
                         </v-pane-header>
-
                         <v-pane-content id="pane-1a-content" aria-labelledby="pane-1a-header" class="col-xs-12">
                           <br />
                           <div class="col-xs-12" ng-repeat="interes in intereses">
-
                             <md-checkbox aria-label="interes.name" ng-checked="exists_interes(interes.id, selected_interes)" ng-click="toggle_interes(interes.id, selected_interes)">
                               {{interes.name}}
                             </md-checkbox>
-
                           </div>
-
                         </v-pane-content>
                       </v-pane>
                     </v-accordion>
-
                   </md-input-container>
                   <br />
-
                   <md-input-container class="md-block" style="margin-bottom:10px; margin-top:0;">
                     <label ng-if="idiomaLocal == 'es_MX'">Profesiones &nbsp;&nbsp;ej. Doctor, Publicidad, etc.</label>
                     <label ng-if="idiomaLocal == 'en_EN'">Studies &nbsp;&nbsp;eg: Business, Engineering, etc...</label>
@@ -289,7 +268,6 @@
                       </span>
                     </md-chip-template>
                   </md-chips>
-
                   <div class="col-xs-12 text-center">
                     <br />
                     <button class="btn btn-xs btn-primary btn-ingresa" ng-click="buscar_vacante(); toggleLeft();" ng-if="idiomaLocal == 'es_MX'">Buscar vacantes</button>
@@ -305,11 +283,8 @@
               </div>
             </md-content>
           </div>
-
         </md-sidenav>
-
       </section>
-
     </div>
 
     <div class="col-xs-12">

@@ -97,7 +97,7 @@
                         <h3 class="negrita text-left" style="margin-bottom:0; margin-top:0;">
                             <a ng-if="vacante.status_opening == 'published'" style="cursor:pointer" ng-click="url_detalle(vacante.id);">{{vacante.name}}</a>
                             <a ng-if="vacante.status_opening == 'draft'" style="cursor:pointer" ng-click="url(vacante.id);">{{vacante.name}}</a>
-                            <a ng-if="vacante.status_opening == 'expired'" style="cursor:pointer" ng-click="url(vacante.id);">{{vacante.name}}</a>
+                            <a ng-if="vacante.status_opening == 'expired'" style="cursor:pointer" ng-click="url_detalle(vacante.id);">{{vacante.name}}</a>
                         </h3>
                         <p class="negrita text-left" style="margin-top:0;" ng-if="!vacante.keep_company_alias">{{vacante.company}}</p>
                         <p class="negrita text-left" style="margin-top:0;" ng-if="vacante.keep_company_alias">{{vacante.alternate_company_alias}}</p>
@@ -109,7 +109,7 @@
                     <div class="col-xs-12 text-right">
                         <a class="btn btn-md btn-primary" ng-click="urlPostulantes(vacante.id);">Ver postulantes</a>
                         <a class="btn btn-md btn-primary btn-registrate" ng-if="vacante.status_opening == 'published'" ng-click="caducar(vacante.id, $event);">Caducar Vacante </a>
-                        <a class="btn btn-md btn-primary" ng-if="vacante.status_opening == 'published'" href="/editarvacante/{{vacante.id}}">Editar Vacante </a>
+                        <a class="btn btn-md btn-primary" ng-if="vacante.status_opening == 'published'" ng-click="url(vacante.id, $event)">Editar Vacante </a>
                     </div>                 
                 </div>
             </div>

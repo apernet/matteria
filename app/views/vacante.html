@@ -62,8 +62,10 @@
                             <li><span class="negrita">Nivel de experiencia: </span>{{vacante.years_experience}} años</li>
                             <li><span class="negrita">Ciudad, país: </span>{{vacante.city}} <span ng-if="vacante.city">,</span> {{vacante.country.name}}</li>
                             <li ng-if="!vacante.private_salary"><span class="negrita">Salario: </span>{{vacante.salary}} USD</li>
+                            <li><span class="negrita">Estado de la vacante: </span>{{vacante.phase}}</li>
                         </ul>
                     </div>
+
                     <div class="col-xs-12 col-lg-6 margin-bottom">
                         <ul style="list-style-type: none; padding: 0">
                             <li><span class="negrita">Jornada: </span>{{vacante.avaliability}}</li>

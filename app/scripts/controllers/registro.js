@@ -141,8 +141,13 @@ angular.module('tcsGruntApp')
           if (data.data.response == "Usuario registrado exitosamente") {
             contenidoFactory.login($scope.RegistroPostulante.correo, $scope.RegistroPostulante.contrasena, 'candidates/login/').then(function (respuesta) {
               if (respuesta.response == "Sesión exitosa") {
-                console.log(respuesta);
-                location.href = "/graciasregistropostulante";
+                console.log(respuesta.id_candidate);
+                contenidoFactory.ServiceContenido('candidates/'+respuesta.id_candidate+'/edit/profile-invorg/', 'PUT', {
+                  answer_2: $scope.selected
+                }).then(function (respuestaSer) {
+                  console.log(respuestaSer);
+                });
+                // location.href = "/graciasregistropostulante";
                 $window.localStorage.role = "POSTULANTE";
                 $window.localStorage.token = respuesta.token;
                 $window.localStorage.avatar = respuesta.avatar;

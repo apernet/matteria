@@ -35,6 +35,7 @@ angular.module('tcsGruntApp')
     $scope.WrapperPt = "";
 
     //console.log($stateParams.idioma);
+    localStorage.setItem('ingreso', "")
 
     if ($location.path() == '/') {
       $location.path('/es').replace();

@@ -22,7 +22,7 @@ angular.module('tcsGruntApp')
     $scope.idiomaLocal = $window.localStorage.idioma;
     $scope.dialog = false;
 
-    console.log($location.path().split("/")[$location.path().split("/").length - 1]);
+    //console.log($location.path().split("/")[$location.path().split("/").length - 1]);
     //console.log($stateParams.idioma);
     //if ($location.path().split("/")[$location.path().split("/").length - 1] == 'en') {
     //    $window.localStorage.idioma = 'en_EN';
@@ -49,7 +49,7 @@ angular.module('tcsGruntApp')
     //  $scope.hacemoss = $scope.hacemoss;
     //}
 
-
+    localStorage.setItem('ingreso', "")
     $scope.calcular = function () {
 
       if ($window.localStorage.idioma == 'es_MX') {
