@@ -97,10 +97,12 @@ angular.module('tcsGruntApp')
     $scope.selected = [];
     $scope.toggle = function (item, list) {
       var idx = list.indexOf(item);
-      if (idx > -1) {
+      
+      if (idx > -1) {        
         list.splice(idx, 1);
       }
       else {
+        $scope.term_condi_lista = true;
         list.push(item);
       }
     };
@@ -109,71 +111,100 @@ angular.module('tcsGruntApp')
       return list.indexOf(item) > -1;
     };
 
-    $scope.RegistroPostulantes = function (ev) {
-      console.log($scope.selected);
-      if ($scope.RegistroPostulante.comoenteraste == 0) {
-        var _comoenteraste = 6;
-      }
-      else {
-        var _comoenteraste = $scope.RegistroPostulante.comoenteraste;
-      }
-
+    $scope.select_check = function (ev) {
+      //console.log($scope.RegistroPostulante.acepto)
       if ($scope.RegistroPostulante.acepto) {
-        contenidoFactory.ServiceContenido('candidates/register/', 'POST', {
-          first_name: $scope.RegistroPostulante.nombre,
-          last_name: $scope.RegistroPostulante.apellidos,
-          email: $scope.RegistroPostulante.correo,
-          password: $scope.RegistroPostulante.contrasena,
-          candidateProfile: {
-            answer_1: $scope.RegistroPostulante.answer_1,
-            //answer_2: $scope.selected,
-            answer_3: $scope.RegistroPostulante.tipoarea,
-            terms_politics: $scope.RegistroPostulante.acepto,
-            how_hear_about_us: _comoenteraste,
-            cellphone_number: $scope.RegistroPostulante.cellphone_number
-          }
-        }).then(function (data) {
-          //console.log(data.status);
-          if (data.status == '500' || data.status == '-1' || data.status == '400') {
-            contenidoFactory.mensaje(ev, data.data);
-          };
-
-          if (data.data.response == "Usuario registrado exitosamente") {
-            contenidoFactory.login($scope.RegistroPostulante.correo, $scope.RegistroPostulante.contrasena, 'candidates/login/').then(function (respuesta) {
-              if (respuesta.response == "Sesión exitosa") {
-                console.log(respuesta.id_candidate);
-                contenidoFactory.ServiceContenido('candidates/'+respuesta.id_candidate+'/edit/profile-invorg/', 'PUT', {
-                  answer_2: $scope.selected
-                }).then(function (respuestaSer) {
-                  console.log(respuestaSer);
-                });
-                // location.href = "/graciasregistropostulante";
-                $window.localStorage.role = "POSTULANTE";
-                $window.localStorage.token = respuesta.token;
-                $window.localStorage.avatar = respuesta.avatar;
-                $window.localStorage.nombre = respuesta.name;
-                $window.localStorage.id_user = respuesta.id_user;
-                $window.localStorage.id_candidate = respuesta.id_candidate;
-              }
-              else {
-                //$mdToast.show($mdToast.simple().content(respuesta.response).parent($("#toast-container")).hideDelay(6000).theme('error-toast'));
-                //contenidoFactory.mensaje(ev, respuesta.response);
-              }
-
-            });
-          }
-          else {
-            //$mdToast.show($mdToast.simple().content(data.data.response).parent($("#toast-container")).hideDelay(6000).theme('error-toast'));
-            contenidoFactory.mensaje(ev, data.data.response);
-
-          }
-
-        });
+        $scope.term_condi = true;
       }
       else {
-        //$mdToast.show($mdToast.simple().content("Debes aceptar los términos y condiciones.").parent($("#toast-container")).hideDelay(6000).theme('error-toast'));
-        contenidoFactory.mensaje(ev, "Debes aceptar los términos y condiciones.");
+        $scope.term_condi = false;
       }
+    }
+
+    $scope.term_condi = true;
+    $scope.term_condi_lista = true;
+
+    $scope.validar = function (ev) {
+      ///console.log($scope.RegistroPostulante.acepto);
+      //if ($scope.selected.length == 0) {
+      //  $("#chk_tipo").focus();
+      //}
+      if ($scope.selected.length == 0) {
+        $("#chk_tipo").focus();
+        $scope.term_condi_lista = false;
+      }
+
+      if (!$scope.RegistroPostulante.acepto) {
+        $("#chk_acepto").focus();
+        $scope.term_condi = false;
+      }
+ 
+    }
+
+    $scope.RegistroPostulantes = function (ev) {
+      //console.log($scope.selected);
+      if ($scope.selected.length == 0) {
+        $("#chk_tipo").focus();
+        $scope.term_condi_lista = false;
+      }
+      else {
+        $scope.term_condi_lista = true;
+        if ($scope.RegistroPostulante.acepto) {
+          contenidoFactory.ServiceContenido('candidates/register/', 'POST', {
+            first_name: $scope.RegistroPostulante.nombre,
+            last_name: $scope.RegistroPostulante.apellidos,
+            email: $scope.RegistroPostulante.correo,
+            password: $scope.RegistroPostulante.contrasena,
+            candidateProfile: {
+              answer_1: $scope.RegistroPostulante.answer_1,
+              //answer_2: $scope.selected,
+              answer_3: $scope.RegistroPostulante.tipoarea,
+              terms_politics: $scope.RegistroPostulante.acepto,
+              how_hear_about_us: $scope.RegistroPostulante.comoenteraste,
+              cellphone_number: $scope.RegistroPostulante.cellphone_number
+            }
+          }).then(function (data) {
+            //console.log(data.status);
+            if (data.status == '500' || data.status == '-1' || data.status == '400') {
+              contenidoFactory.mensaje(ev, data.data);
+            };
+
+            if (data.data.response == "Usuario registrado exitosamente") {
+              contenidoFactory.login($scope.RegistroPostulante.correo, $scope.RegistroPostulante.contrasena, 'candidates/login/').then(function (respuesta) {
+                if (respuesta.response == "Sesión exitosa") {
+                  console.log(respuesta.id_candidate);
+                  contenidoFactory.ServiceContenido('candidates/' + respuesta.id_candidate + '/edit/profile-invorg/', 'PUT', {
+                    answer_2: $scope.selected
+                  }).then(function (respuestaSer) {
+                    console.log(respuestaSer);
+                  });
+                  location.href = "/graciasregistropostulante";
+                  $window.localStorage.role = "POSTULANTE";
+                  $window.localStorage.token = respuesta.token;
+                  $window.localStorage.avatar = respuesta.avatar;
+                  $window.localStorage.nombre = respuesta.name;
+                  $window.localStorage.id_user = respuesta.id_user;
+                  $window.localStorage.id_candidate = respuesta.id_candidate;
+                }
+                else {
+                  //$mdToast.show($mdToast.simple().content(respuesta.response).parent($("#toast-container")).hideDelay(6000).theme('error-toast'));
+                  //contenidoFactory.mensaje(ev, respuesta.response);
+                }
+
+              });
+            }
+            else {
+              //$mdToast.show($mdToast.simple().content(data.data.response).parent($("#toast-container")).hideDelay(6000).theme('error-toast'));
+              contenidoFactory.mensaje(ev, data.data.response);
+
+            }
+
+          });
+        }
+        else {
+          contenidoFactory.mensaje(ev, "Debes aceptar los términos y condiciones.");
+        }
+      }      
     }
 
     $scope.RegistroOrganizacion = function (ev) {

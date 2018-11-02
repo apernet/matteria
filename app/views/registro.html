@@ -3,6 +3,12 @@
     $(window).scrollTop(0);
   });
 </script>
+<style>
+  md-input-container label {
+    overflow: visible !important;
+  }
+
+</style>
 <div class="row banner-verde">
   <div class="container">
     <div class="col-xs-12 text-center">
@@ -17,7 +23,7 @@
 <div class="container">
   <div class="col-xs-12 text-center">
     <div ng-class="classregistro" ng-show="disableo">
-      <form name="Organizacionfrom">
+      <form name="Organizacionfrom" novalidate>
         <div class="col-xs-12 text-center">
           <h2 class="negrita" ng-if="idiomaLocal == 'es_MX'">Registro Organizaciones</h2>
           <h2 class="negrita" ng-if="idiomaLocal == 'en_EN'">Organization</h2>
@@ -73,39 +79,56 @@
             <label ng-if="idiomaLocal == 'en_EN'">Password <span style="color:dodgerblue">*</span></label>
             <label ng-if="idiomaLocal == 'pt_BR'">Senha <span style="color:dodgerblue">*</span></label>
             <input aria-label="password" type="password" required md-no-asterisk name="contrasena" ng-model="Registroorganizacion.contrasena">
-            <small style="color:gray" ng-if="idiomaLocal == 'es_MX'">*Nota: la contraseña debe contener por lo menos 8 caracteres alfanuméricos (al menos una letra y un número)</small>
-            <small style="color:gray" ng-if="idiomaLocal == 'en_EN'">*Note: The password must contain at least 8 alphanumeric characters (at least one letter and one number)</small>
-            <small style="color:gray" ng-if="idiomaLocal == 'pt_BR'">*Nota: A senha deve conter pelo menos 8 caracteres alfanuméricos (pelo menos uma letra e um número)</small>
             <div ng-messages="Organizacionfrom.contrasena.$error">
               <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
               <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
             </div>
+            <small style="color:gray" ng-if="idiomaLocal == 'es_MX'">*Nota: la contraseña debe contener por lo menos 8 caracteres alfanuméricos (al menos una letra y un número)</small>
+            <small style="color:gray" ng-if="idiomaLocal == 'en_EN'">*Note: The password must contain at least 8 alphanumeric characters (at least one letter and one number)</small>
+            <small style="color:gray" ng-if="idiomaLocal == 'pt_BR'">*Nota: A senha deve conter pelo menos 8 caracteres alfanuméricos (pelo menos uma letra e um número)</small>
           </md-input-container>
           <md-input-container class="md-block md-input-has-value" ng-if="idiomaLocal == 'pt_BR'">
-            <md-select ng-model="Registroorganizacion.comoenteraste" aria-label="como">
+            <md-select ng-model="Registroorganizacion.comoenteraste" name="comoenteraste" aria-label="como" required>
               <md-option selected ng-value="0"><em>Como você é o nosso?</em></md-option>
               <md-option ng-repeat="como in comoteenteraste" ng-value="como.id">
                 {{como.name}}
               </md-option>
             </md-select>
-
+            <div ng-messages="Organizacionfrom.comoenteraste.$error">
+              <div ng-message="required">*</div>
+            </div>
           </md-input-container>
-          <md-input-container class="md-block md-input-has-value" ng-if="idiomaLocal == 'en_EN'">
-            <md-select ng-model="Registroorganizacion.comoenteraste" aria-label="como">
-              <md-option selected ng-value="0"><em>How did you hear about us?</em></md-option>
+          <md-input-container class="md-block">
+            <label ng-if="idiomaLocal == 'es_MX'">¿Cómo te enteraste de nosotros?</label>
+            <label ng-if="idiomaLocal == 'en_EN'">How did you hear about us?</label>
+            <label ng-if="idiomaLocal == 'pt_BR'">Como você ficou sabendo sobre nós?</label>
+            <md-select id="comoenteraste" ng-if="idiomaLocal == 'es_MX'" name="comoenteraste" ng-model="Registroorganizacion.comoenteraste" required>
               <md-option ng-repeat="como in comoteenteraste" ng-value="como.id">
                 {{como.name}}
               </md-option>
             </md-select>
-          </md-input-container>
-
-          <md-input-container class="md-block md-input-has-value" ng-if="idiomaLocal == 'es_MX'">
-            <md-select ng-model="Registroorganizacion.comoenteraste" aria-label="como">
-              <md-option selected ng-value="0"><em>¿Cómo te enteraste de nosotros?</em></md-option>
-              <md-option ng-repeat="como in comoteenteraste" ng-value="como.id">
-                {{como.name}}
+            <md-select id="comoenteraste" ng-if="idiomaLocal == 'en_EN'" name="comoenteraste" ng-model="Registroorganizacion.comoenteraste" required>
+              <md-option ng-value="1">
+                Recommendation
+              </md-option>
+              <md-option ng-value="2">
+                Social networks
+              </md-option>
+              <md-option ng-value="3">
+                Web search engine
+              </md-option>
+              <md-option ng-value="4">
+                Email
+              </md-option>
+              <md-option ng-value="4">
+                Event
               </md-option>
             </md-select>
+            <div ng-messages="Organizacionfrom.comoenteraste.$error">
+              <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'pt_BR'">Você deve concordar com os termos e condições.</div>
+            </div>
           </md-input-container>
 
           <div class="margin-bottom"></div>
@@ -129,14 +152,26 @@
             </div>
           </md-input-container>
           <md-input-container class="md-block" style="margin-top:0; margin-bottom:30px;">
-            <md-select ng-model="Registroorganizacion.servicioorganizacion" aria-label="como">
-              <md-option selected ng-value="0">
-                <em ng-if="idiomaLocal == 'es_MX'">¿Qué servicio te interesa?</em>
-                <em ng-if="idiomaLocal == 'en_EN'">What service are you interested in? (Multiple choice)</em>
-                <em ng-if="idiomaLocal == 'pt_BR'">Qual serviço você está interessado? (Múltipla escolha)</em>
-              </md-option>
+            <label ng-if="idiomaLocal == 'es_MX'">¿Qué servicio te interesa?</label>
+            <label ng-if="idiomaLocal == 'en_EN'">What service are you interested in?</label>
+            <label ng-if="idiomaLocal == 'pt_BR'">Qual serviço você está interessado?</label>
+            <md-select ng-model="Registroorganizacion.servicioorganizacion" aria-label="como" ng-if="idiomaLocal == 'es_MX'">
               <md-option ng-repeat="organizacion in serviciosorganizacion" ng-value="organizacion.id">
                 {{organizacion.name}}
+              </md-option>
+            </md-select>
+            <md-select ng-model="Registroorganizacion.servicioorganizacion" aria-label="como" ng-if="idiomaLocal == 'en_EN'">
+              <md-option ng-value="3">
+                Headhunting: Search and Selection Process Complete
+              </md-option>
+              <md-option ng-value="6">
+                Publication + Vacancy Dissemination
+              </md-option>
+              <md-option ng-value="7">
+                Vacancy Publication + Filter
+              </md-option>
+              <md-option ng-value="8">
+                Evaluation of Candidates
               </md-option>
             </md-select>
           </md-input-container>
@@ -179,7 +214,7 @@
             <p ng-if="idiomaLocal == 'pt_BR'"> O seu pedido de organização será avaliado pela nossa equipe</p>
           </md-input-container>
         </div>
-       
+
         <div class="col-xs-12 text-center margin-bottom">
           <md-input-container class="md-block">
             <md-checkbox aria-label="acepto" name="tos" ng-model="Registroorganizacion.acepto" required>
@@ -201,7 +236,7 @@
       </form>
     </div>
     <div ng-class="classregistro" ng-show="disablep">
-      <form name="projectForm">
+      <form name="projectForm" novalidate>
         <div class="col-xs-12 text-center">
           <h2 class="negrita" ng-if="idiomaLocal == 'es_MX'">Registro Postulantes</h2>
           <h2 class="negrita" ng-if="idiomaLocal == 'en_EN'">Applicant</h2>
@@ -216,6 +251,7 @@
             <div ng-messages="projectForm.Nombre.$error">
               <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
               <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'pt_BR'">Você deve concordar com os termos e condições.</div>
             </div>
           </md-input-container>
           <md-input-container class="md-block">
@@ -226,6 +262,7 @@
             <div ng-messages="projectForm.apellidos.$error">
               <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
               <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'pt_BR'">Você deve concordar com os termos e condições.</div>
             </div>
           </md-input-container>
           <md-input-container class="md-block">
@@ -242,6 +279,7 @@
               </div>
               <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
               <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'pt_BR'">Você deve concordar com os termos e condições.</div>
             </div>
           </md-input-container>
           <md-input-container class="md-block">
@@ -249,85 +287,146 @@
             <label ng-if="idiomaLocal == 'en_EN'">Password <span style="color:dodgerblue">*</span></label>
             <label ng-if="idiomaLocal == 'pt_BR'">Senha <span style="color:dodgerblue">*</span></label>
             <input aria-label="password" type="password" required md-no-asterisk name="contrasena" ng-model="RegistroPostulante.contrasena">
+            <div ng-messages="projectForm.contrasena.$error">
+              <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'pt_BR'">Você deve concordar com os termos e condições.</div>
+            </div>
             <small style="color:gray" ng-if="idiomaLocal == 'es_MX'">*Nota: la contraseña debe contener por lo menos 8 caracteres alfanuméricos (al menos una letra y un número)</small>
             <small style="color:gray" ng-if="idiomaLocal == 'en_EN'">*Note: The password must contain at least 8 alphanumeric characters (at least one letter and one number)</small>
             <small style="color:gray" ng-if="idiomaLocal == 'pt_BR'">*Nota: A senha deve conter pelo menos 8 caracteres alfanuméricos (pelo menos uma letra e um número)</small>
-            <div ng-messages="Organizacionfrom.contrasena.$error">
-              <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
-              <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
-            </div>
+
           </md-input-container>
-          <md-input-container class="md-block">
+          <md-input-container class="md-block visible-lg">
             <label ng-if="idiomaLocal == 'es_MX'"> ¿Cuál es el principal cambio positivo que quisieras generar en la sociedad?</label>
             <label ng-if="idiomaLocal == 'en_EN'">What is de main positive change you would like to generate in society? </label>
             <label ng-if="idiomaLocal == 'pt_BR'">Qual é a principal mudança positiva que você gostaria de gerar na sociedade? </label>
-            <input aria-label="answer1" type="text" required md-no-asterisk name="answer_1" ng-model="RegistroPostulante.answer_1">
+            <input aria-label="answer1" type="text" required md-no-asterisk name="principal_cambio" ng-model="RegistroPostulante.answer_1"></input>
+            <div ng-messages="projectForm.principal_cambio.$error">
+              <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'pt_BR'">Você deve concordar com os termos e condições.</div>
+            </div>
+          </md-input-container>
+          <md-input-container class="md-block hidden-lg">
+            <span ng-if="idiomaLocal == 'es_MX'" class="negrita" style="color:#9E9E9E;"> ¿Cuál es el principal cambio positivo que quisieras generar en la sociedad?</span>
+            <span ng-if="idiomaLocal == 'en_EN'" class="negrita" style="color:#9E9E9E;">What is de main positive change you would like to generate in society? </span>
+            <span ng-if="idiomaLocal == 'pt_BR'" class="negrita" style="color:#9E9E9E;">Qual é a principal mudança positiva que você gostaria de gerar na sociedade? </span>
+            <input aria-label="answer1" type="text" required md-no-asterisk name="principal_cambio" ng-model="RegistroPostulante.answer_1"></input>
+            <div ng-messages="projectForm.principal_cambio.$error">
+              <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'pt_BR'">Você deve concordar com os termos e condições.</div>
+            </div>
           </md-input-container>
           <md-input-container class="md-block" style="margin-bottom:0;">
             <label ng-if="idiomaLocal == 'es_MX'">Teléfono Móvil <span style="color:dodgerblue">*</span></label>
             <label ng-if="idiomaLocal == 'en_EN'">Mobile phone <span style="color:dodgerblue">*</span></label>
             <label ng-if="idiomaLocal == 'pt_BR'">Celular <span style="color:dodgerblue">*</span></label>
             <input aria-label="cel" required md-no-asterisk name="cellphone_number" ng-model="RegistroPostulante.cellphone_number">
-            <div ng-messages="Organizacionfrom.cellphone_number.$error">
+            <div ng-messages="projectForm.cellphone_number.$error">
               <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
               <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'pt_BR'">Você deve concordar com os termos e condições.</div>
             </div>
           </md-input-container>
           <md-input-container class="md-block">
-            <md-select ng-model="RegistroPostulante.comoenteraste" aria-label="como" required>
-              <md-option selected ng-value="0">
-                <em ng-if="idiomaLocal == 'es_MX'">¿Cómo te enteraste de nosotros?</em>
-                <em ng-if="idiomaLocal == 'en_EN'">How did you hear about us?</em>
-                <em ng-if="idiomaLocal == 'pt_BR'">Como você ficou sabendo sobre nós?</em>
-              </md-option>
+            <label ng-if="idiomaLocal == 'es_MX'">¿Cómo te enteraste de nosotros?</label>
+            <label ng-if="idiomaLocal == 'en_EN'">How did you hear about us?</label>
+            <label ng-if="idiomaLocal == 'pt_BR'">Como você ficou sabendo sobre nós?</label>
+            <md-select id="comoenteraste" ng-if="idiomaLocal == 'es_MX'" name="comoenteraste" ng-model="RegistroPostulante.comoenteraste" required>
               <md-option ng-repeat="como in comoteenteraste" ng-value="como.id">
                 {{como.name}}
               </md-option>
             </md-select>
+            <md-select id="comoenteraste" ng-if="idiomaLocal == 'en_EN'" name="comoenteraste" ng-model="RegistroPostulante.comoenteraste" required>
+              <md-option ng-value="1">
+                Recommendation
+              </md-option>
+              <md-option ng-value="2">
+                Social networks
+              </md-option>
+              <md-option ng-value="3">
+                Web search engine
+              </md-option>
+              <md-option ng-value="4">
+                Email
+              </md-option>
+              <md-option ng-value="4">
+                Event
+              </md-option>
+            </md-select>
+            <div ng-messages="projectForm.comoenteraste.$error">
+              <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'pt_BR'">Você deve concordar com os termos e condições.</div>
+            </div>
           </md-input-container>
-          <md-input-container class="md-block">
+          <md-input-container class="md-block visible-lg">
             <label ng-if="idiomaLocal == 'es_MX'">¿En qué tipo de organización quisieras involucrarte?</label>
             <label ng-if="idiomaLocal == 'en_EN'">What kind of companies would like to work in? (multiple choice) </label>
             <label ng-if="idiomaLocal == 'pt_BR'">Em que tipo de empresas gostaria de trabalhar? (múltipla escolha) </label>
             <br />
             <br />
-            <div flex="60">
-              <md-checkbox ng-repeat="organizacion in tipoorganizacion" ng-checked="exists(organizacion.id, selected)" ng-click="toggle(organizacion.id, selected)">
-                {{ organizacion.name }}
+            <div flex="80" ng-repeat="organizacion in tipoorganizacion">
+              <md-checkbox id="chk_tipo" ng-checked="exists(organizacion.id, selected)" name="tos" ng-click="toggle(organizacion.id, selected)" required>
+                <span ng-if="idiomaLocal == 'es_MX'">{{ organizacion.name }}</span>
+                <span ng-if="idiomaLocal == 'en_EN'">{{ organizacion.name_en }}</span>
+                <span ng-if="idiomaLocal == 'pt_BR'">{{ organizacion.name_pt }}</span><br />
               </md-checkbox>
             </div>
-            <!--<md-select ng-model="RegistroPostulante.tipoorganizacion" aria-label="como">
-      <md-option selected ng-value="0"><em>¿En qué tipo de organización quisieras involucrarte?</em></md-option>
-      <md-option ng-repeat="organizacion in tipoorganizacion" ng-value="organizacion.name">
-          {{organizacion.name}}
-      </md-option>
-  </md-select>-->
+            <div style="color:#DD2C00" ng-if="idiomaLocal == 'es_MX'" ng-hide="term_condi_lista">* Campo requerido.</div>
+            <div style="color:#DD2C00" ng-if="idiomaLocal == 'en_EN'" ng-hide="term_condi_lista">* Required field.</div>
+            <div style="color:#DD2C00" ng-if="idiomaLocal == 'pt_BR'" ng-hide="term_condi_lista">* </div>
+
           </md-input-container>
+          <md-input-container class="md-block hidden-lg" >
+            <span ng-if="idiomaLocal == 'es_MX'" class="negrita" style="color:#9E9E9E;">¿En qué tipo de organización quisieras involucrarte?</span>
+            <span ng-if="idiomaLocal == 'en_EN'" class="negrita" style="color:#9E9E9E;">What kind of companies would like to work in? (multiple choice) </span>
+            <span ng-if="idiomaLocal == 'pt_BR'" class="negrita" style="color:#9E9E9E;">Em que tipo de empresas gostaria de trabalhar? (múltipla escolha) </span>
+            <br />
+            <br />
+            <div flex="80" ng-repeat="organizacion in tipoorganizacion">
+              <md-checkbox id="chk_tipo" ng-checked="exists(organizacion.id, selected)" name="tos" ng-click="toggle(organizacion.id, selected)" required>
+                <span ng-if="idiomaLocal == 'es_MX'">{{ organizacion.name }}</span>
+                <span ng-if="idiomaLocal == 'en_EN'">{{ organizacion.name_en }}</span>
+                <span ng-if="idiomaLocal == 'pt_BR'">{{ organizacion.name_pt }}</span><br />
+              </md-checkbox>
+            </div>
+            <div style="color:#DD2C00" ng-if="idiomaLocal == 'es_MX'" ng-hide="term_condi_lista">* Campo requerido.</div>
+            <div style="color:#DD2C00" ng-if="idiomaLocal == 'en_EN'" ng-hide="term_condi_lista">* Required field.</div>
+            <div style="color:#DD2C00" ng-if="idiomaLocal == 'pt_BR'" ng-hide="term_condi_lista">* </div>
+
+          </md-input-container>
+
           <div class="margin-bottom"></div>
           <md-input-container class="md-block">
             <label ng-if="idiomaLocal == 'es_MX'" style="white-space:normal">¿Qué cargo o área de gestión te motiva más en una organización?</label>
             <label ng-if="idiomaLocal == 'en_EN'" style="white-space:normal">What role or area of expertise is the one that most motivates you in an organization?</label>
             <label ng-if="idiomaLocal == 'pt_BR'" style="white-space:normal">Qual papel ou área de especialização é aquele que mais o motiva em uma organização?</label>
-            <input aria-label="area" name="area" ng-model="RegistroPostulante.tipoarea">
+            <input aria-label="area" name="area" ng-model="RegistroPostulante.tipoarea" required>
+            <div ng-messages="projectForm.area.$error">
+              <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'pt_BR'">Você deve concordar com os termos e condições.</div>
+            </div>
           </md-input-container>
         </div>
         <div class="col-xs-12 text-center margin-bottom">
           <md-input-container class="md-block">
-            <md-checkbox aria-label="acepto" name="tos" ng-model="RegistroPostulante.acepto" required>
+            <md-checkbox aria-label="acepto" id="chk_acepto" name="tos_check" ng-model="RegistroPostulante.acepto" ng-change="select_check($event);" required>
               <a href="/politicasdeprivacidad" target="_blank" ng-if="idiomaLocal == 'es_MX'">Acepto políticas de privacidad.</a>
               <a href="/politicasdeprivacidad" target="_blank" ng-if="idiomaLocal == 'en_EN'">I accept privacy policies</a>
               <a href="/politicasdeprivacidad" target="_blank" ng-if="idiomaLocal == 'pt_BR'">Aceito políticas de privacidade</a>
             </md-checkbox>
-            <div ng-messages="projectForm.tos.$error" multiple md-auto-hide="false">
-              <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Debes aceptar los términos y condiciones.</div>
-              <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">You must agree to terms and conditions.</div>
-              <div ng-message="required" ng-if="idiomaLocal == 'pt_BR'">Você deve concordar com os termos e condições.</div>
-            </div>
+            <div style="color:#DD2C00" ng-if="idiomaLocal == 'es_MX'" ng-hide="term_condi">* Debes aceptar los términos y condiciones.</div>
+            <div style="color:#DD2C00" ng-if="idiomaLocal == 'en_EN'" ng-hide="term_condi">* You must agree to terms and conditions.</div>
+            <div style="color:#DD2C00" ng-if="idiomaLocal == 'pt_BR'" ng-hide="term_condi">* Você deve concordar com os termos e condições.</div>
           </md-input-container>
           <br />
-          <button class="btn btn-lg btn-primary btn-registrate" ng-click='projectForm.$valid ? RegistroPostulantes() : ""' ng-if="idiomaLocal == 'es_MX'">Registrar</button>
-          <button class="btn btn-lg btn-primary btn-registrate" ng-click='projectForm.$valid ? RegistroPostulantes() : ""' ng-if="idiomaLocal == 'en_EN'">Sign up</button>
-          <button class="btn btn-lg btn-primary btn-registrate" ng-click='projectForm.$valid ? RegistroPostulantes() : ""' ng-if="idiomaLocal == 'pt_BR'">Registrar</button>
+          <button type="submit" class="btn btn-lg btn-primary btn-registrate" ng-click='projectForm.$valid ? RegistroPostulantes() : validar($event)' ng-if="idiomaLocal == 'es_MX'">Registrar</button>
+          <button type="submit" class="btn btn-lg btn-primary btn-registrate" ng-click='projectForm.$valid ? RegistroPostulantes() : validar($event)' ng-if="idiomaLocal == 'en_EN'">Sign up</button>
+          <button type="submit" class="btn btn-lg btn-primary btn-registrate" ng-click='projectForm.$valid ? RegistroPostulantes() : validar($event)' ng-if="idiomaLocal == 'pt_BR'">Registrar</button>
         </div>
       </form>
     </div>

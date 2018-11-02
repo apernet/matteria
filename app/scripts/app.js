@@ -33,8 +33,8 @@ angular
     'ui.carousel'
   ])
   //Pruebas
-  // .constant('API_PATH', 'http://apitest.matteria.co/api/')
-  // .constant('API_PATH_MEDIA', 'http://apitest.matteria.co')
+  //.constant('API_PATH', 'http://apitest.matteria.co/api/')
+  //.constant('API_PATH_MEDIA', 'http://apitest.matteria.co')
 
   //Produccion
   .constant('API_PATH', 'https://api.matteria.co/api/')
@@ -138,7 +138,7 @@ angular
         controller: 'RegistroCtrl'
       })
       .state('vacante', {
-        url: '/vacante/:id',
+        url: '/vacante/:id/:idioma',
         templateUrl: 'views/vacante.html',
         controller: 'VacanteCtrl'
       })

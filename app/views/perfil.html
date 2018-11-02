@@ -69,7 +69,7 @@
             </div>
             <div class="col-xs-12 margin-bottom">
             </div>
-            <div class="col-xs-12" ng-repeat="experiencia in user.WorkSocialExp_candidate">
+            <div class="col-xs-12" ng-repeat="experiencia in exp_lab | orderBy:'-fecha_orden'">
                 <div class="col-xs-12">
                     <h3 class="negrita">{{experiencia.name}}</h3>
                     <h4>{{experiencia.title}}</h4>
@@ -97,7 +97,7 @@
             <div class="col-xs-12" ng-repeat="educacion in user.Education_candidate">
                 <div class="col-xs-12">
                     <h3 class="negrita">{{educacion.institution}}</h3>
-                    <h4>{{educacion.discipline.name}}</h4>
+                    <h4>{{educacion.discipline}}</h4>
                     <h4>{{educacion.grade}}</h4>
                     <h4><span>{{educacion.studied_from_month}} {{educacion.studied_from_year}}</span> - <span ng-if="educacion.studied_to_month != null || educacion.studied_to_month != ''">{{educacion.studied_to_month}} {{educacion.studied_to_year}}</span><span ng-if="educacion.actual_student == true">Actual</span></h4>
                     <p>{{educacion.description}}</p>

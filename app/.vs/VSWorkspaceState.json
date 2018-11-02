@@ -3,12 +3,9 @@
     "",
     "\\scripts",
     "\\scripts\\controllers",
-    "\\scripts\\controllers\\template",
-    "\\scripts\\md5\\css",
-    "\\scripts\\md5\\js",
-    "\\scripts\\services",
-    "\\views"
+    "\\views",
+    "\\views\\templateMail"
   ],
-  "SelectedNode": "\\scripts\\app.js",
+  "SelectedNode": "\\scripts\\controllers\\vacante.js",
   "PreviewInSolutionExplorer": false
 }

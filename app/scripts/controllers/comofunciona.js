@@ -273,7 +273,7 @@ angular.module('tcsGruntApp')
       $window.localStorage.url_return = $location.path();
      // console.log('$window.localStorage.url_return value: '+$window.localStorage.url_return);
       //console.log('$window.localStorage.url_vacante value: '+$window.localStorage.url_vacante);
-      $location.url('/vacante/' + id);
+      $location.url('/vacante/' + id + "/es");
     }
     //Busquedas
     //pais

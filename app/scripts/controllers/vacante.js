@@ -26,7 +26,18 @@ angular.module('tcsGruntApp')
     $scope.role = $window.localStorage.role;
     $scope.isClick = false;
     $window.localStorage.validacion = false;
+    $scope.idiomaLocal = $window.localStorage.idioma;
 
+    $window.localStorage.url_vacante = $location.path();
+    if ($location.path().split('/')[3] == "") {
+      $location.path($location.path() + "es").replace();
+    }
+
+    if ($location.path().split('/')[3] == "matteria.covacante") {
+      $location.path("matteria.co/vacante/" + $location.path.split('/')[4]).replace();
+    }
+
+    //cnsole.log($location.path().split('/').length);  
 
     //window.history.pushState('forward', null, './#forward');
     $(window).on('popstate', function() {
@@ -49,7 +60,8 @@ angular.module('tcsGruntApp')
         action_type: 'og.shares',
         action_properties: JSON.stringify({
           object: {
-            'og:url': 'http://matteria.co/vacante/'+ url, // your url to share
+            'fb:app_id': '2014416175460452',
+            'og:url': 'https://matteria.co/vacante/' + url, // your url to share
             'og:title': 'Hola, encontré esta vacante y creo que te puede interesar',
             'og:description': descripcion,
             'og:image': API_PATH_MEDIA + img
@@ -68,6 +80,7 @@ angular.module('tcsGruntApp')
     }
 
     $scope.postula = function (ev) {
+      //console.log($scope.vacante);
       if (contenidoFactory.session()) {
         if ($scope.vacante.private_salary) {
           ventana();
@@ -81,19 +94,73 @@ angular.module('tcsGruntApp')
             if (data.first_name != null) {
               if (data.last_name != null) {
                 if (data.email != null) {
-                  if (data.cellphone_number != null) {
+                  if (data.cellphone_number != null || data.cellphone_number != "") {
                     if (data.WorkSocialExp_candidate.length != 0) {
                       if (data.Education_candidate.length != 0) {
-                        contenidoFactory.ServicePerfil('openings/applications/create/', 'POST', {
-                            "candidate": $window.localStorage.id_candidate,
-                            "opening": $stateParams.id,
-                            "salary_min": null,
-                            "salary_max": null
-                        }).then(function (data) {
-                            //$scope.isClick = true;
-                            $window.location.href = "/postulacionrecibida/es";
-                            //console.log(data);
-                        });
+                        if (data.professions.length != 0) {
+                          if (data.interests.length != 0) {
+                            if (data.exp_sectors.length != 0) {
+                              if (data.exp_areas.length != 0) {
+                                if (data.salary_max != 0) {
+                                  if (data.avaliability != "") {
+                                    if (data.hobbies != "") {
+                                      if (data.abilities != "") {
+                                        if (data.visted_countries != "") {
+                                          if (data.extras != "") {
+                                            if (data.Languages_candidate.length != 0) {
+                                              contenidoFactory.ServicePerfil('openings/applications/create/', 'POST', {
+                                                "candidate": $window.localStorage.id_candidate,
+                                                "opening": $stateParams.id,
+                                                "salary_min": $scope.desde,
+                                                "salary_max": $scope.hasta
+                                              }).then(function (data) {
+                                                $window.location.href = "/postulacionrecibida/es";
+                                              });
+                                            }
+                                            else {
+                                              validacion();
+                                            }
+                                          }
+                                          else {
+                                            validacion();
+                                          }
+                                        }
+                                        else {
+                                          validacion();
+                                        }
+                                      }
+                                      else {
+                                        validacion();
+                                      }
+                                    }
+                                    else {
+                                      validacion();
+                                    }
+                                  }
+                                  else {
+                                    validacion();
+                                  }
+                                }
+                                else {
+                                  validacion();
+                                }
+                              }
+                              else {
+                                validacion();
+                              }
+
+                            }
+                            else {
+                              validacion();
+                            }
+                          }
+                          else {
+                            validacion();
+                          }
+                        }
+                        else {
+                          validacion();
+                        }
                       }
                       else {
                         validacion();
@@ -201,14 +268,70 @@ angular.module('tcsGruntApp')
                         if (data.cellphone_number != null || data.cellphone_number != "") {
                           if (data.WorkSocialExp_candidate.length != 0) {
                             if (data.Education_candidate.length != 0) {
-                              contenidoFactory.ServicePerfil('openings/applications/create/', 'POST', {
-                                "candidate": $window.localStorage.id_candidate,
-                                "opening": $stateParams.id,
-                                "salary_min": $scope.desde,
-                                "salary_max": $scope.hasta
-                              }).then(function (data) {
-                                $window.location.href = "/postulacionrecibida/es";
-                              });
+                              if (data.professions.length != 0) {
+                                if (data.interests.length != 0) {
+                                  if (data.exp_sectors.length != 0) {
+                                    if (data.exp_areas.length != 0) {
+                                      if (data.salary_max != 0) {
+                                        if (data.avaliability != "") {
+                                          if (data.hobbies != "") {
+                                            if (data.abilities != "") {
+                                              if (data.visted_countries != "") {
+                                                if (data.extras != "") {
+                                                  if (data.Languages_candidate.length != 0) {
+                                                    contenidoFactory.ServicePerfil('openings/applications/create/', 'POST', {
+                                                      "candidate": $window.localStorage.id_candidate,
+                                                      "opening": $stateParams.id,
+                                                      "salary_min": $scope.desde,
+                                                      "salary_max": $scope.hasta
+                                                    }).then(function (data) {
+                                                      $window.location.href = "/postulacionrecibida/es";
+                                                    });
+                                                  }
+                                                  else {
+                                                    validacion();
+                                                  }                                                  
+                                                }
+                                                else {
+                                                  validacion();
+                                                }
+                                              }
+                                              else {
+                                                validacion();
+                                              }
+                                            }
+                                            else {
+                                              validacion();
+                                            }
+                                          }
+                                          else {
+                                            validacion();
+                                          }
+                                        }
+                                        else {
+                                          validacion();
+                                        }
+                                      }
+                                      else {
+                                        validacion();
+                                      }                                      
+                                    }
+                                    else {
+                                      validacion();
+                                    }
+                                    
+                                  }
+                                  else {
+                                    validacion();
+                                  }                                  
+                                }
+                                else {
+                                  validacion();
+                                }
+                              }
+                              else {
+                                validacion();
+                              }                             
                             }
                             else {
                               validacion();

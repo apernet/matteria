@@ -14,6 +14,27 @@ angular.module('tcsGruntApp')
     $scope.nombre = $window.localStorage.nombre;
     $scope.classs = 'cargador'
     $scope.pago = true;
+
+    console.log($window.localStorage.url_vacante);
+    console.log($location.path());
+    if ($location.path().split('/').length == 3) {
+      if ($location.path().split('/')[1] == "vacante") {
+        //console.log("ENTROOO");
+        $window.location.href = $location.path() + "/es";
+      }      
+      //$location.path("vacante/457/es").replace();
+    }
+
+    if ($window.localStorage.idioma == 'es_MX') {
+      $scope.idiomaLocal = 'es';
+    }
+    if ($window.localStorage.idioma == 'en_EN') {
+      $scope.idiomaLocal = 'en';
+    }
+    if ($window.localStorage.idioma == 'pt_BR') {
+      $scope.idiomaLocal = 'pt';
+    }
+   
     //localStorage.setItem('ingreso', "")
 
     if ($window.localStorage.idioma == undefined) {
@@ -23,6 +44,7 @@ angular.module('tcsGruntApp')
     //console.log(window.location.pathname.split("/")[1]);
     if (window.location.pathname.split("/")[1] == "pagos") {
       $scope.pago = false;
+      document.getElementById('divpago').style.display = 'block'; 
     }
     else {
       $scope.pago = true;
@@ -64,12 +86,17 @@ angular.module('tcsGruntApp')
     }
 
     contenidoFactory.ServiceContenido('fcm/logos/?format=json', 'GET', '{}').then(function (data) {
+      
+      //document.getElementById('div_header').style.display = 'none'; 
       $scope.logo = data.data
       $window.localStorage.en = API_PATH_MEDIA + $scope.logo[0].logo_en;
       $window.localStorage.es = API_PATH_MEDIA + $scope.logo[0].logo;
       $window.localStorage.pt = API_PATH_MEDIA + $scope.logo[0].logo_pt;
       CargarImagenes();
+      document.getElementById('div_header').style.display = 'block';
+      document.getElementById('div_footer').style.display = 'block';
       //$scope.classs = 'display:block;';
+
 
     });
 

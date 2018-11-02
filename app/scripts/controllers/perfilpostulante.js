@@ -22,6 +22,7 @@ angular.module('tcsGruntApp')
     $scope.tempAreas = [];
     $scope.datosgenerales = [{}];
     $scope.user = {};
+    $scope.exp_lab = [];
     $scope.paises = [{}];
     $scope.agregarExpericia = false;
     $scope.agregarVoluntariado = false;
@@ -37,6 +38,7 @@ angular.module('tcsGruntApp')
     $scope.currentLocation = window.location.host;
     $scope.ayudasexo = " ¿Por qué te hacemos esta pregunta? Por que queremos conocer a nuestra comunidad de postulantes, defendiendo los avances a nivel de diversidad y tolerancia que con mucho esfuerzo hemos ido logrando como sociedad. Esto por ningún motivo representa un factor de discriminación postiva o negativa, más allá de si tu perfil se ajusta o no a la vacante requerida.";
     $scope.ph = false;
+    $scope.idiomaLocal = $window.localStorage.idioma;
 
     candidato();
 
@@ -128,14 +130,14 @@ angular.module('tcsGruntApp')
         {
           targetEvent: ev,
           template: '<md-dialog md-theme="{{ dialog.theme || dialog.defaultTheme }}" aria-label="{{ dialog.ariaLabel }}" ng-class="dialog.css">' +
-          '<md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">' +
-          '<div class="md-dialog-content-body"><h4 class="negrita">¿Estás seguro que deseas borrar este ítem?</h4></div>' +
-          '</md-dialog-content>' +
-          '<md-dialog-actions>' +
-          '<md-button ng-click="dialog.hide()" class="md-primary md-confirm-button">Si</md-button>' +
-          '<md-button ng-click="dialog.abort()" class="md-primary md-cancel-button">No</md-button>' +
-          '</md-dialog-actions>' +
-          '</md-dialog>'
+            '<md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">' +
+            '<div class="md-dialog-content-body"><h4 class="negrita">¿Estás seguro que deseas borrar este ítem?</h4></div>' +
+            '</md-dialog-content>' +
+            '<md-dialog-actions>' +
+            '<md-button ng-click="dialog.hide()" class="md-primary md-confirm-button">Si</md-button>' +
+            '<md-button ng-click="dialog.abort()" class="md-primary md-cancel-button">No</md-button>' +
+            '</md-dialog-actions>' +
+            '</md-dialog>'
         });
       //.title('Borrar Experiencia Laboral?')
       //.textContent('Estas seguro que deseas borrar este item.')
@@ -242,14 +244,14 @@ angular.module('tcsGruntApp')
       var confirm = $mdDialog.confirm({
         targetEvent: ev,
         template: '<md-dialog md-theme="{{ dialog.theme || dialog.defaultTheme }}" aria-label="{{ dialog.ariaLabel }}" ng-class="dialog.css">' +
-        '<md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">' +
-        '<div class="md-dialog-content-body"><h5 class="negrita">¿Estás seguro que deseas borrar este ítem?</h5></div>' +
-        '</md-dialog-content>' +
-        '<md-dialog-actions>' +
-        '<md-button ng-click="dialog.hide()" class="md-primary md-confirm-button">Si</md-button>' +
-        '<md-button ng-click="dialog.abort()" class="md-primary md-cancel-button">No</md-button>' +
-        '</md-dialog-actions>' +
-        '</md-dialog>'
+          '<md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">' +
+          '<div class="md-dialog-content-body"><h5 class="negrita">¿Estás seguro que deseas borrar este ítem?</h5></div>' +
+          '</md-dialog-content>' +
+          '<md-dialog-actions>' +
+          '<md-button ng-click="dialog.hide()" class="md-primary md-confirm-button">Si</md-button>' +
+          '<md-button ng-click="dialog.abort()" class="md-primary md-cancel-button">No</md-button>' +
+          '</md-dialog-actions>' +
+          '</md-dialog>'
       })
       //      .title('Borrar Voluntariado?')
       //      .textContent('Estas seguro que deseas borrar este item.')
@@ -346,14 +348,14 @@ angular.module('tcsGruntApp')
         {
           targetEvent: ev,
           template: '<md-dialog md-theme="{{ dialog.theme || dialog.defaultTheme }}" aria-label="{{ dialog.ariaLabel }}" ng-class="dialog.css">' +
-          '<md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">' +
-          '<div class="md-dialog-content-body"><h5 class="negrita">¿Estás seguro que deseas borrar este ítem?</h5></div>' +
-          '</md-dialog-content>' +
-          '<md-dialog-actions>' +
-          '<md-button ng-click="dialog.hide()" class="md-primary md-confirm-button">Si</md-button>' +
-          '<md-button ng-click="dialog.abort()" class="md-primary md-cancel-button">No</md-button>' +
-          '</md-dialog-actions>' +
-          '</md-dialog>'
+            '<md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">' +
+            '<div class="md-dialog-content-body"><h5 class="negrita">¿Estás seguro que deseas borrar este ítem?</h5></div>' +
+            '</md-dialog-content>' +
+            '<md-dialog-actions>' +
+            '<md-button ng-click="dialog.hide()" class="md-primary md-confirm-button">Si</md-button>' +
+            '<md-button ng-click="dialog.abort()" class="md-primary md-cancel-button">No</md-button>' +
+            '</md-dialog-actions>' +
+            '</md-dialog>'
         })
       //.title('Borrar Educación?')
       //.textContent('Estas seguro que deseas borrar este item.')
@@ -402,7 +404,7 @@ angular.module('tcsGruntApp')
         $scope.education.studied_to_month = null;
         $scope.education.studied_to_year = null;
       }
-      contenidoFactory.ServicePerfil('candidates/education/' + +$scope.education.id + '/edit/', 'PUT', {
+      contenidoFactory.ServicePerfil('candidates/education/' + $scope.education.id + '/edit/', 'PUT', {
         "institution": $scope.education.institution,
         "discipline": $scope.education.discipline,
         "grade": $scope.education.grade,
@@ -580,6 +582,8 @@ angular.module('tcsGruntApp')
     }
 
     //candidato
+    var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+
     function candidato() {
       //console.log($window.localStorage.avatar);
       contenidoFactory.ServicePerfil('candidates/me/', 'GET', '{}').then(function (data) {
@@ -591,10 +595,85 @@ angular.module('tcsGruntApp')
         else {
           $scope.selectPais(data.country.id);
         }
-
-        console.log(data);
         $scope.user = data;
+        //$scope.exp_lab = data.WorkSocialExp_candidate;
+        
+        var _mes;
+        var miFecha
+        $scope.exp_lab = [];
+        for (var j = 0; j < data.WorkSocialExp_candidate.length; j++) {          
+          for (var i = 0; i < meses.length; i++) {
+            if (data.WorkSocialExp_candidate[j].work_from_month == meses[i]) {
+              //console.log(meses[i]);
+              _mes = i;
+              //$scope.exp_lab.push();
+              miFecha = new Date(data.WorkSocialExp_candidate[j].work_from_year, i);
+              $scope.exp_lab.push({
+                actual_job: data.WorkSocialExp_candidate[j].actual_job,
+                city: data.WorkSocialExp_candidate[j].city,
+                country: data.WorkSocialExp_candidate[j].country,
+                description: data.WorkSocialExp_candidate[j].description,
+                id: data.WorkSocialExp_candidate[j].id,
+                name: data.WorkSocialExp_candidate[j].name,
+                positive_impact: data.WorkSocialExp_candidate[j].positive_impact,
+                title: data.WorkSocialExp_candidate[j].title,
+                work_from_month: data.WorkSocialExp_candidate[j].work_from_month,
+                work_from_year: data.WorkSocialExp_candidate[j].work_from_year,
+                work_to_month: data.WorkSocialExp_candidate[j].work_to_month,
+                work_to_year: data.WorkSocialExp_candidate[j].work_to_year,
+                fecha_orden: miFecha.toISOString()
+              });              
+              break;
+            }
+          }
+        }
+        console.log($scope.exp_lab);
+        //console.log(data.WorkSocialExp_candidate[0].work_from_month);
+        //console.log(data.WorkSocialExp_candidate[0].work_from_year);
+        //console.log(data.Education_candidate);
+        
 
+        //$scope.user.push({
+        //  Education_candidate: data.Education_candidate,
+        //  Languages_candidate: data.Languages_candidate,
+        //  VolunteerExp_candidate: data.VolunteerExp_candidate,
+        //  WorkSocialExp_candidate: data.WorkSocialExp_candidate,
+        //  abilities: data.abilities,
+        //  avaliability: data.avaliability,
+        //  avatar: data.avatar,
+        //  birthday: data.birthday,
+        //  cellphone_number: data.cellphone_number,
+        //  city: data.city,
+        //  competence_1: data.competence_1,
+        //  competence_2: data.competence_2,
+        //  competence_3: data.competence_3,
+        //  country: data.country,
+        //  custom_url: data.custom_url,
+        //  email: data.email,
+        //  exp_areas: data.exp_areas,
+        //  exp_sectors: data.exp_sectors,
+        //  extras: data.extras,
+        //  first_name: data.first_name,
+        //  genre: data.genre,
+        //  hobbies: data.hobbies,
+        //  interests: data.interests,
+        //  last_name: data.last_name,
+        //  prof_ID: data.prof_ID,
+        //  professions: data.professions,
+        //  salary_max: data.salary_max,
+        //  salary_min: data.salary_min,  
+        //  skill_1: data.skill_1,
+        //  skill_2: data.skill_2, 
+        //  skill_3: data.skill_3,
+        //  social_facebook: data.social_facebook,
+        //  social_linkedin: data.social_linkedin,
+        //  social_snapchat: data.social_snapchat,
+        //  social_snapchat_avatar: data.social_snapchat_avatar,
+        //  social_twitter: data.social_twitter,
+        //  social_youtube: data.social_youtube,
+        //  visted_countries: data.visted_countries
+        //});
+        
         if ($scope.user.custom_url == "" || $scope.user.custom_url == null || $scope.user.custom_url == undefined) { $scope.ph = false; } else { $scope.ph = true; }
 
 
@@ -689,7 +768,7 @@ angular.module('tcsGruntApp')
           }
 
         });
-      });
+      });      
     }
 
     //causas
@@ -941,7 +1020,7 @@ angular.module('tcsGruntApp')
     //Guardar General
     $scope.guardarGeneral = function (ev) {
       //$templateCache.removeAll();
-      
+
       if ($scope.userAvatar != undefined) {
         $scope.user.avatar = "";
         //$window.localStorage.avatar = "";
@@ -1005,13 +1084,13 @@ angular.module('tcsGruntApp')
           {
             targetEvent: ev,
             template: '<md-dialog md-theme="{{ dialog.theme || dialog.defaultTheme }}" aria-label="{{ dialog.ariaLabel }}" ng-class="dialog.css">' +
-            '<md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">' +
-            '<div class="md-dialog-content-body"><h4 class="negrita">Tus datos se han actualizado correctamente</h4></div>' +
-            '</md-dialog-content>' +
-            '<md-dialog-actions>' +
-            '<md-button ng-click="dialog.hide()" class="md-primary md-confirm-button">Aceptar</md-button>' +
-            '</md-dialog-actions>' +
-            '</md-dialog>'
+              '<md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">' +
+              '<div class="md-dialog-content-body"><h4 class="negrita">Tus datos se han actualizado correctamente</h4></div>' +
+              '</md-dialog-content>' +
+              '<md-dialog-actions>' +
+              '<md-button ng-click="dialog.hide()" class="md-primary md-confirm-button">Aceptar</md-button>' +
+              '</md-dialog-actions>' +
+              '</md-dialog>'
           });
         //.title('Borrar Experiencia Laboral?')
         //.textContent('Estas seguro que deseas borrar este item.')
@@ -1050,7 +1129,7 @@ angular.module('tcsGruntApp')
       var trabajo = false;
       var educacion = false;
       contenidoFactory.ServicePerfil('candidates/me/', 'GET', '{}').then(function (data) {
-        //console.log(data);
+        console.log(data);
         if ($scope.user.cellphone_number == "" || $scope.user.cellphone_number == null) {
           focus('user.cellphone_number');
           numero = true;
@@ -1082,11 +1161,11 @@ angular.module('tcsGruntApp')
         if (numero == false && trabajo == true && educacion == false) {
           focus('experties.title');
         }
-        
+
         if (numero == false && trabajo == false && educacion == true) {
           focus('education.discipline');
         }
       });
-      
+
     }
   }]);

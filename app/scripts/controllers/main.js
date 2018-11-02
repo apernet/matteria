@@ -24,6 +24,7 @@ angular.module('tcsGruntApp')
     $scope.API_PATH_MEDIA = API_PATH_MEDIA;
     $scope.idiomaLocal = $window.localStorage.idioma;
     $scope.text = "";
+    $scope.idioma_oferta = "";
 
     $scope.Indicators = "";
     $scope.Wrapper = "";
@@ -42,6 +43,7 @@ angular.module('tcsGruntApp')
       //console.log($location.path());
     }
 
+    $scope.idioma_oferta = $location.path();
     switch ($stateParams.idioma) {
       case 'en':
         $window.localStorage.idioma = 'en_EN';

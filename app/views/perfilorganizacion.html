@@ -1,382 +1,414 @@
-﻿
+
 <div class="container" ng-controller="HeaderCtrl">
-
-    <div class="col-xs-12" ng-controller="PerfilOrganizacionesCtrl">
-        <div class="col-xs-12 text-right margin-bottom">
-            <a class="margin-bottom" href="/perfilpublicoorganizacion/{{id}}" target="_blank">Vista previa</a>
-        </div>
-        <form name="formOrganizacion">
-            <div class="col-xs-12 border-perfil margin-bottom">
-                <div ng-show="!crop">
-                    <div class="col-xs-12 col-lg-3">
-                        <div class="col-xs-12 text-center margin-bottom">
-                            <img class="img-circle img-responsive img-circle-padding" src="{{API_PATH_MEDIA}}{{company.logo}}" ng-show="isImage" />
-                            <img class="img-circle img-responsive" ng-src="{{myCroppedImage}}" ng-show="!isImage" />
-                        </div>
-                        <div class="col-xs-12 text-center">
-                            <input type="file" id="fileInput" class="inputfile" accept="image/*" />
-                            <label for="fileInput">Cargar</label>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-lg-9">
-                        <div class="col-xs-12">
-                            <div class="col-xs-12">
-                                <h2>Datos Organización</h2>
-                            </div>
-                            <div class="col-xs-12" style="padding:0;">
-                                <div class="col-xs-12 col-lg-6">
-                                    <md-input-container class="md-block">
-                                        <label>Nombre organización <span style="color:dodgerblue">*</span></label>
-                                        <input required md-no-asterisk name="name" ng-model="company.name">
-                                        <div ng-messages="formOrganizacion.name.$error">
-                                            <div ng-message="required">Campo requerido.</div>
-                                        </div>
-                                    </md-input-container>
-                                </div>
-                                <div class="col-xs-12 col-lg-6">
-                                    <md-input-container class="md-block">
-                                        <label>Tipo <span style="color:dodgerblue">*</span></label>
-                                        <md-select required md-no-asterisk name="tipo" ng-model="company.tipo" aria-label="tipo">
-                                            <md-option selected ng-value="0"><em>Todos</em></md-option> 
-                                            <md-option ng-repeat="tipo in tipos" ng-value="tipo.id" ng-selected="$index == company.company_type.id - 1">
-                                                {{tipo.name}}
-                                            </md-option>
-                                        </md-select>
-                                        <div ng-messages="formOrganizacion.tipo.$error">
-                                            <div ng-message="required">Campo requerido.</div>
-                                        </div>
-                                    </md-input-container>
-                                </div>
-                            </div>
-                            <div class="col-xs-12" style="padding:0;">
-                                <div class="col-xs-12 col-lg-6">
-                                    <md-input-container class="md-block">
-                                        <label>Sitio Web</label>
-                                        <input name="website" ng-model="company.website">
-                                    </md-input-container>
-                                </div>
-                                <div class="col-xs-12 col-lg-6">
-                                    <md-input-container class="md-block">
-                                        <label>País</label>
-                                        <md-select ng-model="user.pais" aria-label="pais" ng-change="selectEstado();">
-                                            <md-option ng-repeat="pais in paises" ng-value="pais.id" ng-selected="pais.id == company.country.id">
-                                                {{pais.name}}
-                                            </md-option>
-                                        </md-select>
-                                    </md-input-container>
-                                </div>
-                            </div>
-
-                            <div class="col-xs-12">
-                                <div class="col-xs-12" style="padding:0;">
-                                    <md-input-container class="md-block" ng-if="IsCiudad">
-                                        <label>Cuidad</label>
-                                        <md-select ng-model="company.city" name="city" aria-label="city">
-                                            <md-option ng-repeat="estado in estados track by $index" ng-value="estado.name">
-                                                {{estado.name}}
-                                            </md-option>
-                                        </md-select>
-                                    </md-input-container>
-
-                                    <md-input-container class="md-block" ng-if="!IsCiudad">
-                                        <label>Cuidad</label>
-                                        <input name="city" ng-model="company.city">
-                                    </md-input-container>
-                                </div>
-                                <!--<div class="col-xs-6">
-                            <md-checkbox ng-model="company.show_profile_basic_info" aria-label="Checkbox1">
-                                Mostrar en perfil publico
-                            </md-checkbox>
-                        </div>-->
-                            </div>
-
-                        </div>
-                        <div class="col-xs-12 col-lg-12">
-                            <div class="col-xs-12">
-
-                                <!--<md-input-container class="md-block">
-                                    <label><small>Url Personalizada</small></label>
-                                </md-input-container>
-
-                                <div class="col-xs-12 visible-lg visible-md" style="padding:0;">
-
-                                    <md-input-container layout="row">
-                                        <h4>{{currentLocation}}/perfilo/</h4>
-                                        <input name="custom_url" ng-model="company.custom_url" ng-change="existeurl()" style="text-transform: lowercase;">
-                                    </md-input-container>
-
-
-                                    <div class="col-xs-12 col-lg-3 visible-xs" style="padding-left:0;">
-                                        <h4>{{currentLocation}}/perfilo/</h4>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-9 visible-xs" style="padding-left:0; padding-right:0;">
-
-                                        <md-input-container class="md-block" style="top:-20px;">
-                                            <input name="custom_url" ng-model="company.custom_url" ng-change="existeurl()" style="text-transform: lowercase;">
-                                        </md-input-container>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="col-xs-12 visible-xs visible-sm" style="padding:0;">
-
-                                    <div class="col-xs-12 col-lg-3" style="padding-left:0;">
-                                        <h4>{{currentLocation}}/perfilo/</h4>
-                                    </div>
-                                    <div class="col-xs-12 col-lg-9" style="padding-left:0; padding-right:0;">
-
-                                        <md-input-container class="md-block" style="top:-20px;">
-                                            <input name="custom_url" ng-model="company.custom_url" ng-change="existeurl()" style="text-transform: lowercase;">
-                                        </md-input-container>
-
-                                    </div>
-
-                                </div>-->
-
-                                <div class="col-xs-12" style="padding:0;">
-                                    <md-input-container class="md-block" style="padding:0;">
-                                        <label>Liga personalizada</label>
-                                    </md-input-container>
-                                    <span ng-if="!ph">
-                                        {{currentLocation}}/perfilo/
-                                        <md-input-container flex-gt-sm="80" style="top:12px; margin: 5px 0">
-                                            <!--<label>Liga Personalizada</label>
-                <input name="custom_url" ng-model="user.custom_url" ng-change="existeurl()" style="text-transform: lowercase;">-->
-                                            <input ng-model="company.custom_url" type="text" placeholder="{{company.name | lowercase}}">
-                                            <md-icon>
-                                                <div class=" tooltip_sitio">
-                                                    <i class="fa fa-question-circle" aria-hidden="true" style="color:#337ab7">
-                                                        <span class="tooltiptext tooltip-right">
-                                                            Tu "liga" personalizada debe contener entre 5 y 30 caracteres. Por favor no utilices espacios, símbolos y caracteres especiales.
-                                                        </span>
-                                                    </i>
-                                                </div>
-                                            </md-icon>
-                                        </md-input-container>
-                                    </span>
-
-                                    <span ng-if="ph">
-                                        {{currentLocation}}/perfil/
-                                        <md-input-container flex-gt-sm="80" style="top:12px; margin: 5px 0">
-                                            <input ng-model="company.custom_url" type="text">
-                                            <md-icon>
-                                                <div class=" tooltip_sitio">
-                                                    <i class="fa fa-question-circle" aria-hidden="true" style="color:#337ab7">
-                                                        <span class="tooltiptext tooltip-right">
-                                                            Tu "liga" personalizada debe contener entre 5 y 30 caracteres. Por favor no utilices espacios, símbolos y caracteres especiales.
-                                                        </span>
-                                                    </i>
-                                                </div>
-                                            </md-icon>
-                                        </md-input-container>
-                                    </span>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                    </div>
-                    <div class="col-xs-12">
-                        <div class="col-xs-12">
-                            <div class="col-xs-12">
-                                <h3>Redes Sociales</h3>
-                            </div>
-                            <div class="col-xs-12 col-lg-3">
-                                <md-input-container class="md-block">
-                                    <label>Facebook</label>
-                                    <input name="social_facebook" ng-model="company.social_facebook">
-                                </md-input-container>
-                            </div>
-                            <div class="col-xs-12 col-lg-3">
-                                <md-input-container class="md-block">
-                                    <label>Twitter</label>
-                                    <input name="social_twitter" ng-model="company.social_twitter">
-                                </md-input-container>
-                            </div>
-                            <div class="col-xs-12 col-lg-3">
-                                <md-input-container class="md-block">
-                                    <label>Instagram</label>
-                                    <input name="social_instagram" ng-model="company.social_instagram">
-                                </md-input-container>
-                            </div>
-                            <div class="col-xs-12 col-lg-3">
-                                <md-input-container class="md-block">
-                                    <label>Linkedin</label>
-                                    <input name="social_linkedin" ng-model="company.social_linkedin">
-                                </md-input-container>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="margin-bottom"></div>
-                    <div class="col-xs-12 text-center margin-bottom">
-                        <button class="btn btn-lg btn-primary btn-ingresa" ng-click='formOrganizacion.$valid ? updatecompany($event) : ""'>Guardar</button>
-                    </div>
-                    <div class="col-xs-12 input-margin text-right">
-                        <span style="color:dodgerblue">* Campos obligatorios</span>
-                    </div>
-                </div>
-
-                <div class="col-xs-12 text-center" ng-show="crop">
-                    <div class="cropArea margin-bottom">
-                        <img-crop area-type="square" area-min-size="250" result-image-size="250" image="myImage" result-image="myCroppedImage"></img-crop>
-                    </div>
-                    <div ng-show="false"><img ng-src="{{myCroppedImage}}" /></div>
-                    <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="setimagen();">Seleccionar</button>
-                    <button class="btn btn-xs btn-primary dp-btn-boton btn-registrate" ng-click="setimagencancelar();">Cancelar</button>
-                </div>
-            </div>
-        </form>
-
-        <form name="formInformacion">
-            <div class="col-xs-12 border-perfil margin-bottom">
-                <div class="col-xs-12 col-lg-5">
-                    <div class="col-xs-12">
-                        <h2>Información</h2>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-lg-7">
-
-                </div>
-                <div class="col-xs-12 border-separacion margin-bottom">
-                </div>
-                <div class="col-xs-12 margin-bottom">
-                </div>
-                <div class="col-xs-12" style="padding:0">
-                    <span layout="row">
-                        <h2>
-                            ¿Quiénes somos? Descripcion de la organización
-                        </h2>
-                    </span>
-                </div>
-                <div class="col-xs-12">
-
-                    <md-input-container class="md-block input-margin">
-                        <text-angular ng-model="company.description" rows="1"></text-angular>
-                    </md-input-container>
-
-                </div>
-
-                <!--<div class="col-xs-12">
-                    <md-input-container class="md-block input-margin">
-                        <label>¿Quiénes somos? Descripcion de la organización<span style="color:dodgerblue">*</span></label>
-                        <textarea required md-no-asterisk name="quienes" ng-model="company.description" md-maxlength="2000" rows="1" md-select-on-focus></textarea>
-                        <div ng-messages="formInformacion.quienes.$error">
-                            <div ng-message="required">Campo requerido.</div>
-                        </div>
-                    </md-input-container>
-                </div>-->
-                <div class="col-xs-12" style="padding:0">
-                    <span layout="row">
-                        <h2>
-                          ¿Cuál es nuestro impacto?
-                        </h2>
-                    </span>
-                </div>
-                <div class="col-xs-12">
-
-                    <md-input-container class="md-block input-margin">
-                        <text-angular ng-model="company.our_impactinfo" rows="1"></text-angular>
-                    </md-input-container>
-
-                </div>
-
-                <!--<div class="col-xs-12">
-                    <md-input-container class="md-block input-margin">
-                        <label>¿Cuál es nuestro impacto? <span style="color:dodgerblue">*</span></label>
-                        <textarea required md-no-asterisk name="impacto" ng-model="company.our_impactinfo" md-maxlength="2000" rows="1" md-select-on-focus></textarea>
-                        <div ng-messages="formInformacion.quienes.$error">
-                            <div ng-message="required">Campo requerido.</div>
-                        </div>
-                    </md-input-container>
-                </div>-->
-                <div class="margin-bottom"></div>
-                <div class="col-xs-12 text-center margin-bottom">
-                    <button class="btn btn-lg btn-primary btn-ingresa" ng-click='formInformacion.$valid ? updatecompany() : ""'>Guardar</button>
-                </div>
-                <div class="col-xs-12 input-margin text-right">
-                    <span style="color:dodgerblue">* Campos obligatorios</span>
-                </div>
-            </div>
-        </form>
-
-        <form name="formFacturacion">
-
-            <div class="col-xs-12 border-perfil margin-bottom">
-                <div class="col-xs-12 col-lg-9">
-                    <div class="col-xs-12">
-                        <h2>Dirección de facturación <small class="smaller">(Estos datos no serán mostrados en el perfil publico)</small></h2>
-                    </div>
-                </div>
-
-                <div class="col-xs-12 border-separacion margin-bottom">
-                </div>
-                <div class="col-xs-12 margin-bottom">
-                </div>
-                <div class="col-xs-12">
-                    <md-input-container class="md-block input-margin">
-                        <label>Número tributario <span style="color:dodgerblue">*</span></label>
-                        <input required md-no-asterisk name="NIT" ng-model="company.billing_number">
-                        <div ng-messages="formFacturacion.NIT.$error">
-                            <div ng-message="required">Campo requerido.</div>
-                        </div>
-                    </md-input-container>
-                </div>
-                <div class="col-xs-12">
-                    <md-input-container class="md-block input-margin">
-                        <label>Domicilio <span style="color:dodgerblue">*</span></label>
-                        <input required md-no-asterisk name="billing_address" ng-model="company.billing_address">
-                        <div ng-messages="formFacturacion.billing_address.$error">
-                            <div ng-message="required">Campo requerido.</div>
-                        </div>
-                    </md-input-container>
-                </div>
-                <div class="col-xs-12 col-lg-6">
-                    <md-input-container class="md-block">
-                        <label>País</label>
-                        <md-select ng-model="company.billing_country" aria-label="pais" ng-change="selectEstadosFactura(company.billing_country);">
-                            <md-option ng-repeat="pais in paisesfactura" ng-value="pais.id" ng-selected="pais.id == company.billing_country">
-                                {{pais.name}}
-                            </md-option>
-                        </md-select>
-                    </md-input-container>
-                </div>
-                <div class="col-xs-12 col-lg-6">
-                    <md-input-container class="md-block" ng-if="IsCiudadfactura">
-                        <label>Cuidad</label>
-                        <md-select ng-model="company.billing_city" name="billing_city" aria-label="city">
-                            <md-option ng-repeat="estado in estadosfactura track by $index" ng-value="estado.name">
-                                {{estado.name}}
-                            </md-option>
-                        </md-select>
-                    </md-input-container>
-
-                    <md-input-container class="md-block" ng-if="!IsCiudadfactura">
-                        <label>Cuidad</label>
-                        <input name="billing_city" ng-model="company.billing_city">
-                    </md-input-container>
-                </div>
-                
-                <div class="col-xs-12 col-lg-6">
-                    <md-input-container class="md-block">
-                        <label>Teléfono</label>
-                        <input name="billing_phone_number" ng-model="company.billing_phone_number">
-                    </md-input-container>
-                </div>
-                <div class="margin-bottom"></div>
-                <div class="col-xs-12 text-center margin-bottom">
-                    <button class="btn btn-lg btn-primary btn-ingresa" ng-click='formFacturacion.$valid ? updatecompany() : ""'>Guardar</button>
-                </div>
-
-                <div class="col-xs-12 input-margin text-right margin-bottom">
-                    <span style="color:dodgerblue">* Campos obligatorios</span>
-                </div>
-            </div>
-
-            <div class="col-xs-12 text-right margin-bottom"></div>
-        </form>
-
+  <div class="col-xs-12" ng-controller="PerfilOrganizacionesCtrl">
+    <div class="col-xs-12 text-right margin-bottom">
+      <a class="margin-bottom" href="/perfilpublicoorganizacion/{{id}}" target="_blank">
+        <span ng-if="idiomaLocal == 'es_MX'"> Vista previa</span>
+        <span ng-if="idiomaLocal == 'en_EN'"> Preview</span>
+      </a>
     </div>
+    <form name="formOrganizacion">
+      <div class="col-xs-12 border-perfil margin-bottom">
+        <div ng-show="!crop">
+          <div class="col-xs-12 col-lg-3">
+            <div class="col-xs-12 text-center margin-bottom">
+              <img class="img-circle img-responsive img-circle-padding" src="{{API_PATH_MEDIA}}{{company.logo}}" ng-show="isImage" />
+              <img class="img-circle img-responsive" ng-src="{{myCroppedImage}}" ng-show="!isImage" />
+            </div>
+            <div class="col-xs-12 text-center">
+              <input type="file" id="fileInput" class="inputfile" accept="image/*" />
+              <label for="fileInput" ng-if="idiomaLocal == 'es_MX'">Cargar</label>
+              <label for="fileInput" ng-if="idiomaLocal == 'en_EN'">Upload</label>
+            </div>
+          </div>
+          <div class="col-xs-12 col-lg-9">
+            <div class="col-xs-12">
+              <div class="col-xs-12">
+                <h2 ng-if="idiomaLocal == 'es_MX'">Datos Organización</h2>
+                <h2 ng-if="idiomaLocal == 'en_EN'">Organization data</h2>
+              </div>
+              <div class="col-xs-12" style="padding:0;">
+                <div class="col-xs-12 col-lg-6">
+                  <md-input-container class="md-block">
+                    <label ng-if="idiomaLocal == 'es_MX'">Nombre organización <span style="color:dodgerblue">*</span></label>
+                    <label ng-if="idiomaLocal == 'en_EN'">Organization´s name <span style="color:dodgerblue">*</span></label>
+                    <input required md-no-asterisk name="name" ng-model="company.name">
+                    <div ng-messages="formOrganizacion.name.$error">
+                      <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                      <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                    </div>
+                  </md-input-container>
+                </div>
+                <div class="col-xs-12 col-lg-6">
+                  <md-input-container class="md-block">
+                    <label ng-if="idiomaLocal == 'es_MX'">Tipo <span style="color:dodgerblue">*</span></label>
+                    <label ng-if="idiomaLocal == 'en_EN'">Type <span style="color:dodgerblue">*</span></label>
+                    <md-select required md-no-asterisk name="tipo" ng-model="company.tipo" aria-label="tipo">
+                      <md-option selected ng-value="0">
+                        <em ng-if="idiomaLocal == 'es_MX'">Todos</em>
+                        <em ng-if="idiomaLocal == 'en_EN'">All</em>
+                      </md-option>
+                      <md-option ng-repeat="tipo in tipos" ng-value="tipo.id" ng-selected="$index == company.company_type.id - 1">
+                        {{tipo.name}}
+                      </md-option>
+                    </md-select>
+                    <div ng-messages="formOrganizacion.tipo.$error">
+                      <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                      <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                    </div>
+                  </md-input-container>
+                </div>
+              </div>
+              <div class="col-xs-12" style="padding:0;">
+                <div class="col-xs-12 col-lg-6">
+                  <md-input-container class="md-block">
+                    <label ng-if="idiomaLocal == 'es_MX'">Sitio Web</label>
+                    <label ng-if="idiomaLocal == 'en_EN'">Website</label>
+                    <input name="website" ng-model="company.website">
+                  </md-input-container>
+                </div>
+                <div class="col-xs-12 col-lg-6">
+                  <md-input-container class="md-block">
+                    <label ng-if="idiomaLocal == 'es_MX'">País</label>
+                    <label ng-if="idiomaLocal == 'en_EN'">Country</label>
+                    <md-select ng-model="user.pais" aria-label="pais" ng-change="selectEstado();">
+                      <md-option ng-repeat="pais in paises" ng-value="pais.id" ng-selected="pais.id == company.country.id">
+                        {{pais.name}}
+                      </md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+              </div>
+              <div class="col-xs-12">
+                <div class="col-xs-12" style="padding:0;">
+                  <md-input-container class="md-block" ng-if="IsCiudad">
+                    <label ng-if="idiomaLocal == 'es_MX'">Cuidad</label>
+                    <label ng-if="idiomaLocal == 'en_EN'">City</label>
+                    <md-select ng-model="company.city" name="city" aria-label="city">
+                      <md-option ng-repeat="estado in estados track by $index" ng-value="estado.name">
+                        {{estado.name}}
+                      </md-option>
+                    </md-select>
+                  </md-input-container>
+                  <md-input-container class="md-block" ng-if="!IsCiudad">
+                    <label ng-if="idiomaLocal == 'es_MX'">Cuidad</label>
+                    <label ng-if="idiomaLocal == 'en_EN'">City</label>
+                    <input name="city" ng-model="company.city">
+                  </md-input-container>
+                </div>
+                <!--<div class="col-xs-6">
+                    <md-checkbox ng-model="company.show_profile_basic_info" aria-label="Checkbox1">
+                        Mostrar en perfil publico
+                    </md-checkbox>
+                </div>-->
+              </div>
+            </div>
+            <div class="col-xs-12 col-lg-12">
+              <div class="col-xs-12">
+                <!--<md-input-container class="md-block">
+                    <label><small>Url Personalizada</small></label>
+                </md-input-container>
+
+                <div class="col-xs-12 visible-lg visible-md" style="padding:0;">
+
+                    <md-input-container layout="row">
+                        <h4>{{currentLocation}}/perfilo/</h4>
+                        <input name="custom_url" ng-model="company.custom_url" ng-change="existeurl()" style="text-transform: lowercase;">
+                    </md-input-container>
+
+
+                    <div class="col-xs-12 col-lg-3 visible-xs" style="padding-left:0;">
+                        <h4>{{currentLocation}}/perfilo/</h4>
+                    </div>
+                    <div class="col-xs-12 col-lg-9 visible-xs" style="padding-left:0; padding-right:0;">
+
+                        <md-input-container class="md-block" style="top:-20px;">
+                            <input name="custom_url" ng-model="company.custom_url" ng-change="existeurl()" style="text-transform: lowercase;">
+                        </md-input-container>
+
+                    </div>
+
+                </div>
+
+                <div class="col-xs-12 visible-xs visible-sm" style="padding:0;">
+
+                    <div class="col-xs-12 col-lg-3" style="padding-left:0;">
+                        <h4>{{currentLocation}}/perfilo/</h4>
+                    </div>
+                    <div class="col-xs-12 col-lg-9" style="padding-left:0; padding-right:0;">
+
+                        <md-input-container class="md-block" style="top:-20px;">
+                            <input name="custom_url" ng-model="company.custom_url" ng-change="existeurl()" style="text-transform: lowercase;">
+                        </md-input-container>
+
+                    </div>
+
+                </div>-->
+                <div class="col-xs-12" style="padding:0;">
+                  <md-input-container class="md-block" style="padding:0;">
+                    <label ng-if="idiomaLocal == 'es_MX'">URL personalizado</label>
+                    <label ng-if="idiomaLocal == 'en_EN'">Custom URL</label>
+                  </md-input-container>
+                  <span ng-if="!ph">
+                    {{currentLocation}}/perfilo/
+                    <md-input-container flex-gt-sm="80" style="top:12px; margin: 5px 0">
+                      <!--<label>Liga Personalizada</label>
+                      <input name="custom_url" ng-model="user.custom_url" ng-change="existeurl()" style="text-transform: lowercase;">-->
+                      <input ng-model="company.custom_url" type="text" placeholder="{{company.name | lowercase}}">
+                      <md-icon>
+                        <div class=" tooltip_sitio">
+                          <i class="fa fa-question-circle" aria-hidden="true" style="color:#337ab7">
+                            <span class="tooltiptext tooltip-right" ng-if="idiomaLocal == 'es_MX'">
+                              Tu "liga" personalizada debe contener entre 5 y 30 caracteres. Por favor no utilices espacios, símbolos y caracteres especiales.
+                            </span>
+                            <span class="tooltiptext tooltip-right" ng-if="idiomaLocal == 'en_EN'">
+                              Your custom URL must contain between 5 and 30 characters. Please do not use spaces, symbols and special characters.
+                            </span>
+                          </i>
+                        </div>
+                      </md-icon>
+                    </md-input-container>
+                  </span>
+                  <span ng-if="ph">
+                    {{currentLocation}}/perfil/
+                    <md-input-container flex-gt-sm="80" style="top:12px; margin: 5px 0">
+                      <input ng-model="company.custom_url" type="text">
+                      <md-icon>
+                        <div class=" tooltip_sitio">
+                          <i class="fa fa-question-circle" aria-hidden="true" style="color:#337ab7">
+                            <span class="tooltiptext tooltip-right" ng-if="idiomaLocal == 'es_MX'">
+                              Tu "liga" personalizada debe contener entre 5 y 30 caracteres. Por favor no utilices espacios, símbolos y caracteres especiales.
+                            </span>
+                            <span class="tooltiptext tooltip-right" ng-if="idiomaLocal == 'en_EN'">
+                              Your custom URL must contain between 5 and 30 characters. Please do not use spaces, symbols and special characters.
+                            </span>
+                          </i>
+                        </div>
+                      </md-icon>
+                    </md-input-container>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-xs-12">
+            <div class="col-xs-12">
+              <div class="col-xs-12">
+                <h3 ng-if="idiomaLocal == 'es_MX'">Redes Sociales</h3>
+                <h3 ng-if="idiomaLocal == 'en_EN'">Social networks</h3>
+              </div>
+              <div class="col-xs-12 col-lg-3">
+                <md-input-container class="md-block">
+                  <label>Facebook</label>
+                  <input name="social_facebook" ng-model="company.social_facebook">
+                </md-input-container>
+              </div>
+              <div class="col-xs-12 col-lg-3">
+                <md-input-container class="md-block">
+                  <label>Twitter</label>
+                  <input name="social_twitter" ng-model="company.social_twitter">
+                </md-input-container>
+              </div>
+              <div class="col-xs-12 col-lg-3">
+                <md-input-container class="md-block">
+                  <label>Instagram</label>
+                  <input name="social_instagram" ng-model="company.social_instagram">
+                </md-input-container>
+              </div>
+              <div class="col-xs-12 col-lg-3">
+                <md-input-container class="md-block">
+                  <label>Linkedin</label>
+                  <input name="social_linkedin" ng-model="company.social_linkedin">
+                </md-input-container>
+              </div>
+            </div>
+          </div>
+          <div class="margin-bottom"></div>
+          <div class="col-xs-12 text-center margin-bottom">
+            <button class="btn btn-lg btn-primary btn-ingresa" ng-click='formOrganizacion.$valid ? updatecompany($event) : ""'>
+              <span ng-if="idiomaLocal == 'es_MX'">Guardar </span>
+              <span ng-if="idiomaLocal == 'en_EN'">Save </span>
+            </button>
+          </div>
+          <div class="col-xs-12 input-margin text-right">
+            <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+            <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+          </div>
+        </div>
+        <div class="col-xs-12 text-center" ng-show="crop">
+          <div class="cropArea margin-bottom">
+            <img-crop area-type="square" area-min-size="250" result-image-size="250" image="myImage" result-image="myCroppedImage"></img-crop>
+          </div>
+          <div ng-show="false"><img ng-src="{{myCroppedImage}}" /></div>
+          <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="setimagen();">
+            <span ng-if="idiomaLocal == 'es_MX'">Seleccionar</span>
+            <span ng-if="idiomaLocal == 'en_EN'">Select</span>
+          </button>
+          <button class="btn btn-xs btn-primary dp-btn-boton btn-registrate" ng-click="setimagencancelar();">
+            <span ng-if="idiomaLocal == 'es_MX'">Cancelar</span>
+            <span ng-if="idiomaLocal == 'en_EN'">Cancel</span>
+          </button>
+        </div>
+      </div>
+    </form>
+    <form name="formInformacion">
+      <div class="col-xs-12 border-perfil margin-bottom">
+        <div class="col-xs-12 col-lg-5">
+          <div class="col-xs-12">
+            <h2 ng-if="idiomaLocal == 'es_MX'">Información</h2>
+            <h2 ng-if="idiomaLocal == 'en_EN'">Information</h2>
+          </div>
+        </div>
+        <div class="col-xs-12 col-lg-7">
+        </div>
+        <div class="col-xs-12 border-separacion margin-bottom">
+        </div>
+        <div class="col-xs-12 margin-bottom">
+        </div>
+        <div class="col-xs-12" style="padding:0">
+          <span layout="row">
+            <h2 ng-if="idiomaLocal == 'es_MX'">
+              ¿Quiénes somos? Descripcion de la organización
+            </h2>
+            <h2 ng-if="idiomaLocal == 'en_EN'">
+              About us? Description of the organization
+            </h2>
+          </span>
+        </div>
+        <div class="col-xs-12">
+          <md-input-container class="md-block input-margin">
+            <text-angular ng-model="company.description" rows="1"></text-angular>
+          </md-input-container>
+        </div>
+        <!--<div class="col-xs-12">
+            <md-input-container class="md-block input-margin">
+                <label>¿Quiénes somos? Descripcion de la organización<span style="color:dodgerblue">*</span></label>
+                <textarea required md-no-asterisk name="quienes" ng-model="company.description" md-maxlength="2000" rows="1" md-select-on-focus></textarea>
+                <div ng-messages="formInformacion.quienes.$error">
+                    <div ng-message="required">Campo requerido.</div>
+                </div>
+            </md-input-container>
+        </div>-->
+        <div class="col-xs-12" style="padding:0">
+          <span layout="row">
+            <h2 ng-if="idiomaLocal == 'es_MX'">
+              ¿Cuál es nuestro impacto?
+            </h2>
+            <h2 ng-if="idiomaLocal == 'en_EN'">
+              What is our impact?
+            </h2>
+          </span>
+        </div>
+        <div class="col-xs-12">
+          <md-input-container class="md-block input-margin">
+            <text-angular ng-model="company.our_impactinfo" rows="1"></text-angular>
+          </md-input-container>
+        </div>
+        <!--<div class="col-xs-12">
+            <md-input-container class="md-block input-margin">
+                <label>¿Cuál es nuestro impacto? <span style="color:dodgerblue">*</span></label>
+                <textarea required md-no-asterisk name="impacto" ng-model="company.our_impactinfo" md-maxlength="2000" rows="1" md-select-on-focus></textarea>
+                <div ng-messages="formInformacion.quienes.$error">
+                    <div ng-message="required">Campo requerido.</div>
+                </div>
+            </md-input-container>
+        </div>-->
+        <div class="margin-bottom"></div>
+        <div class="col-xs-12 text-center margin-bottom">
+          <button class="btn btn-lg btn-primary btn-ingresa" ng-click='formInformacion.$valid ? updatecompany() : ""'>
+            <span ng-if="idiomaLocal == 'es_MX'">Guardar </span>
+            <span ng-if="idiomaLocal == 'en_EN'">Save </span>
+          </button>
+        </div>
+        <div class="col-xs-12 input-margin text-right">
+          <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+          <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+        </div>
+      </div>
+    </form>
+    <form name="formFacturacion">
+      <div class="col-xs-12 border-perfil margin-bottom">
+        <div class="col-xs-12 col-lg-9">
+          <div class="col-xs-12">
+            <h2 ng-if="idiomaLocal == 'es_MX'">Dirección de facturación <small class="smaller">(Estos datos no serán mostrados en el perfil publico)</small></h2>
+            <h2 ng-if="idiomaLocal == 'en_EN'">Billing Address <small class="smaller">(These data will not be shown in the public profile)</small></h2>
+          </div>
+        </div>
+        <div class="col-xs-12 border-separacion margin-bottom">
+        </div>
+        <div class="col-xs-12 margin-bottom">
+        </div>
+        <div class="col-xs-12">
+          <md-input-container class="md-block input-margin">
+            <label ng-if="idiomaLocal == 'es_MX'">Número tributario <span style="color:dodgerblue">*</span></label>
+            <label ng-if="idiomaLocal == 'en_EN'">Tax number <span style="color:dodgerblue">*</span></label>
+            <input required md-no-asterisk name="NIT" ng-model="company.billing_number">
+            <div ng-messages="formFacturacion.NIT.$error">
+              <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div class="col-xs-12">
+          <md-input-container class="md-block input-margin">
+            <label ng-if="idiomaLocal == 'es_MX'">Domicilio <span style="color:dodgerblue">*</span></label>
+            <label ng-if="idiomaLocal == 'en_EN'">Address <span style="color:dodgerblue">*</span></label>
+            <input required md-no-asterisk name="billing_address" ng-model="company.billing_address">
+            <div ng-messages="formFacturacion.billing_address.$error">
+              <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+              <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-lg-6">
+          <md-input-container class="md-block">
+            <label ng-if="idiomaLocal == 'es_MX'">País</label>
+            <label ng-if="idiomaLocal == 'en_EN'">Country</label>
+            <md-select ng-model="company.billing_country" aria-label="pais" ng-change="selectEstadosFactura(company.billing_country);">
+              <md-option ng-repeat="pais in paisesfactura" ng-value="pais.id" ng-selected="pais.id == company.billing_country">
+                {{pais.name}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div class="col-xs-12 col-lg-6">
+          <md-input-container class="md-block" ng-if="IsCiudadfactura">
+            <label ng-if="idiomaLocal == 'es_MX'">Cuidad</label>
+            <label ng-if="idiomaLocal == 'en_EN'">City</label>
+            <md-select ng-model="company.billing_city" name="billing_city" aria-label="city">
+              <md-option ng-repeat="estado in estadosfactura track by $index" ng-value="estado.name">
+                {{estado.name}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container class="md-block" ng-if="!IsCiudadfactura">
+            <label ng-if="idiomaLocal == 'es_MX'">Cuidad</label>
+            <label ng-if="idiomaLocal == 'en_EN'">City</label>
+            <input name="billing_city" ng-model="company.billing_city">
+          </md-input-container>
+        </div>
+
+        <div class="col-xs-12 col-lg-6">
+          <md-input-container class="md-block">
+            <label ng-if="idiomaLocal == 'es_MX'">Teléfono</label>
+            <label ng-if="idiomaLocal == 'en_EN'">Phone</label>
+            <input name="billing_phone_number" ng-model="company.billing_phone_number">
+          </md-input-container>
+        </div>
+        <div class="margin-bottom"></div>
+        <div class="col-xs-12 text-center margin-bottom">
+          <button class="btn btn-lg btn-primary btn-ingresa" ng-click='formFacturacion.$valid ? updatecompany() : ""'>
+            <span ng-if="idiomaLocal == 'es_MX'">Guardar </span>
+            <span ng-if="idiomaLocal == 'en_EN'">Save </span>
+          </button>
+        </div>
+        <div class="col-xs-12 input-margin text-right margin-bottom">
+          <span ng-if="idiomaLocal == 'es_MX'" style="color:dodgerblue">* Campos obligatorios</span>
+          <span ng-if="idiomaLocal == 'en_EN'" style="color:dodgerblue">*Required fields.</span>
+        </div>
+      </div>
+      <div class="col-xs-12 text-right margin-bottom"></div>
+    </form>
+  </div>
 </div>

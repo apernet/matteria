@@ -1,5 +1,6 @@
 <style>
 
+
   .tabsdemoDynamicHeight md-content {
     background-color: transparent !important;
   }
@@ -54,7 +55,10 @@
 <div class="container">
   <div class="col-xs-12">
     <div class="col-xs-12 text-right margin-bottom">
-      <a class="margin-bottom" ui-sref="perfilpublicopostulante({idioma:''})" target="_blank">Vista previa</a>
+      <a class="margin-bottom" ui-sref="perfilpublicopostulante({idioma:''})" target="_blank">
+        <span ng-if="idiomaLocal == 'es_MX'"> Vista previa</span>
+        <span ng-if="idiomaLocal == 'en_EN'"> Preview</span>
+      </a>
     </div>
     <div class="col-xs-12 border-perfil margin-bottom">
       <form name="formDatosGenerales" ng-show="!crop">
@@ -65,106 +69,168 @@
           </div>
           <div class="col-xs-12 text-center">
             <input type="file" id="fileInput" class="inputfile" accept="image/*" />
-            <label for="fileInput">Cargar</label>
+            <label for="fileInput" ng-if="idiomaLocal == 'es_MX'">Cargar</label>
+            <label for="fileInput" ng-if="idiomaLocal == 'en_EN'">Upload</label>
           </div>
-          <!--<div class="col-xs-12 text-center">
-              <input type="file" files-model="newImage.image" name="file" id="file" class="inputfile" onChange="angular.element(this).scope().setFile(this)" accept="image/*" />
-              <label for="file">Cargar</label>
-          </div>-->
         </div>
         <div class="col-xs-12 col-lg-9">
           <div class="col-xs-12">
-            <h2>Datos personales</h2>
+            <h2 ng-if="idiomaLocal == 'es_MX'">Datos personales</h2>
+            <h2 ng-if="idiomaLocal == 'en_EN'">Personal Information</h2>
           </div>
           <div class="col-xs-12 col-lg-4">
             <md-input-container class="md-block">
-              <label>Nombre <span style="color:dodgerblue">*</span></label>
+              <label>
+                <span ng-if="idiomaLocal == 'es_MX'"> Nombre</span>
+                <span ng-if="idiomaLocal == 'en_EN'"> Name</span>
+                <span style="color:dodgerblue">*</span>
+              </label>
               <input required md-no-asterisk name="first_name" ng-model="user.first_name" id="user.first_name">
               <div ng-messages="formDatosGenerales.first_name.$error">
-                <div ng-message="required">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
               </div>
             </md-input-container>
           </div>
           <div class="col-xs-12 col-lg-4">
             <md-input-container class="md-block">
-              <label>Apellido</label>
-              <input name="last_name" ng-model="user.last_name">
+              <label>
+                <span ng-if="idiomaLocal == 'es_MX'">Apellido</span>
+                <span ng-if="idiomaLocal == 'en_EN'">Last name</span>
+                <span style="color:dodgerblue">*</span>
+              </label>
+              <input required md-no-asterisk name="last_name" ng-model="user.last_name">
+              <div ng-messages="formDatosGenerales.last_name.$error">
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              </div>
             </md-input-container>
           </div>
           <div class="col-xs-12 col-lg-4">
             <md-input-container class="md-block">
-              <label>Teléfono móvil</label>
+              <label>
+                <span ng-if="idiomaLocal == 'es_MX'">Teléfono móvil</span>
+                <span ng-if="idiomaLocal == 'en_EN'">Mobile phone</span>
+                <span style="color:dodgerblue">*</span>
+              </label>
               <input required md-no-asterisk name="cellphone_number" ng-model="user.cellphone_number" id="user.cellphone_number">
               <div ng-messages="formDatosGenerales.cellphone_number.$error">
-                <div ng-message="required">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
               </div>
             </md-input-container>
           </div>
           <div class="col-xs-12 col-lg-3">
             <md-input-container class="md-block">
-              <label>País de residencia<span style="color:dodgerblue">*</span></label>
+              <label>
+                <span ng-if="idiomaLocal == 'es_MX'">País de residencia</span>
+                <span ng-if="idiomaLocal == 'en_EN'">Country of residence</span>
+                <span style="color:dodgerblue">*</span>
+              </label>
               <md-select ng-model="user.pais" required md-no-asterisk name="pais" aria-label="pais" ng-change="selectEstado();">
                 <md-option ng-repeat="pais in paises" ng-value="pais.id" ng-selected="pais.id == user.country.id">
                   {{pais.name}}
                 </md-option>
               </md-select>
               <div ng-messages="formDatosGenerales.pais.$error">
-                <div ng-message="required">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
               </div>
             </md-input-container>
           </div>
           <div class="col-xs-12 col-lg-3">
             <md-input-container class="md-block" ng-if="IsCiudad">
-              <label>Ciudad de residencia</label>
-              <md-select ng-model="user.city" name="city" aria-label="city">
+              <label>
+                <span ng-if="idiomaLocal == 'es_MX'">Ciudad de residencia</span>
+                <span ng-if="idiomaLocal == 'en_EN'">City of residence</span>
+                <span style="color:dodgerblue">*</span>
+              </label>
+              <md-select required md-no-asterisk ng-model="user.city" name="city" aria-label="city">
                 <md-option ng-repeat="estado in estados" ng-value="estado.name">
                   {{estado.name}}
                 </md-option>
               </md-select>
+              <div ng-messages="formDatosGenerales.city.$error">
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              </div>
             </md-input-container>
             <md-input-container class="md-block" ng-if="!IsCiudad">
-              <label>Ciudad de residencia</label>
-              <input name="city" ng-model="user.city">
+              <label>
+                <span ng-if="idiomaLocal == 'es_MX'">Ciudad de residencia</span>
+                <span ng-if="idiomaLocal == 'en_EN'">City of residence</span>
+                <span style="color:dodgerblue">*</span>
+              </label>
+              <input required md-no-asterisk name="city" ng-model="user.city">
+              <div ng-messages="formDatosGenerales.city.$error">
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              </div>
             </md-input-container>
           </div>
           <div class="col-xs-12 col-lg-3">
             <md-input-container class="md-block">
-              <label>Fecha de nacimiento <span style="color:dodgerblue">*</span></label>
+              <label>
+                <span ng-if="idiomaLocal == 'es_MX'">Fecha de nacimiento </span>
+                <span ng-if="idiomaLocal == 'en_EN'">Birthdate </span>
+                <span style="color:dodgerblue">*</span>
+              </label>
               <input type="text" class="datepickers" required md-no-asterisk name="genre" ng-model="user.birthday">
-              <div ng-messages="formDatosGenerales.first_name.$error">
-                <div ng-message="required">Campo requerido.</div>
+              <div ng-messages="formDatosGenerales.birthday.$error">
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
               </div>
             </md-input-container>
           </div>
           <div class="col-xs-12 col-lg-3">
             <div class="col-xs-11" style="padding:0">
               <md-input-container class="md-block">
-                <label>Género</label>
-                <input name="genre" ng-model="user.genre">
+                <label>
+                  <span ng-if="idiomaLocal == 'es_MX'">Género</span>
+                  <span ng-if="idiomaLocal == 'en_EN'">Gender</span>
+                  <span style="color:dodgerblue">*</span>
+                </label>
+                <input required md-no-asterisk name="genre" ng-model="user.genre">
+                <div ng-messages="formDatosGenerales.genre.$error">
+                  <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                  <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                </div>
               </md-input-container>
             </div>
             <div class="col-xs-1" style="padding:30px 0 0 0">
               <div class="tooltip_sitio">
                 <i class="fa fa-question-circle" aria-hidden="true" style="color:#337ab7"></i>
-                <span class="tooltiptext tooltip-left">¿Por qué te hacemos esta pregunta? <br />Por que queremos conocer a nuestra comunidad de postulantes, defendiendo los avances a nivel de diversidad y tolerancia que con mucho esfuerzo hemos ido logrando como sociedad. Esto por ningún motivo representa un factor de discriminación postiva o negativa, más allá de si tu perfil se ajusta o no a la vacante requerida.</span>
+                <span class="tooltiptext tooltip-left" ng-if="idiomaLocal == 'es_MX'">¿Por qué te hacemos esta pregunta? <br />Por que queremos conocer a nuestra comunidad de postulantes, defendiendo los avances a nivel de diversidad y tolerancia que con mucho esfuerzo hemos ido logrando como sociedad. Esto por ningún motivo representa un factor de discriminación postiva o negativa, más allá de si tu perfil se ajusta o no a la vacante requerida.</span>
+                <span class="tooltiptext tooltip-left" ng-if="idiomaLocal == 'en_EN'">
+                  Why do we ask you this question? <br />
+                  Because we want to know our community of applicants, defending the progress we've accomplished as society in terms of diversity and tolerance. This question do not represent, by any reason, a positive or negative discrimination, regardless of whether your profile fits the required vacancy or not.
+                </span>
               </div>
             </div>
           </div>
           <div class="col-xs-12">
             <md-input-container class="md-block" style="padding:0;">
-              <label>Liga personalizada</label>
+              <label ng-if="idiomaLocal == 'es_MX'">URL personalizado</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Custom URL</label>
             </md-input-container>
             <span ng-if="!ph">
               {{currentLocation}}/perfil/
               <md-input-container flex-gt-sm="80" style="top:12px; margin: 5px 0">
                 <!--<label>Liga Personalizada</label>
                 <input name="custom_url" ng-model="user.custom_url" ng-change="existeurl()" style="text-transform: lowercase;">-->
-                <input ng-model="user.custom_url" type="text" placeholder="{{user.first_name | lowercase}}.{{user.first_name | lowercase}}">
+                <input required md-no-asterisk ng-model="user.custom_url" type="text" placeholder="{{user.first_name | lowercase}}.{{user.first_name | lowercase}}">
+                <div ng-messages="formDatosGenerales.custom_url.$error">
+                  <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                  <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                </div>
                 <md-icon>
                   <div class=" tooltip_sitio">
                     <i class="fa fa-question-circle" aria-hidden="true" style="color:#337ab7">
-                      <span class="tooltiptext tooltip-right">
+                      <span class="tooltiptext tooltip-right" ng-if="idiomaLocal == 'es_MX'">
                         Tu "liga" personalizada debe contener entre 5 y 30 caracteres. Por favor no utilices espacios, símbolos y caracteres especiales.
+                      </span>
+                      <span class="tooltiptext tooltip-right" ng-if="idiomaLocal == 'en_EN'">
+                        Your custom URL must contain between 5 and 30 characters. Please do not use spaces, symbols and special characters.
                       </span>
                     </i>
                   </div>
@@ -178,8 +244,11 @@
                 <md-icon>
                   <div class=" tooltip_sitio">
                     <i class="fa fa-question-circle" aria-hidden="true" style="color:#337ab7">
-                      <span class="tooltiptext tooltip-right">
+                      <span class="tooltiptext tooltip-right" ng-if="idiomaLocal == 'es_MX'">
                         Tu "liga" personalizada debe contener entre 5 y 30 caracteres. Por favor no utilices espacios, símbolos y caracteres especiales.
+                      </span>
+                      <span class="tooltiptext tooltip-right" ng-if="idiomaLocal == 'en_EN'">
+                        Your custom URL must contain between 5 and 30 characters. Please do not use spaces, symbols and special characters.
                       </span>
                     </i>
                   </div>
@@ -189,7 +258,10 @@
           </div>
         </div>
         <div class="col-xs-12 text-center">
-          <button class="btn btn-md btn-primary btn-ingresa" ng-click='formDatosGenerales.$valid ? guardarGeneral() : ""'>Guardar</button>
+          <button class="btn btn-md btn-primary btn-ingresa" ng-click='formDatosGenerales.$valid ? guardarGeneral() : ""'>
+            <span ng-if="idiomaLocal == 'es_MX'">Guardar </span>
+            <span ng-if="idiomaLocal == 'en_EN'">Save </span>
+          </button>
         </div>
       </form>
       <div class="col-xs-12 text-center" ng-show="crop">
@@ -197,19 +269,29 @@
           <img-crop area-type="square" area-min-size="250" result-image-size="250" image="myImage" result-image="myCroppedImage"></img-crop>
         </div>
         <div ng-show="false"><img ng-src="{{myCroppedImage}}" /></div>
-        <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="setimagen();">Seleccionar</button>
-        <button class="btn btn-xs btn-primary dp-btn-boton btn-registrate" ng-click="setimagencancelar();">Cancelar</button>
+        <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="setimagen();">
+          <span ng-if="idiomaLocal == 'es_MX'">Seleccionar</span>
+          <span ng-if="idiomaLocal == 'en_EN'"> Select</span>
+        </button>
+        <button class="btn btn-xs btn-primary dp-btn-boton btn-registrate" ng-click="setimagencancelar();">
+          <span ng-if="idiomaLocal == 'es_MX'">Cancelar</span>
+          <span ng-if="idiomaLocal == 'en_EN'">Cancel</span>
+        </button>
       </div>
     </div>
     <div class="col-xs-12 text-right margin-bottom"></div>
     <div class="col-xs-12 border-perfil margin-bottom">
       <div class="col-xs-12 col-lg-5">
         <div class="col-xs-12">
-          <h2>Experiencia Laboral</h2>
+          <h2 ng-if="idiomaLocal == 'es_MX'">Experiencia Laboral</h2>
+          <h2 ng-if="idiomaLocal == 'en_EN'">Profesional Experience</h2>
         </div>
       </div>
       <div class="col-xs-12 col-lg-7 text-right margin-bottom">
-        <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="viewexperiencia();">Agregar</button>
+        <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="viewexperiencia();">
+          <span ng-if="idiomaLocal == 'es_MX'">Agregar</span>
+          <span ng-if="idiomaLocal == 'en_EN'">Add</span>
+        </button>
       </div>
       <div class="col-xs-12 border-separacion margin-bottom">
       </div>
@@ -219,73 +301,92 @@
         <form name="formExperiencia">
           <div class="col-xs-12">
             <md-input-container class="md-block input-margin">
-              <label>Nombre de la organización</label>
+              <label ng-if="idiomaLocal == 'es_MX'">Nombre de la organización</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Organization's name</label>
               <input id="experties.name" required md-no-asterisk name="name" ng-model="experties.name">
               <div ng-messages="formExperiencia.name.$error">
-                <div ng-message="required">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
               </div>
             </md-input-container>
           </div>
           <div class="col-xs-12">
             <md-input-container class="md-block input-margin">
-              <label>Cargo</label>
+              <label ng-if="idiomaLocal == 'es_MX'">Cargo</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Postition</label>
               <input required md-no-asterisk name="title" ng-model="experties.title" id="experties.title">
               <div ng-messages="formExperiencia.title.$error">
-                <div ng-message="required">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
               </div>
             </md-input-container>
           </div>
           <div class="col-xs-12 col-lg-6">
             <md-input-container class="md-block">
-              <label>País</label>
+              <label ng-if="idiomaLocal == 'es_MX'">País</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Country</label>
               <md-select ng-model="experties.country" name="country" required md-no-asterisk aria-label="country" ng-change="selectEstadoExperiencia();">
                 <md-option ng-repeat="pais in paises" ng-value="pais.id" ng-selected="pais.id == experties.country.id">
                   {{pais.name}}
                 </md-option>
               </md-select>
               <div ng-messages="formExperiencia.country.$error">
-                <div ng-message="required">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
               </div>
             </md-input-container>
           </div>
           <div class="col-xs-12 col-lg-6">
             <md-input-container class="md-block" ng-if="IsCiudadEsperiencia">
-              <label>Cuidad</label>
-              <md-select ng-model="experties.cities" name="experties.cities" aria-label="experties.cities">
+              <label ng-if="idiomaLocal == 'es_MX'">Cuidad</label>
+              <label ng-if="idiomaLocal == 'en_EN'">City</label>
+              <md-select ng-model="experties.cities" name="cities" required md-no-asterisk aria-label="experties.cities">
                 <md-option ng-repeat="estado in estadosExperiencia track by $index" ng-value="estado.name" ng-selected="estado.name == experties.city">
                   {{estado.name}}
                 </md-option>
               </md-select>
+              <div ng-messages="formExperiencia.cities.$error">
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              </div>
             </md-input-container>
             <md-input-container class="md-block" ng-if="!IsCiudadEsperiencia">
-              <label>Cuidad</label>
-              <input name="city" ng-model="experties.city">
+              <label ng-if="idiomaLocal == 'es_MX'">Cuidad</label>
+              <label ng-if="idiomaLocal == 'en_EN'">City</label>
+              <input required md-no-asterisk name="city" ng-model="experties.city">
+              <div ng-messages="formExperiencia.city.$error">
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              </div>
             </md-input-container>
           </div>
           <div class="col-xs-12">
             <md-input-container class="md-block">
-              <label>Periodo</label>
+              <label ng-if="idiomaLocal == 'es_MX'">Periodo</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Time frame</label>
             </md-input-container>
           </div>
           <div class="col-xs-12" style="padding-bottom:0;">
             <div class="col-xs-12 col-lg-4" style="padding-bottom:0;">
               <md-input-container class="md-block">
-                <label>de</label>
+                <label ng-if="idiomaLocal == 'es_MX'">de</label>
+                <label ng-if="idiomaLocal == 'en_EN'">From</label>
               </md-input-container>
             </div>
             <div class="col-xs-12 col-lg-4 text-left" style="padding-bottom:0;">
               <md-input-container class="md-block">
-                <label>a</label>
+                <label ng-if="idiomaLocal == 'es_MX'">a</label>
+                <label ng-if="idiomaLocal == 'en_EN'">Until</label>
               </md-input-container>
             </div>
             <div class="col-xs-12 col-lg-4">
-
             </div>
           </div>
           <div class="col-xs-12" style="padding-top:0;">
             <div class="col-xs-12 col-lg-4" style="padding-top:0;">
               <md-input-container class="md-block">
-                <label>Mes</label>
+                <label ng-if="idiomaLocal == 'es_MX'">Mes</label>
+                <label ng-if="idiomaLocal == 'en_EN'">Month</label>
                 <md-select ng-model="experties.work_from_month" required md-no-asterisk name="work_from_month" aria-label="work_from_month">
                   <md-option value="Enero">Enero</md-option>
                   <md-option value="Febrero">Febrero</md-option>
@@ -300,9 +401,14 @@
                   <md-option value="Noviembre">Noviembre</md-option>
                   <md-option value="Diciembre">Diciembre</md-option>
                 </md-select>
+                <div ng-messages="formExperiencia.work_from_month.$error">
+                  <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                  <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                </div>
               </md-input-container>
               <md-input-container class="md-block">
-                <label>Año</label>
+                <label ng-if="idiomaLocal == 'es_MX'">Año</label>
+                <label ng-if="idiomaLocal == 'en_EN'">Year</label>
                 <md-select ng-model="experties.work_from_year" required md-no-asterisk name="work_from_year" aria-label="work_from_year">
                   <md-option value="2018">2018</md-option>
                   <md-option value="2017">2017</md-option>
@@ -366,11 +472,16 @@
                   <md-option value="1959">1959</md-option>
                   <md-option value="1958">1958</md-option>
                 </md-select>
+                <div ng-messages="formExperiencia.work_from_year.$error">
+                  <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                  <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                </div>
               </md-input-container>
             </div>
             <div class="col-xs-12 col-lg-4 text-left" style="padding-top:0;" ng-if="!actual_job">
               <md-input-container class="md-block">
-                <label>Mes</label>
+                <label ng-if="idiomaLocal == 'es_MX'">Mes</label>
+                <label ng-if="idiomaLocal == 'en_EN'">Month</label>
                 <md-select ng-model="experties.work_to_month" required md-no-asterisk name="work_to_month" aria-label="work_to_month">
                   <md-option value="Enero">Enero</md-option>
                   <md-option value="Febrero">Febrero</md-option>
@@ -385,9 +496,14 @@
                   <md-option value="Noviembre">Noviembre</md-option>
                   <md-option value="Diciembre">Diciembre</md-option>
                 </md-select>
+                <div ng-messages="formExperiencia.work_to_month.$error">
+                  <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                  <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                </div>
               </md-input-container>
               <md-input-container class="md-block">
-                <label>Año</label>
+                <label ng-if="idiomaLocal == 'es_MX'">Año</label>
+                <label ng-if="idiomaLocal == 'en_EN'">Year</label>
                 <md-select ng-model="experties.work_to_year" required md-no-asterisk name="work_to_year" aria-label="work_to_year">
                   <md-option value="2018">2018</md-option>
                   <md-option value="2017">2017</md-option>
@@ -451,6 +567,10 @@
                   <md-option value="1959">1959</md-option>
                   <md-option value="1958">1958</md-option>
                 </md-select>
+                <div ng-messages="formExperiencia.work_to_year.$error">
+                  <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                  <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                </div>
               </md-input-container>
             </div>
             <div class="col-xs-12 col-lg-4 text-left" ng-if="actual_job">
@@ -460,7 +580,8 @@
               <md-input-container class="md-block">
                 <br />
                 <md-checkbox ng-model="actual_job" aria-label="Checkbox1">
-                  Trabajo actualmente aquí
+                  <span ng-if="idiomaLocal == 'es_MX'"> Trabajo actualmente aquí </span>
+                  <span ng-if="idiomaLocal == 'en_EN'">I currently work here</span>
                 </md-checkbox>
               </md-input-container>
             </div>
@@ -468,29 +589,60 @@
           <div class="margin-bottom"></div>
           <div class="col-xs-12">
             <md-input-container class="md-block input-margin">
-              <label>Descripcion</label>
-              <textarea ng-model="experties.description" rows="1" md-select-on-focus></textarea>
+              <label ng-if="idiomaLocal == 'es_MX'">Descripción</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Description</label>
+              <textarea required md-no-asterisk name="description" ng-model="experties.description" rows="1" md-select-on-focus></textarea>
+              <div ng-messages="formExperiencia.description.$error">
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              </div>
             </md-input-container>
           </div>
           <div class="col-xs-12">
             <md-input-container class="md-block input-margin">
-              <label>¿Consideras haber generado un impacto positivo en este empleo? Cuéntanos como</label>
-              <textarea ng-model="experties.positive_impact" rows="1" md-select-on-focus></textarea>
+              <label>
+                <span ng-if="idiomaLocal == 'es_MX'">
+                  ¿Consideras haber generado un impacto positivo en este empleo? Cuéntanos como
+                </span>
+                <span ng-if="idiomaLocal == 'en_EN'">
+                  Do you think you had a positive impact on this job? Tell us how
+                </span>
+              </label>
+              <textarea required md-no-asterisk name="positive_impact" ng-model="experties.positive_impact" rows="1" md-select-on-focus></textarea>
+              <div ng-messages="formExperiencia.positive_impact.$error">
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              </div>
             </md-input-container>
           </div>
           <div class="col-xs-12 text-center">
-            <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnAgregar" ng-click='formExperiencia.$valid ? agregarExpericenia() : ""'>Guardar</button>
-            <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnEditar" ng-click='formExperiencia.$valid ? editarExperiencia() : ""'>Editar</button>
-            <button class="btn btn-md btn-primary btn-registrate" ng-click="cancelarexperiencia();">Cancelar</button>
+            <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnAgregar" ng-click='formExperiencia.$valid ? agregarExpericenia() : ""'>
+              <span ng-if="idiomaLocal == 'es_MX'">Guardar</span>
+              <span ng-if="idiomaLocal == 'en_EN'">Save</span>
+            </button>
+            <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnEditar" ng-click='formExperiencia.$valid ? editarExperiencia() : ""'>
+              <span ng-if="idiomaLocal == 'es_MX'">Editar</span>
+              <span ng-if="idiomaLocal == 'en_EN'">Edit</span>
+            </button>
+            <button class="btn btn-md btn-primary btn-registrate" ng-click="cancelarexperiencia();">
+              <span ng-if="idiomaLocal == 'es_MX'">Cancelar</span>
+              <span ng-if="idiomaLocal == 'en_EN'">Cancel</span>
+            </button>
           </div>
         </form>
       </div>
-      <div class="col-xs-12" ng-repeat="experiencia in user.WorkSocialExp_candidate | orderBy:'-actual_job'" ng-show="!agregarExpericia">
+      <div class="col-xs-12" ng-repeat="experiencia in exp_lab | orderBy:'-fecha_orden'" ng-show="!agregarExpericia">
         <div class="col-xs-12">
           <div class="margin-bottom"></div>
           <div class="col-xs-12 text-right margin-bottom">
-            <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="editexperiencia(experiencia);">Editar</button>
-            <button class="btn btn-xs btn-primary dp-btn-boton btn-registrate" ng-click="borrarexperiencia($event, experiencia);">Borrar</button>
+            <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="editexperiencia(experiencia);">
+              <span ng-if="idiomaLocal == 'es_MX'">Editar</span>
+              <span ng-if="idiomaLocal == 'en_EN'">Edit</span>
+            </button>
+            <button class="btn btn-xs btn-primary dp-btn-boton btn-registrate" ng-click="borrarexperiencia($event, experiencia);">
+              <span ng-if="idiomaLocal == 'es_MX'">Borrar</span>
+              <span ng-if="idiomaLocal == 'en_EN'">Delete</span>
+            </button>
           </div>
           <h3 class="negrita">{{experiencia.name}}</h3>
           <h4>{{experiencia.title}}</h4>
@@ -506,11 +658,15 @@
     <div class="col-xs-12 border-perfil margin-bottom">
       <div class="col-xs-12 col-lg-5">
         <div class="col-xs-12">
-          <h2>Educación</h2>
+          <h2 ng-if="idiomaLocal == 'es_MX'">Educación</h2>
+          <h2 ng-if="idiomaLocal == 'en_EN'">Education</h2>
         </div>
       </div>
       <div class="col-xs-12 col-lg-7 text-right margin-bottom">
-        <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="vieweducacion();">Agregar</button>
+        <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="vieweducacion();">
+          <span ng-if="idiomaLocal == 'es_MX'">Agregar</span>
+          <span ng-if="idiomaLocal == 'en_EN'">Add</span>
+        </button>
       </div>
       <div class="col-xs-12 border-separacion margin-bottom">
       </div>
@@ -520,16 +676,19 @@
         <form name="formEducaion">
           <div class="col-xs-12">
             <md-input-container class="md-block input-margin">
-              <label>Centro de estudios</label>
+              <label ng-if="idiomaLocal == 'es_MX'">Centro de estudios</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Academic Institution</label>
               <input id="education.institution" required md-no-asterisk name="institution" ng-model="education.institution">
               <div ng-messages="formEducaion.institution.$error">
-                <div ng-message="required">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
               </div>
             </md-input-container>
           </div>
           <div class="col-xs-12 col-lg-6" style="padding-bottom:0; margin-bottom:0">
             <md-input-container class="md-block">
-              <label>Nivel academico</label>
+              <label ng-if="idiomaLocal == 'es_MX'">Nivel academico</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Academic level</label>
               <md-select ng-model="education.grade" required md-no-asterisk name="grade" aria-label="grade" style="padding-bottom:0; margin-bottom:0">
                 <md-option value="Pre-grado: Nivel Técnico Profesional">Pre-grado: Nivel Técnico Profesional</md-option>
                 <md-option value="Pre-grado: Nivel Tecnológico">Pre-grado: Nivel Tecnológico</md-option>
@@ -540,33 +699,39 @@
                 <md-option value="Post-grado: Post-Doctorado">Post-grado: Post-Doctorado</md-option>
               </md-select>
               <div ng-messages="formEducaion.grade.$error">
-                <div ng-message="required">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
               </div>
             </md-input-container>
           </div>
           <div class="col-xs-12 col-lg-6" style="padding-bottom:0; margin-bottom:0">
             <md-input-container class="md-block" style="padding-bottom:0; margin-bottom:0">
-              <label>Disciplina académica </label>
+              <label ng-if="idiomaLocal == 'es_MX'">Disciplina académica </label>
+              <label ng-if="idiomaLocal == 'en_EN'">Academic Degree</label>
               <input name="discipline" required md-no-asterisk ng-model="education.discipline" id="education.discipline">
               <div ng-messages="formEducaion.discipline.$error">
-                <div ng-message="required">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
               </div>
             </md-input-container>
           </div>
           <div class="col-xs-12" style="padding-top:0; margin-top:0">
             <md-input-container class="md-block">
-              <label>Periodo</label>
+              <label ng-if="idiomaLocal == 'es_MX'">Periodo</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Time frame</label>
             </md-input-container>
           </div>
           <div class="col-xs-12" style="padding-bottom:0;">
             <div class="col-xs-12 col-lg-4" style="padding-bottom:0;">
               <md-input-container class="md-block">
-                <label>de</label>
+                <label ng-if="idiomaLocal == 'es_MX'">de</label>
+                <label ng-if="idiomaLocal == 'en_EN'">From</label>
               </md-input-container>
             </div>
             <div class="col-xs-12 col-lg-4 text-left" style="padding-bottom:0;">
               <md-input-container class="md-block">
-                <label>a</label>
+                <label ng-if="idiomaLocal == 'es_MX'">a</label>
+                <label ng-if="idiomaLocal == 'en_EN'">Until</label>
               </md-input-container>
             </div>
             <div class="col-xs-12 col-lg-4">
@@ -575,7 +740,8 @@
           <div class="col-xs-12 margin-bottom" style="padding-top:0;">
             <div class="col-xs-12 col-lg-4" style="padding-top:0;">
               <md-input-container class="md-block">
-                <label>Mes</label>
+                <label ng-if="idiomaLocal == 'es_MX'">Mes</label>
+                <label ng-if="idiomaLocal == 'en_EN'">Month</label>
                 <md-select ng-model="education.studied_from_month" required md-no-asterisk name="studied_from_month" aria-label="studied_from_month">
                   <md-option value="Enero">Enero</md-option>
                   <md-option value="Febrero">Febrero</md-option>
@@ -590,9 +756,14 @@
                   <md-option value="Noviembre">Noviembre</md-option>
                   <md-option value="Diciembre">Diciembre</md-option>
                 </md-select>
+                <div ng-messages="formEducaion.studied_from_month.$error">
+                  <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                  <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                </div>
               </md-input-container>
               <md-input-container class="md-block">
-                <label>Año</label>
+                <label ng-if="idiomaLocal == 'es_MX'">Año</label>
+                <label ng-if="idiomaLocal == 'en_EN'">Year</label>
                 <md-select ng-model="education.studied_from_year" required md-no-asterisk name="studied_from_year" aria-label="studied_from_year">
                   <md-option value="2018">2018</md-option>
                   <md-option value="2017">2017</md-option>
@@ -656,11 +827,16 @@
                   <md-option value="1959">1959</md-option>
                   <md-option value="1958">1958</md-option>
                 </md-select>
+                <div ng-messages="formEducaion.studied_from_year.$error">
+                  <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                  <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                </div>
               </md-input-container>
             </div>
             <div class="col-xs-12 col-lg-4 text-left" style="padding-top:0;" ng-if="!actual_student">
               <md-input-container class="md-block">
-                <label>Mes</label>
+                <label ng-if="idiomaLocal == 'es_MX'">Mes</label>
+                <label ng-if="idiomaLocal == 'en_EN'">Month</label>
                 <md-select ng-model="education.studied_to_month" required md-no-asterisk name="studied_to_month" aria-label="studied_to_month">
                   <md-option value="Enero">Enero</md-option>
                   <md-option value="Febrero">Febrero</md-option>
@@ -675,9 +851,14 @@
                   <md-option value="Noviembre">Noviembre</md-option>
                   <md-option value="Diciembre">Diciembre</md-option>
                 </md-select>
+                <div ng-messages="formEducaion.studied_to_month.$error">
+                  <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                  <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                </div>
               </md-input-container>
               <md-input-container class="md-block">
-                <label>Año</label>
+                <label ng-if="idiomaLocal == 'es_MX'">Año</label>
+                <label ng-if="idiomaLocal == 'en_EN'">Year</label>
                 <md-select ng-model="education.studied_to_year" required md-no-asterisk name="studied_to_year" aria-label="studied_to_year">
                   <md-option value="2018">2018</md-option>
                   <md-option value="2017">2017</md-option>
@@ -741,6 +922,10 @@
                   <md-option value="1959">1959</md-option>
                   <md-option value="1958">1958</md-option>
                 </md-select>
+                <div ng-messages="formEducaion.studied_to_year.$error">
+                  <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                  <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                </div>
               </md-input-container>
             </div>
             <div class="col-xs-12 col-lg-4 text-left" ng-if="actual_student">
@@ -750,15 +935,25 @@
               <md-input-container class="md-block">
                 <br />
                 <md-checkbox ng-model="actual_student" aria-label="Checkbox 1">
-                  Estudio actualmente aquí.
+                  <span ng-if="idiomaLocal == 'es_MX'"> Estudio actualmente aquí.</span>
+                  <span ng-if="idiomaLocal == 'en_EN'"> I currently study here.</span>
                 </md-checkbox>
               </md-input-container>
             </div>
           </div>
           <div class="col-xs-12 text-center">
-            <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnAgregar" ng-click='formEducaion.$valid ? agregarEducations() : ""'>Guardar</button>
-            <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnEditar" ng-click='formEducaion.$valid ? editarEducationes() : ""'>Editar</button>
-            <button class="btn btn-md btn-primary btn-registrate" ng-click="cancelareducacion();">Cancelar</button>
+            <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnAgregar" ng-click='formEducaion.$valid ? agregarEducations() : ""'>
+              <span ng-if="idiomaLocal == 'es_MX'">Guardar </span>
+              <span ng-if="idiomaLocal == 'en_EN'">Save </span>
+            </button>
+            <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnEditar" ng-click='formEducaion.$valid ? editarEducationes() : ""'>
+              <span ng-if="idiomaLocal == 'es_MX'">Editar</span>
+              <span ng-if="idiomaLocal == 'en_EN'">Edit</span>
+            </button>
+            <button class="btn btn-md btn-primary btn-registrate" ng-click="cancelareducacion();">
+              <span ng-if="idiomaLocal == 'es_MX'">Cancelar</span>
+              <span ng-if="idiomaLocal == 'en_EN'">Cancel</span>
+            </button>
           </div>
         </form>
       </div>
@@ -766,11 +961,17 @@
         <div class="col-xs-12">
           <div class="margin-bottom"></div>
           <div class="col-xs-12 text-right margin-bottom">
-            <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="editeducacion(educacion);">Editar</button>
-            <button class="btn btn-xs btn-primary dp-btn-boton btn-registrate" ng-click="borrareducacion($event, educacion);">Borrar</button>
+            <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="editeducacion(educacion);">
+              <span ng-if="idiomaLocal == 'es_MX'">Editar</span>
+              <span ng-if="idiomaLocal == 'en_EN'">Edit</span>
+            </button>
+            <button class="btn btn-xs btn-primary dp-btn-boton btn-registrate" ng-click="borrareducacion($event, educacion);">
+              <span ng-if="idiomaLocal == 'es_MX'">Borrar</span>
+              <span ng-if="idiomaLocal == 'en_EN'">Delete</span>
+            </button>
           </div>
           <h3 class="negrita">{{educacion.institution}}</h3>
-          <h4>{{educacion.discipline.name}}</h4>
+          <h4>{{educacion.discipline}}</h4>
           <h4>{{educacion.grade}}</h4>
           <h4><span>{{educacion.studied_from_month}} {{educacion.studied_from_year}}</span> - <span ng-if="educacion.studied_to_month != null || educacion.studied_to_month != ''">{{educacion.studied_to_month}} {{educacion.studied_to_year}}</span><span ng-if="educacion.actual_student == true">Actual</span></h4>
           <p>{{educacion.description}}</p>
@@ -783,11 +984,15 @@
     <div class="col-xs-12 border-perfil margin-bottom">
       <div class="col-xs-12 col-lg-5">
         <div class="col-xs-12">
-          <h2>Voluntariado</h2>
+          <h2 ng-if="idiomaLocal == 'es_MX'">Voluntariado</h2>
+          <h2 ng-if="idiomaLocal == 'en_EN'">Volunteering</h2>
         </div>
       </div>
       <div class="col-xs-12 col-lg-7 text-right margin-bottom">
-        <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="viewvoluntariado();">Agregar</button>
+        <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="viewvoluntariado();">
+          <span ng-if="idiomaLocal == 'es_MX'">Agregar</span>
+          <span ng-if="idiomaLocal == 'en_EN'">Add</span>
+        </button>
       </div>
       <div class="col-xs-12 border-separacion margin-bottom">
       </div>
@@ -797,46 +1002,58 @@
         <form name="formvoluntariado">
           <div class="col-xs-12">
             <md-input-container class="md-block input-margin">
-              <label>Nombre de la organizacion</label>
+              <label ng-if="idiomaLocal == 'es_MX'">Nombre de la organizacion</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Organization's name</label>
               <input id="volunteering.name" required md-no-asterisk name="name" ng-model="volunteering.name">
               <div ng-messages="formvoluntariado.name.$error">
-                <div ng-message="required">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
               </div>
             </md-input-container>
           </div>
           <div class="col-xs-12">
             <md-input-container class="md-block input-margin">
-              <label>Descripción actividades</label>
+              <label ng-if="idiomaLocal == 'es_MX'">Descripción actividades</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Description of activities</label>
               <input required md-no-asterisk name="volunteer_function" ng-model="volunteering.volunteer_function">
               <div ng-messages="formvoluntariado.volunteer_function.$error">
-                <div ng-message="required">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
               </div>
             </md-input-container>
           </div>
           <div class="col-xs-12 col-lg-12 margin-bottom">
             <md-input-container class="md-block">
-              <label>Causa de la organización</label>
-              <md-select ng-model="user.causa" aria-label="causa">
+              <label ng-if="idiomaLocal == 'es_MX'">Causa de la organización</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Organization's purpose or cause</label>
+              <md-select required md-no-asterisk ng-model="user.causa" aria-label="causa" name="causa">
                 <md-option ng-repeat="causa in causas" ng-value="causa.id" ng-selected="causa.id == volunteering.causeid">
                   {{causa.name}}
                 </md-option>
               </md-select>
+              <div ng-messages="formvoluntariado.causa.$error">
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              </div>
             </md-input-container>
           </div>
           <div class="col-xs-12" style="padding-top:0; margin-top:0">
             <md-input-container class="md-block">
-              <label>Periodo</label>
+              <label ng-if="idiomaLocal == 'es_MX'">Periodo</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Time frame</label>
             </md-input-container>
           </div>
           <div class="col-xs-12" style="padding-bottom:0;">
             <div class="col-xs-12 col-lg-4" style="padding-bottom:0;">
               <md-input-container class="md-block">
-                <label>de</label>
+                <label ng-if="idiomaLocal == 'es_MX'">de</label>
+                <label ng-if="idiomaLocal == 'en_EN'">From</label>
               </md-input-container>
             </div>
             <div class="col-xs-12 col-lg-4 text-left" style="padding-bottom:0;">
               <md-input-container class="md-block">
-                <label>a</label>
+                <label ng-if="idiomaLocal == 'es_MX'">a</label>
+                <label ng-if="idiomaLocal == 'en_EN'">Until</label>
               </md-input-container>
             </div>
             <div class="col-xs-12 col-lg-4">
@@ -845,7 +1062,8 @@
           <div class="col-xs-12 margin-bottom" style="padding-top:0;">
             <div class="col-xs-12 col-lg-4" style="padding-top:0;">
               <md-input-container class="md-block">
-                <label>Mes</label>
+                <label ng-if="idiomaLocal == 'es_MX'">Mes</label>
+                <label ng-if="idiomaLocal == 'en_EN'">Month</label>
                 <md-select ng-model="volunteering.volunteer_from_month" required md-no-asterisk name="volunteer_from_month" aria-label="volunteer_from_month">
                   <md-option value="Enero">Enero</md-option>
                   <md-option value="Febrero">Febrero</md-option>
@@ -860,9 +1078,14 @@
                   <md-option value="Noviembre">Noviembre</md-option>
                   <md-option value="Diciembre">Diciembre</md-option>
                 </md-select>
+                <div ng-messages="formvoluntariado.volunteer_from_month.$error">
+                  <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                  <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                </div>
               </md-input-container>
               <md-input-container class="md-block">
-                <label>Año</label>
+                <label ng-if="idiomaLocal == 'es_MX'">Año</label>
+                <label ng-if="idiomaLocal == 'en_EN'">Year</label>
                 <md-select ng-model="volunteering.volunteer_from_year" required md-no-asterisk name="volunteer_from_year" aria-label="volunteer_from_year">
                   <md-option value="2018">2018</md-option>
                   <md-option value="2017">2017</md-option>
@@ -926,11 +1149,16 @@
                   <md-option value="1959">1959</md-option>
                   <md-option value="1958">1958</md-option>
                 </md-select>
+                <div ng-messages="formvoluntariado.volunteer_from_year.$error">
+                  <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                  <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                </div>
               </md-input-container>
             </div>
             <div class="col-xs-12 col-lg-4 text-left" style="padding-top:0;" ng-if="!actual_volunteer">
               <md-input-container class="md-block">
-                <label>Mes</label>
+                <label ng-if="idiomaLocal == 'es_MX'">Mes</label>
+                <label ng-if="idiomaLocal == 'en_EN'">Month</label>
                 <md-select ng-model="volunteering.volunteer_to_month" required md-no-asterisk name="volunteer_to_month" aria-label="volunteer_to_month">
                   <md-option value="Enero">Enero</md-option>
                   <md-option value="Febrero">Febrero</md-option>
@@ -945,9 +1173,14 @@
                   <md-option value="Noviembre">Noviembre</md-option>
                   <md-option value="Diciembre">Diciembre</md-option>
                 </md-select>
+                <div ng-messages="formvoluntariado.volunteer_to_month.$error">
+                  <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                  <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                </div>
               </md-input-container>
               <md-input-container class="md-block">
-                <label>Año</label>
+                <label ng-if="idiomaLocal == 'es_MX'">Año</label>
+                <label ng-if="idiomaLocal == 'en_EN'">Year</label>
                 <md-select ng-model="volunteering.volunteer_to_year" required md-no-asterisk name="volunteer_to_year" aria-label="volunteer_to_year">
                   <md-option value="2018">2018</md-option>
                   <md-option value="2017">2017</md-option>
@@ -1011,6 +1244,10 @@
                   <md-option value="1959">1959</md-option>
                   <md-option value="1958">1958</md-option>
                 </md-select>
+                <div ng-messages="formvoluntariado.volunteer_to_year.$error">
+                  <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                  <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                </div>
               </md-input-container>
             </div>
             <div class="col-xs-12 col-lg-4 text-left" ng-if="actual_volunteer">
@@ -1019,15 +1256,25 @@
             <div class="col-xs-12 col-lg-4" style="padding-top:0;">
               <md-input-container class="md-block">
                 <md-checkbox ng-model="actual_volunteer" aria-label="Checkbox 1">
-                  Hago mi voluntariado aquí actualmente.
+                  <span ng-if="idiomaLocal == 'es_MX'">Hago mi voluntariado aquí actualmente.</span>
+                  <span ng-if="idiomaLocal == 'en_EN'">I currently do my volunteering here</span>
                 </md-checkbox>
               </md-input-container>
             </div>
           </div>
           <div class="col-xs-12 text-center margin-bottom">
-            <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnAgregar" ng-click='formvoluntariado.$valid ? agregarVoluntariados() : ""'>Agregar</button>
-            <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnEditar" ng-click='formvoluntariado.$valid ? editarVoluntariados() : ""'>Editar</button>
-            <button class="btn btn-md btn-primary btn-registrate" ng-click="cancelarvoluntariado();">Cancelar</button>
+            <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnAgregar" ng-click='formvoluntariado.$valid ? agregarVoluntariados() : ""'>
+              <span ng-if="idiomaLocal == 'es_MX'">Agregar</span>
+              <span ng-if="idiomaLocal == 'en_EN'">Add</span>
+            </button>
+            <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnEditar" ng-click='formvoluntariado.$valid ? editarVoluntariados() : ""'>
+              <span ng-if="idiomaLocal == 'es_MX'">Editar</span>
+              <span ng-if="idiomaLocal == 'en_EN'">Edit</span>
+            </button>
+            <button class="btn btn-md btn-primary btn-registrate" ng-click="cancelarvoluntariado();">
+              <span ng-if="idiomaLocal == 'es_MX'">Cancelar</span>
+              <span ng-if="idiomaLocal == 'en_EN'">Cancel</span>
+            </button>
           </div>
         </form>
       </div>
@@ -1035,8 +1282,14 @@
         <div class="col-xs-12">
           <div class="margin-bottom"></div>
           <div class="col-xs-12 text-right margin-bottom">
-            <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="editvoluntariado(voluntariado);">Editar</button>
-            <button class="btn btn-xs btn-primary dp-btn-boton btn-registrate" ng-click="borrarvoluntariado($event, voluntariado);">Borrar</button>
+            <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="editvoluntariado(voluntariado);">
+              <span ng-if="idiomaLocal == 'es_MX'">Editar</span>
+              <span ng-if="idiomaLocal == 'en_EN'">Edit</span>
+            </button>
+            <button class="btn btn-xs btn-primary dp-btn-boton btn-registrate" ng-click="borrarvoluntariado($event, voluntariado);">
+              <span ng-if="idiomaLocal == 'es_MX'">Borrar</span>
+              <span ng-if="idiomaLocal == 'en_EN'">Delete</span>
+            </button>
           </div>
           <h3 class="negrita">{{voluntariado.name}}</h3>
           <h4>{{voluntariado.volunteer_function}}</h4>
@@ -1051,7 +1304,8 @@
     <div class="col-xs-12 border-perfil margin-bottom">
       <div class="col-xs-12 col-lg-5">
         <div class="col-xs-12">
-          <h2>Intereses y experiencia</h2>
+          <h2 ng-if="idiomaLocal == 'es_MX'">Intereses y experiencia</h2>
+          <h2 ng-if="idiomaLocal == 'en_EN'">Experience & Interests</h2>
         </div>
       </div>
       <div class="col-xs-12 border-separacion margin-bottom">
@@ -1060,11 +1314,16 @@
         <div ng-cloak>
           <md-content style="background-color:#fff">
             <md-tabs md-dynamic-height md-border-bottom>
-              <md-tab label="Profesiones">
-                <md-content class="md-padding">
+              <md-tab>
+                <md-tab-label>
+                  <span ng-if="idiomaLocal == 'es_MX'">Profesiones</span>
+                  <span ng-if="idiomaLocal == 'en_EN'">Professions</span>
+                </md-tab-label>
+                <md-tab-body class="md-padding">
                   <div class="col-xs-12">
                     <md-input-container class="md-block">
-                      <label>Buscar</label>
+                      <label ng-if="idiomaLocal == 'es_MX'">Buscar</label>
+                      <label ng-if="idiomaLocal == 'en_EN'">Search</label>
                       <input type="text" name="buscarprofesion" ng-model="buscarprofesion" ng-change="buscarprofesiones();">
                     </md-input-container>
                   </div>
@@ -1078,10 +1337,14 @@
                       <a style="cursor:pointer; text-decoration:none; padding:15px 10px 10px 10px" class="col-xs-12 dp-btn-boton-interes-exp" id="btn-{{profesioneses.name}}" ng-click="changeclassazul(profesioneses);">{{profesioneses.name}}</a>
                     </div>
                   </div>
-                </md-content>
+                </md-tab-body>
               </md-tab>
-              <md-tab label="Intereses">
-                <md-content class="md-padding">
+              <md-tab>
+                <md-tab-label ng-if="idiomaLocal == 'es_MX'">
+                  <span ng-if="idiomaLocal == 'es_MX'">Intereses</span>
+                  <span ng-if="idiomaLocal == 'en_EN'">Interests</span>
+                </md-tab-label>
+                <md-tab-body class="md-padding">
                   <!--<div class="col-xs-12">
                       <md-input-container class="md-block">
                           <label>Buscar</label>
@@ -1100,10 +1363,14 @@
                       <a style="cursor:pointer; text-decoration:none; padding:10px 5px 10px 5px" class="col-xs-12 dp-btn-boton-interes-exp" id="btnint-{{interes.name}}" ng-click="changeinteres(interes);">{{interes.name}}</a>
                     </div>
                   </div>
-                </md-content>
+                </md-tab-body>
               </md-tab>
-              <md-tab label="Sectores de experiencia">
-                <md-content class="md-padding">
+              <md-tab>
+                <md-tab-label ng-if="idiomaLocal == 'es_MX'">
+                  <span ng-if="idiomaLocal == 'es_MX'">Sectores de experiencia</span>
+                  <span ng-if="idiomaLocal == 'en_EN'">Sectors of experience</span>
+                </md-tab-label>
+                <md-tab-body class="md-padding">
                   <!--<div class="col-xs-12">
                       <md-input-container class="md-block">
                           <label>Buscar</label>
@@ -1122,10 +1389,14 @@
                       <a style="cursor:pointer; text-decoration:none; padding:10px 3px 10px 3px" class="col-xs-12 dp-btn-boton-interes-exp" id="btnsec-{{sectores.name}}" ng-click="changesector(sectores);">{{sectores.name}}</a>
                     </div>
                   </div>
-                </md-content>
+                </md-tab-body>
               </md-tab>
-              <md-tab label="Areas de experiencia">
-                <md-content class="md-padding">
+              <md-tab>
+                <md-tab-label ng-if="idiomaLocal == 'es_MX'">
+                  <span ng-if="idiomaLocal == 'es_MX'">Areas de experiencia</span>
+                  <span ng-if="idiomaLocal == 'en_EN'">Areas of experience</span>
+                </md-tab-label>
+                <md-tab-body class="md-padding">
                   <!--<div class="col-xs-12">
                       <md-input-container class="md-block">
                           <label>Buscar</label>
@@ -1146,12 +1417,15 @@
                       </div>
                     </div>
                   </div>
-                </md-content>
+                </md-tab-body>
               </md-tab>
             </md-tabs>
           </md-content>
           <div class="col-xs-12 text-center">
-            <button class="btn btn-md btn-primary btn-ingresa" ng-click="guardarGeneral();">Guardar</button>
+            <button class="btn btn-md btn-primary btn-ingresa" ng-click="guardarGeneral();">
+              <span ng-if="idiomaLocal == 'es_MX'">Guardar </span>
+              <span ng-if="idiomaLocal == 'en_EN'">Save </span>
+            </button>
           </div>
         </div>
       </div>
@@ -1160,7 +1434,8 @@
     <div class="col-xs-12 border-perfil margin-bottom">
       <div class="col-xs-12 col-lg-5">
         <div class="col-xs-12">
-          <h2>Otros</h2>
+          <h2 ng-if="idiomaLocal == 'es_MX'">Otros</h2>
+          <h2 ng-if="idiomaLocal == 'en_EN'">Others</h2>
         </div>
       </div>
       <div class="col-xs-12 border-separacion margin-bottom">
@@ -1168,120 +1443,229 @@
       <div class="col-xs-12">
         <div class="col-xs-12">
           <md-input-container class="md-block">
-            <label>Expectativa salarial mensual (USD)</label><br /><br />
+            <label ng-if="idiomaLocal == 'es_MX'">Expectativa salarial mensual (USD)</label>
+            <label ng-if="idiomaLocal == 'en_EN'">Monthly salary expectation</label>
+            <br /><br />
             <rzslider rz-slider-model="slider.min"
                       rz-slider-high="slider.max"
                       rz-slider-options="slider.options"></rzslider>
           </md-input-container>
           <md-input-container class="visible-lg">
-            <label>Disponibilidad de tiempo</label><br /><br />
+            <label ng-if="idiomaLocal == 'es_MX'">Disponibilidad de tiempo</label>
+            <label ng-if="idiomaLocal == 'en_EN'">Time availability</label>
+            <br /><br />
             <md-radio-group layout="row" ng-model="user.avaliability">
-              <md-radio-button value="Full-time" class="md-primary">Tiempo completo</md-radio-button>
-              <md-radio-button value="Part-time" class="md-primary">Medio tiempo</md-radio-button>
-              <md-radio-button value="Freelance" class="md-primary">Freelance</md-radio-button>
+              <md-radio-button value="Full-time" class="md-primary">
+                <span ng-if="idiomaLocal == 'es_MX'">Tiempo completo</span>
+                <span ng-if="idiomaLocal == 'en_EN'">Full-time</span>
+              </md-radio-button>
+              <md-radio-button value="Part-time" class="md-primary">
+                <span ng-if="idiomaLocal == 'es_MX'">Medio tiempo</span>
+                <span ng-if="idiomaLocal == 'en_EN'">Parti-time</span>
+              </md-radio-button>
+              <md-radio-button value="Freelance" class="md-primary">
+                Freelance
+              </md-radio-button>
             </md-radio-group>
           </md-input-container>
           <md-input-container class="hidden-lg">
             <label>Disponibilidad de tiempo</label><br /><br />
             <md-radio-group ng-model="user.avaliability">
-              <md-radio-button value="Full-time" class="md-primary">Tiempo completo</md-radio-button>
-              <md-radio-button value="Part-time" class="md-primary">Medio tiempo</md-radio-button>
-              <md-radio-button value="Freelance" class="md-primary">Freelance</md-radio-button>
+              <md-radio-button value="Full-time" class="md-primary">
+                <span ng-if="idiomaLocal == 'es_MX'">Tiempo completo</span>
+                <span ng-if="idiomaLocal == 'en_EN'">Full-time</span>
+              </md-radio-button>
+              <md-radio-button value="Part-time" class="md-primary">
+                <span ng-if="idiomaLocal == 'es_MX'">Medio tiempo</span>
+                <span ng-if="idiomaLocal == 'en_EN'">Parti-time</span>
+              </md-radio-button>
+              <md-radio-button value="Freelance" class="md-primary">
+                Freelance
+              </md-radio-button>
             </md-radio-group>
           </md-input-container>
           <br />
           <br />
-          <md-input-container class="md-block input-margin">
-            <label>Hobbies</label>
-            <textarea ng-model="user.hobbies" rows="1" md-select-on-focus></textarea>
-          </md-input-container>
-          <md-input-container class="md-block input-margin">
-            <label>Competencias y Habilidades relevantes</label>
-            <textarea ng-model="user.abilities" rows="1" md-select-on-focus></textarea>
-          </md-input-container>
-          <md-input-container class="md-block input-margin">
-            <label>Viajes</label>
-            <textarea ng-model="user.visted_countries" rows="1" md-select-on-focus></textarea>
-          </md-input-container>
-          <md-input-container class="md-block input-margin">
-            <label>¿Algo más que nos quieras contar?</label>
-            <textarea ng-model="user.extras" rows="1" md-select-on-focus></textarea>
-          </md-input-container>
-          <div class="col-xs-12 text-center">
-            <button class="btn btn-md btn-primary btn-ingresa" ng-click="guardarGeneral();">Guardar</button>
-            <div class="margin-bottom"></div>
-            <md-divider></md-divider>
-          </div>
+          <form name="formOtros">
+            <md-input-container class="md-block input-margin">
+              <label>Hobbies</label>
+              <textarea required md-no-asterisk name="hobbies" ng-model="user.hobbies" rows="1" md-select-on-focus></textarea>
+              <div ng-messages="formOtros.hobbies.$error">
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              </div>
+            </md-input-container>
+            <md-input-container class="md-block input-margin">
+              <label ng-if="idiomaLocal == 'es_MX'">Competencias y Habilidades relevantes</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Relevant competencies and skills</label>
+              <textarea required md-no-asterisk name="abilities" ng-model="user.abilities" rows="1" md-select-on-focus></textarea>
+              <div ng-messages="formOtros.abilities.$error">
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              </div>
+            </md-input-container>
+            <md-input-container class="md-block input-margin">
+              <label ng-if="idiomaLocal == 'es_MX'">Viajes</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Trips</label>
+              <textarea required md-no-asterisk name="visted_countries" ng-model="user.visted_countries" rows="1" md-select-on-focus></textarea>
+              <div ng-messages="formOtros.visted_countries.$error">
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              </div>
+            </md-input-container>
+            <md-input-container class="md-block input-margin">
+              <label ng-if="idiomaLocal == 'es_MX'">¿Algo más que nos quieras contar?</label>
+              <label ng-if="idiomaLocal == 'en_EN'">Anything else you want to tell us?</label>
+              <textarea required md-no-asterisk name="extras" ng-model="user.extras" rows="1" md-select-on-focus></textarea>
+              <div ng-messages="formOtros.extras.$error">
+                <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+              </div>
+            </md-input-container>
+            <div class="col-xs-12 text-center">
+              <button class="btn btn-md btn-primary btn-ingresa" ng-click='formOtros.$valid ? guardarGeneral() : ""'>
+                <span ng-if="idiomaLocal == 'es_MX'">Guardar </span>
+                <span ng-if="idiomaLocal == 'en_EN'">Save </span>
+              </button>
+              <div class="margin-bottom"></div>
+              <md-divider></md-divider>
+            </div>
+          </form>
           <div class="col-xs-12 col-lg-5">
-            <h2>Idiomas</h2>
+            <h2 ng-if="idiomaLocal == 'es_MX'">Idiomas</h2>
+            <h2 ng-if="idiomaLocal == 'en_EN'">Languages</h2>
           </div>
           <div class="col-xs-12 col-lg-7 text-right margin-bottom">
             <div class="margin-bottom"></div>
-            <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="viewidioma();">Agregar</button>
+            <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="viewidioma();">
+              <span ng-if="idiomaLocal == 'es_MX'">Agregar</span>
+              <span ng-if="idiomaLocal == 'en_EN'">Add</span>
+            </button>
           </div>
           <div class="col-xs-12 border-separacion margin-bottom">
           </div>
-          <div class="col-xs-12" ng-show="agregarIdioma">
-            <md-input-container class="md-block">
-              <label>Idioma</label>
-              <md-select ng-model="user.idioma" aria-label="idioma" id="user.idioma">
-                <md-option selected ng-value="0"><em>Todos</em></md-option>
-                <md-option ng-repeat="idiomas in idioma" ng-value="idiomas.id" ng-selected="$index == language.language.id - 1">
-                  {{idiomas.name}}
-                </md-option>
-              </md-select>
-            </md-input-container>
-            <p>
-              <span class="negrita">Nivel hablado: </span>{{language.oral_level}}
-              <md-radio-group layout="row" ng-model="language.oral_level">
-                <md-radio-button value="Competencia Básica">Competencia Básica</md-radio-button>
-                <md-radio-button value="Competencia básica limitada">Competencia básica limitada</md-radio-button>
-                <md-radio-button value="Competencia básica profesional">Competencia básica profesional</md-radio-button>
-                <md-radio-button value="Competencia profesional completa">Competencia profesional completa</md-radio-button>
-                <md-radio-button value="Competencia bilingue o nativa">Competencia bilingüe </md-radio-button>
-              </md-radio-group>
-            </p>
-            <p>
-              <span class="negrita">Nivel escrito: </span>{{language.written_level}}
-              <md-radio-group layout="row" ng-model="language.written_level">
-                <md-radio-button value="Competencia Básica">Competencia Básica</md-radio-button>
-                <md-radio-button value="Competencia básica limitada">Competencia básica limitada</md-radio-button>
-                <md-radio-button value="Competencia básica profesional">Competencia básica profesional</md-radio-button>
-                <md-radio-button value="Competencia profesional completa">Competencia profesional completa</md-radio-button>
-                <md-radio-button value="Competencia bilingue o nativa">Competencia bilingüe </md-radio-button>
-              </md-radio-group>
-            </p>
-            <div class="col-xs-12 text-center">
-              <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnAgregar" ng-click="agregarIdiomas();">Guardar</button>
-              <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnEditar" ng-click="editarIdiomas();">Editar</button>
-              <button class="btn btn-md btn-primary btn-registrate" ng-click="cancelaridioma();">Cancelar</button>
-            </div>
-          </div>
-          <div class="col-xs-12">
-            <div ng-repeat="idioma in user.Languages_candidate" ng-show="!agregarIdioma">
-              <div class="margin-bottom"></div>
-              <div class="col-xs-12 text-right margin-bottom">
-                <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="editidioma(idioma);">Editar</button>
-                <button class="btn btn-xs btn-primary dp-btn-boton btn-registrate" ng-click="borraridioma($event, idioma);">Borrar</button>
+          <form name="formIdiomas">
+            <div class="col-xs-12" ng-show="agregarIdioma">
+              <md-input-container class="md-block">
+                <h2 ng-if="idiomaLocal == 'es_MX'">Idioma</h2>
+                <h2 ng-if="idiomaLocal == 'en_EN'">Language</h2>
+                <md-select required md-no-asterisk name="idioma" ng-model="user.idioma" aria-label="idioma" id="user.idioma">
+                  <md-option selected ng-value="0"><em>Todos</em></md-option>
+                  <md-option ng-repeat="idiomas in idioma" ng-value="idiomas.id" ng-selected="$index == language.language.id - 1">
+                    {{idiomas.name}}
+                  </md-option>
+                </md-select>
+                <div ng-messages="formIdiomas.idioma.$error">
+                  <div ng-message="required" ng-if="idiomaLocal == 'es_MX'">Campo requerido.</div>
+                  <div ng-message="required" ng-if="idiomaLocal == 'en_EN'">Required field.</div>
+                </div>
+              </md-input-container>
+              <p>
+                <span class="negrita" ng-if="idiomaLocal == 'es_MX'">Nivel hablado: </span>
+                <span class="negrita" ng-if="idiomaLocal == 'en_EN'">Spoken level: </span>
+                {{language.oral_level}}
+                <md-radio-group layout="row" ng-model="language.oral_level">
+                  <md-radio-button value="Competencia Básica">
+                    <span ng-if="idiomaLocal == 'es_MX'">Competencia Básica</span>
+                    <span ng-if="idiomaLocal == 'en_EN'">Elementary proficiency</span>
+                  </md-radio-button>
+                  <md-radio-button value="Competencia básica limitada">
+                    <span ng-if="idiomaLocal == 'es_MX'">Competencia básica limitada</span>
+                    <span ng-if="idiomaLocal == 'en_EN'">Limited working proficiency</span>
+                  </md-radio-button>
+                  <md-radio-button value="Competencia básica profesional">
+                    <span ng-if="idiomaLocal == 'es_MX'">Competencia básica profesional</span>
+                    <span ng-if="idiomaLocal == 'en_EN'">Professional working proficiency</span>
+                  </md-radio-button>
+                  <md-radio-button value="Competencia profesional completa">
+                    <span ng-if="idiomaLocal == 'es_MX'">Competencia profesional completa </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">Full professional proficiency</span>
+                  </md-radio-button>
+                  <md-radio-button value="Competencia bilingue o nativa">
+                    <span ng-if="idiomaLocal == 'es_MX'">Competencia bilingüe </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">Native or bilingual proficiency</span>
+                  </md-radio-button>
+                </md-radio-group>
+              </p>
+              <p>
+                <span class="negrita" ng-if="idiomaLocal == 'es_MX'">Nivel escrito: </span>
+                <span class="negrita" ng-if="idiomaLocal == 'en_EN'">Written level: </span>
+                {{language.written_level}}
+                <md-radio-group layout="row" ng-model="language.written_level">
+                  <md-radio-button value="Competencia Básica">
+                    <span ng-if="idiomaLocal == 'es_MX'">Competencia Básica</span>
+                    <span ng-if="idiomaLocal == 'en_EN'">Elementary proficiency</span>
+                  </md-radio-button>
+                  <md-radio-button value="Competencia básica limitada">
+                    <span ng-if="idiomaLocal == 'es_MX'">Competencia básica limitada</span>
+                    <span ng-if="idiomaLocal == 'en_EN'">Limited working proficiency</span>
+                  </md-radio-button>
+                  <md-radio-button value="Competencia básica profesional">
+                    <span ng-if="idiomaLocal == 'es_MX'">Competencia básica profesional</span>
+                    <span ng-if="idiomaLocal == 'en_EN'">Professional working proficiency</span>
+                  </md-radio-button>
+                  <md-radio-button value="Competencia profesional completa">
+                    <span ng-if="idiomaLocal == 'es_MX'">Competencia profesional completa </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">Full professional proficiency</span>
+                  </md-radio-button>
+                  <md-radio-button value="Competencia bilingue o nativa">
+                    <span ng-if="idiomaLocal == 'es_MX'">Competencia bilingüe </span>
+                    <span ng-if="idiomaLocal == 'en_EN'">Native or bilingual proficiency</span>
+                  </md-radio-button>
+                </md-radio-group>
+              </p>
+              <div class="col-xs-12 text-center">
+                <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnAgregar" ng-click='formIdiomas.$valid ? agregarIdiomas(): ""'>
+                  <span ng-if="idiomaLocal == 'es_MX'">Guardar </span>
+                  <span ng-if="idiomaLocal == 'en_EN'">Save </span>
+                </button>
+                <button class="btn btn-md btn-primary btn-ingresa" ng-show="btnEditar" ng-click="editarIdiomas();">
+                  <span ng-if="idiomaLocal == 'es_MX'">Editar</span>
+                  <span ng-if="idiomaLocal == 'en_EN'">Edit</span>
+                </button>
+                <button class="btn btn-md btn-primary btn-registrate" ng-click="cancelaridioma();">
+                  <span ng-if="idiomaLocal == 'es_MX'">Cancelar</span>
+                  <span ng-if="idiomaLocal == 'en_EN'">Cancel</span>
+                </button>
               </div>
-              <p class="negrita">{{idioma.language.name}}</p>
-              <p>
-                <span class="negrita">Nivel hablado: </span>{{idioma.oral_level}}
-              </p>
-              <p>
-                <span class="negrita">Nivel escrito: </span>{{idioma.written_level}}
-              </p>
-              <md-divider></md-divider>
+          </form>
+        </div>
+        <div class="col-xs-12">
+          <div ng-repeat="idioma in user.Languages_candidate" ng-show="!agregarIdioma">
+            <div class="margin-bottom"></div>
+            <div class="col-xs-12 text-right margin-bottom">
+              <button class="btn btn-xs btn-primary dp-btn-boton btn-ingresa" ng-click="editidioma(idioma);">
+                <span ng-if="idiomaLocal == 'es_MX'">Editar</span>
+                <span ng-if="idiomaLocal == 'en_EN'">Edit</span>
+              </button>
+              <button class="btn btn-xs btn-primary dp-btn-boton btn-registrate" ng-click="borraridioma($event, idioma);">
+                <span ng-if="idiomaLocal == 'es_MX'">Borrar</span>
+                <span ng-if="idiomaLocal == 'en_EN'">Delete</span>
+              </button>
             </div>
+            <p class="negrita">{{idioma.language.name}}</p>
+            <p>
+              <span class="negrita" ng-if="idiomaLocal == 'es_MX'">Nivel hablado: </span>
+              <span class="negrita" ng-if="idiomaLocal == 'en_EN'">Spoken level: </span>
+              {{idioma.oral_level}}
+            </p>
+            <p>
+              <span class="negrita" ng-if="idiomaLocal == 'es_MX'">Nivel escrito: </span>
+              <span class="negrita" ng-if="idiomaLocal == 'en_EN'">Written level: </span>
+              {{idioma.written_level}}
+            </p>
+            <md-divider></md-divider>
           </div>
-
         </div>
       </div>
     </div>
-    <div class="text-right">
-      <a href="/politicasantidiscriminacion/es">Politicas anti discriminacion</a>
-    </div>
-    <div class="margin-bottom"></div>
   </div>
+  <div class="text-right">
+    <a href="/politicasantidiscriminacion/es">
+      <span ng-if="idiomaLocal == 'es_MX'"> Politicas anti discriminacion</span>
+      <span ng-if="idiomaLocal == 'en_EN'">Anti-discrimination policies</span>
+    </a>
+  </div>
+  <div class="margin-bottom"></div>
 </div>
 
